@@ -1,0 +1,18 @@
+RewriteEngine On
+RewriteBase /software_engineering/
+
+# --------------------------------------------------------
+# Backend
+# --------------------------------------------------------
+RewriteRule ^backend/?$ backend/public/index.php [L]
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^backend/?(.*)$ backend/public/index.php [L]
+
+# --------------------------------------------------------
+# Frontend
+# --------------------------------------------------------
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^.*$ frontend/ [L,R=302]
+RewriteRule ^$ frontend/ [L,R=302]
