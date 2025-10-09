@@ -1,4 +1,4 @@
-<?php 
+<?php
 require_once "../src/config/db.php";
 require_once "../src/config/site_config.php";
 require_once '../src/controllers/UserController.php';
@@ -12,7 +12,7 @@ $method = $_SERVER['REQUEST_METHOD'];
 
 $type = $parts[0];
 
-switch($type){
+switch ($type) {
     case 'user':
         $controller = new UserController();
         switch ($method) {
@@ -46,4 +46,3 @@ switch($type){
         echo json_encode(['error' => 'Invalid URL.']);
         break;
 }
-?>
