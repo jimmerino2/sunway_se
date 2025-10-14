@@ -12,7 +12,10 @@ RewriteRule ^backend/?(.*)$ backend/public/index.php [L]
 # --------------------------------------------------------
 # Frontend
 # --------------------------------------------------------
-RewriteCond %{REQUEST_FILENAME} !-f
-RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule ^.*$ frontend/ [L,R=302]
-RewriteRule ^$ frontend/ [L,R=302]
+# 1) If the request is for a real directory…
+RewriteCond %{REQUEST_FILENAME} -d
+# 2) …and neither index.php nor index.html exists there…
+RewriteCond %{REQUEST_FILENAME}/index.php !-f
+RewriteCond %{REQUEST_FILENAME}/index.html !-f
+# 2) …then redirect (302) to your projects dashboard:
+RewriteRule ^.*$ /sunway_se/frontend/auth/login.php [L,R=302]
