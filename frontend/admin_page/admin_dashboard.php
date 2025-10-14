@@ -87,9 +87,9 @@
                                 <div class="collapse" id="pagesCollapseAuth" aria-labelledby="headingOne"
                                     data-bs-parent="#sidenavAccordionPages">
                                     <nav class="sb-sidenav-menu-nested nav">
-                                        <a class="nav-link" href="login.html">Login</a>
-                                        <a class="nav-link" href="register.html">Register</a>
-                                        <a class="nav-link" href="password.html">Forgot Password</a>
+                                        <a class="nav-link" href="../auth/login.php">Login</a>
+                                        <a class="nav-link" href="../auth/register.php">Register</a>
+                                        <a class="nav-link" href="../auth/password.php">Forgot Password</a>
                                     </nav>
                                 </div>
                                 <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
@@ -101,9 +101,9 @@
                                 <div class="collapse" id="pagesCollapseError" aria-labelledby="headingOne"
                                     data-bs-parent="#sidenavAccordionPages">
                                     <nav class="sb-sidenav-menu-nested nav">
-                                        <a class="nav-link" href="401.html">401 Page</a>
-                                        <a class="nav-link" href="404.html">404 Page</a>
-                                        <a class="nav-link" href="500.html">500 Page</a>
+                                        <a class="nav-link" href="../error_page/401.html">401 Page</a>
+                                        <a class="nav-link" href="../error_page/404.html">404 Page</a>
+                                        <a class="nav-link" href="../error_page/500.html">500 Page</a>
                                     </nav>
                                 </div>
                             </nav>

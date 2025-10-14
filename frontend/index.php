@@ -1,6 +1,6 @@
 <?php
 // Redirect to the user dashboard page
-header("Location: user_dashboard.php");
+header("Location: ../frontend/auth/login.php");
 
 // Stop further execution after the redirect
 exit();

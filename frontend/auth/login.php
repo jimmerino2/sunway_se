@@ -221,9 +221,22 @@
                     </div>
                     <a href="#" class="text-decoration-none text-primary">Forgot password?</a>
                 </div>
-                <div class="text-center mt-4">
-                    <button type="submit" class="btn btn-login w-100">LOGIN</button>
+                <!-- <div class="text-center mt-4">
+                    <button type="submit" class="btn btn-login w-100">LOGIN USER</button>
                 </div>
+                <div class="text-center mt-4">
+                    <button type="submit" class="btn btn-login w-100">LOGIN ADMIN</button>
+                </div> -->
+
+                <!-- temp -->
+                <div class="text-center mt-4">
+                    <a href="../user_page/user_dashboard.php" class="btn btn-login w-100">LOGIN USER</a>
+                </div>
+
+                <div class="text-center mt-4">
+                    <a href="../admin_page/admin_dashboard.php" class="btn btn-login w-100">LOGIN ADMIN</a>
+                </div>
+
             </form>
         </div>
     </div>
