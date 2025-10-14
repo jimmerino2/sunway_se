@@ -46,7 +46,7 @@
         </ul>
     </nav>
     <div id="layoutSidenav">
-        <?= include 'layoutSidenav.php'; ?>
+        <?= include 'layoutSidenav_nav.php'; ?>
         <div id="layoutSidenav_content">
             <main>
                 <div class="container-fluid px-4">
