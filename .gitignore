@@ -3,3 +3,6 @@
 
 # Config file
 backend/src/config/site_config.php
+
+# .htaccess
+.htaccess
