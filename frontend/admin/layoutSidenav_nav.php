@@ -7,9 +7,9 @@
                     <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                     Dashboard
                 </a>
-                <a class="nav-link" href="tables.php">
-                    <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
-                    Tables
+                <a class="nav-link" href="orders.php">
+                    <div class="sb-nav-link-icon"><i class="fa-solid fa-bowl-food"></i></div>
+                    Orders
                 </a>
                 <a class="nav-link" href="floor_plans.php">
                     <div class="sb-nav-link-icon"><i class="fa-solid fa-shop"></i></div>

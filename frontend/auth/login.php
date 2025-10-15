@@ -230,11 +230,11 @@
 
                 <!-- temp -->
                 <div class="text-center mt-4">
-                    <a href="../user_page/user_dashboard.php" class="btn btn-login w-100">LOGIN USER</a>
+                    <a href="../user/user_dashboard.php" class="btn btn-login w-100">LOGIN USER</a>
                 </div>
 
                 <div class="text-center mt-4">
-                    <a href="../admin_page/admin_dashboard.php" class="btn btn-login w-100">LOGIN ADMIN</a>
+                    <a href="../admin/admin_dashboard.php" class="btn btn-login w-100">LOGIN ADMIN</a>
                 </div>
 
             </form>
