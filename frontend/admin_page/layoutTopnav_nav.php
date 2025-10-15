@@ -61,7 +61,7 @@
 
 <!-- Logout Modal Logic -->
 <script>
-    const sec = 5; // seconds before redirect
+    const sec = 2; // seconds before redirect
     const timeset = sec * 1000;
     const logoutModal = document.getElementById('logoutModal');
 

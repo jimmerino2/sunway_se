@@ -11,6 +11,10 @@
                     <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
                     Tables
                 </a>
+                <a class="nav-link" href="floor_plans.php">
+                    <div class="sb-nav-link-icon"><i class="fa-solid fa-shop"></i></div>
+                    Floor plan
+                </a>
 
                 <!-- <div class="sb-sidenav-menu-heading">Interface</div>
                     <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapsePages"
