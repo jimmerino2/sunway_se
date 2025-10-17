@@ -9,8 +9,8 @@ class AuthModel {
         $this->db = getPDO();
     }
 
-    public function checkAuthGuard($token, $bypass = DB_AUTH) {
-        if ($bypass) return true;
+    public function checkAuthGuard($token, $authenticate = DB_AUTH) {
+        if (!$authenticate) return true;
         if (empty($token)) return false; 
         $tokenHashed = hash('sha256', $token);
 
