@@ -24,7 +24,7 @@ class UserController {
         if ($user) {
             Response::json($user);
         } else {
-            Response::json(['error' => 'User not found'], 404);
+            Response::json(['error' => 'User not found.'], 404);
         }
     }
 
@@ -33,9 +33,15 @@ class UserController {
         foreach ($this->userModel->columns as $column) {
             if($column['name'] === 'id') {continue;}
             if($column['required'] && !in_array($column['name'], array_keys($data))) {
-                Response::json(['error' => ucfirst($column['name']) . " field is missing"], 400);   
+                Response::json(['error' => ucfirst($column['name']) . " field is missing."], 400);   
                 return;
             }
+        }
+
+        // Email format
+        if(!preg_match('/^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/', $data['email'])){
+            Response::json(['error' => "Invalid email format."], 400);   
+            return;
         }
         
         // Check for unique user 
@@ -47,7 +53,7 @@ class UserController {
 
         $success = $this->userModel->saveUser($data);
         return $success
-            ? Response::json(['message' => 'User successfully created'], 201)
+            ? Response::json(['message' => 'User successfully created.'], 201)
             : Response::json(['error' => 'There was an issue creating this user.'], 400);
     }
 
@@ -62,7 +68,7 @@ class UserController {
 
             $success = $this->userModel->updateUser($data);
             return $success
-                ? Response::json(['message' => 'User successfully updated'], 201)
+                ? Response::json(['message' => 'User successfully updated.'], 201)
                 : Response::json(['error' => 'There was an issue updating this user.'], 400);
         } else {
             Response::json(['error' => 'User ID not set.'], 400);
@@ -76,10 +82,10 @@ class UserController {
             if($isUserExist){
                 $success = $this->userModel->deleteUser($id);
                 return $success
-                    ? Response::json(['message' => 'User successfully deleted'], 201)
+                    ? Response::json(['message' => 'User successfully deleted.'], 201)
                     : Response::json(['error' => 'There was an issue deleting this user.'], 400);
             } else {
-                Response::json(['error' => 'User has already been deleted.'], 400);
+                Response::json(['error' => 'User does not exist.'], 400);
             }
         } else {
             Response::json(['error' => 'User ID not set.'], 400);

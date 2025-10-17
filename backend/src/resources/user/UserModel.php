@@ -72,6 +72,8 @@ class UserModel {
 
         $sql = "INSERT INTO {$this->tableName} (" . implode(',', $fields) . ") VALUES (" . implode(',', $placeholders) . ")";
         $stmt = $this->db->prepare($sql);
+
+        $data['password'] = password_hash($data['password'], PASSWORD_BCRYPT);
         return $stmt->execute($data);   
     }
 
