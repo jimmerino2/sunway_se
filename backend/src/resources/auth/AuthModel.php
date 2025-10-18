@@ -10,16 +10,16 @@ class AuthModel {
     }
 
     public function checkAuthGuard($token, $authenticate = DB_AUTH) {
-        if (!$authenticate) return true;
+        if (!$authenticate) return 'A';
         if (empty($token)) return false; 
         $tokenHashed = hash('sha256', $token);
 
-        $sql = "SELECT user_id FROM session WHERE token = ? AND expire_at > NOW()";
+        $sql = "SELECT session.user_id, users.role FROM session JOIN users ON session.user_id = users.id  WHERE token = ? AND expire_at > NOW()";
         $stmt = $this->db->prepare($sql);
         $stmt->execute([$tokenHashed]);
+        $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        $userId = $stmt->fetchColumn();
-        return $userId ? true : false;
+        return $user['role'] ?? false;
     }
 
     public function login($data) {

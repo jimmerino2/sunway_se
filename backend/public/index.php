@@ -20,10 +20,11 @@ $data = json_decode(file_get_contents('php://input'), true);
 // Authentication
 $authController = new AuthController();
 $sessionToken = trim(str_replace('Bearer', '', $headers['Authorization'] ?? null));
+$sessionRole = $authController->checkAuthGuard($sessionToken);
 
 switch ($type) {
     case 'user':
-        if(!$authController->checkAuthGuard($sessionToken)) {
+        if($sessionRole != 'A') {
             Response::json(['error' => 'Access denied.'], 401);
             break;
         } 
