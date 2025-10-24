@@ -95,7 +95,7 @@ USE se_project;
         total DECIMAL(10,2) NOT NULL,
         pax INT NOT NULL, 
         FOREIGN KEY (table_id) REFERENCES seating(id)
-    )
+    );
     INSERT INTO orders (table_id, total, pax) VALUES (1, 10.2, 1);
     INSERT INTO orders (table_id, total, pax) VALUES (2, 8.2, 2);
     INSERT INTO orders (table_id, total, pax) VALUES (3, 6.2, 2);
