@@ -1,3 +1,7 @@
 {
-    "livePreview.defaultPreviewPath": "/frontend/admin_page/tables.html"
+    "livePreview.defaultPreviewPath": "/frontend/admin_page/tables.html",
+    "cSpell.words": [
+        "datatables",
+        "Topnav"
+    ]
 }
