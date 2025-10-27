@@ -1,16 +1,19 @@
 <?php
 require_once "../src/config/db.php";
 require_once 'CategoryModel.php';
-require_once DIR_BACKEND . '\utils\Response.php';
+require_once __DIR__ . '/../../utils/Response.php';
 
-class CategoryController {
+class CategoryController
+{
     private $categoryModel;
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->categoryModel = new categoryModel();
     }
 
-    public function listCategory($filters) {
+    public function listCategory($filters)
+    {
         $categories = $this->categoryModel->listCategory($filters);
         if ($categories) {
             Response::json($categories);
@@ -19,7 +22,8 @@ class CategoryController {
         }
     }
 
-    public function getCategory($id) {
+    public function getCategory($id)
+    {
         $category = $this->categoryModel->getCategory($id);
         if ($category) {
             Response::json($category);
@@ -28,20 +32,23 @@ class CategoryController {
         }
     }
 
-    public function createCategory($data) {
+    public function createCategory($data)
+    {
         // Ensure all required fields are filled
         foreach ($this->categoryModel->columns as $column) {
-            if($column['name'] === 'id') {continue;}
-            if($column['required'] && !in_array($column['name'], array_keys($data))) {
-                Response::json(['error' => ucfirst($column['name']) . " field is missing."], 400);   
+            if ($column['name'] === 'id') {
+                continue;
+            }
+            if ($column['required'] && !in_array($column['name'], array_keys($data))) {
+                Response::json(['error' => ucfirst($column['name']) . " field is missing."], 400);
                 return;
             }
         }
 
         // Check for unique category 
         $isEmailTaken = $this->categoryModel->checkUniqueName(0, $data['name']);
-        if($isEmailTaken){
-            Response::json(['error' => 'There is already a category with this name.'], 400);   
+        if ($isEmailTaken) {
+            Response::json(['error' => 'There is already a category with this name.'], 400);
             return;
         }
 
@@ -51,12 +58,13 @@ class CategoryController {
             : Response::json(['error' => 'There was an issue creating this category.'], 400);
     }
 
-    public function updateCategory($data) {
-        if(isset($data['id'])){
+    public function updateCategory($data)
+    {
+        if (isset($data['id'])) {
             // Check for unique category 
             $isEmailTaken = $this->categoryModel->checkUniqueName($data['id'], $data['name']);
-            if($isEmailTaken){
-                Response::json(['error' => 'There is already a category with this name.'], 400);   
+            if ($isEmailTaken) {
+                Response::json(['error' => 'There is already a category with this name.'], 400);
                 return;
             }
 
@@ -69,11 +77,12 @@ class CategoryController {
         }
     }
 
-    public function deleteCategory($id) {
-        if($id != null){
+    public function deleteCategory($id)
+    {
+        if ($id != null) {
             $isCategoryExist = $this->categoryModel->getCategory($id);
 
-            if($isCategoryExist){
+            if ($isCategoryExist) {
                 $success = $this->categoryModel->deleteCategory($id);
                 return $success
                     ? Response::json(['message' => 'Category successfully deleted.'], 201)

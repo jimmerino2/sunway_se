@@ -1,16 +1,20 @@
 <?php
 require_once "../src/config/db.php";
 require_once 'UserModel.php';
-require_once DIR_BACKEND . '\utils\Response.php';
+// require_once __DIR__ . '/../../utils/Response.php';
+require_once __DIR__ . '/../../utils/Response.php'; // This is CORRECT
 
-class UserController {
+class UserController
+{
     private $userModel;
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->userModel = new userModel();
     }
 
-    public function listUser($filters) {
+    public function listUser($filters)
+    {
         $users = $this->userModel->listUser($filters);
         if ($users) {
             Response::json($users);
@@ -19,7 +23,8 @@ class UserController {
         }
     }
 
-    public function getUser($id) {
+    public function getUser($id)
+    {
         $user = $this->userModel->getUser($id);
         if ($user) {
             Response::json($user);
@@ -28,26 +33,29 @@ class UserController {
         }
     }
 
-    public function createUser($data) {
+    public function createUser($data)
+    {
         // Ensure all required fields are filled
         foreach ($this->userModel->columns as $column) {
-            if($column['name'] === 'id') {continue;}
-            if($column['required'] && !in_array($column['name'], array_keys($data))) {
-                Response::json(['error' => ucfirst($column['name']) . " field is missing."], 400);   
+            if ($column['name'] === 'id') {
+                continue;
+            }
+            if ($column['required'] && !in_array($column['name'], array_keys($data))) {
+                Response::json(['error' => ucfirst($column['name']) . " field is missing."], 400);
                 return;
             }
         }
 
         // Email format
-        if(!preg_match('/^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/', $data['email'])){
-            Response::json(['error' => "Invalid email format."], 400);   
+        if (!preg_match('/^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/', $data['email'])) {
+            Response::json(['error' => "Invalid email format."], 400);
             return;
         }
-        
+
         // Check for unique user 
         $isEmailTaken = $this->userModel->checkUniqueEmail(0, $data['email']);
-        if($isEmailTaken){
-            Response::json(['error' => 'There is already a user with this email address.'], 400);   
+        if ($isEmailTaken) {
+            Response::json(['error' => 'There is already a user with this email address.'], 400);
             return;
         }
 
@@ -57,12 +65,13 @@ class UserController {
             : Response::json(['error' => 'There was an issue creating this user.'], 400);
     }
 
-    public function updateUser($data) {
-        if(isset($data['id'])){
-             // Check for unique user 
+    public function updateUser($data)
+    {
+        if (isset($data['id'])) {
+            // Check for unique user 
             $isEmailTaken = $this->userModel->checkUniqueEmail($data['id'], $data['email']);
-            if($isEmailTaken){
-                Response::json(['error' => 'There is already a user with this email address.'], 400);   
+            if ($isEmailTaken) {
+                Response::json(['error' => 'There is already a user with this email address.'], 400);
                 return;
             }
 
@@ -75,11 +84,12 @@ class UserController {
         }
     }
 
-    public function deleteUser($id) {
-        if($id != null){
+    public function deleteUser($id)
+    {
+        if ($id != null) {
             $isUserExist = $this->userModel->getUser($id);
 
-            if($isUserExist){
+            if ($isUserExist) {
                 $success = $this->userModel->deleteUser($id);
                 return $success
                     ? Response::json(['message' => 'User successfully deleted.'], 201)

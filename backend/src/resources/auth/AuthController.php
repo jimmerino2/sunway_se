@@ -1,17 +1,20 @@
 <?php
 require_once "../src/config/db.php";
 require_once 'AuthModel.php';
-require_once DIR_BACKEND . '\utils\Response.php';
+require_once __DIR__ . '/../../utils/Response.php';
 
-class AuthController {
+class AuthController
+{
     private $authModel;
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->authModel = new authModel();
     }
 
-    public function login($data) {
-        if (empty($data['email']) || empty($data['password']) || empty($data['user_id'])) {
+    public function login($data)
+    {
+        if (empty($data['email']) || empty($data['password'])) {
             return Response::json(['error' => 'Invalid login details.'], 400);
         }
 
@@ -23,7 +26,8 @@ class AuthController {
         return Response::json(['error' => 'Invalid login details.'], 400);
     }
 
-    public function checkAuthGuard($token) {
+    public function checkAuthGuard($token)
+    {
         return $this->authModel->checkAuthGuard($token);
     }
 }

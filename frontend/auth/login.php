@@ -152,7 +152,7 @@
             const errorMessage = document.getElementById('errorMessage');
             errorMessage.style.display = 'none';
 
-            const apiEndpoint = '/sunway_se/backend/public/auth';
+            const apiEndpoint = '/software_engineering/backend/auth';
 
             // Create the data object to be sent
             const loginData = {
@@ -174,7 +174,7 @@
                 .then(data => {
                     if (data.token) {
                         localStorage.setItem('authToken', data.token);
-                        window.location.href = '../dashboard/index.php';
+                        window.location.href = '/software_engineering/frontend/admin/admin_dashboard.php';
                     } else {
                         errorMessage.textContent = data.error || 'Invalid email or password.';
                         errorMessage.style.display = 'block';

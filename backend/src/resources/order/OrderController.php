@@ -1,16 +1,19 @@
 <?php
 require_once "../src/config/db.php";
 require_once 'OrderModel.php';
-require_once DIR_BACKEND . '\utils\Response.php';
+require_once __DIR__ . '/../../utils/Response.php';
 
-class OrderController {
+class OrderController
+{
     private $orderModel;
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->orderModel = new orderModel();
     }
 
-    public function listOrder($filters) {
+    public function listOrder($filters)
+    {
         $orders = $this->orderModel->listOrder($filters);
         if ($orders) {
             Response::json($orders);
@@ -19,7 +22,8 @@ class OrderController {
         }
     }
 
-    public function getOrder($id) {
+    public function getOrder($id)
+    {
         $order = $this->orderModel->getOrder($id);
         if ($order) {
             Response::json($order);
@@ -28,12 +32,15 @@ class OrderController {
         }
     }
 
-    public function createOrder($data) {
+    public function createOrder($data)
+    {
         // Ensure all required fields are filled
         foreach ($this->orderModel->columns as $column) {
-            if($column['name'] === 'id') {continue;}
-            if($column['required'] && !in_array($column['name'], array_keys($data))) {
-                Response::json(['error' => ucfirst($column['name']) . " field is missing."], 400);   
+            if ($column['name'] === 'id') {
+                continue;
+            }
+            if ($column['required'] && !in_array($column['name'], array_keys($data))) {
+                Response::json(['error' => ucfirst($column['name']) . " field is missing."], 400);
                 return;
             }
         }
@@ -44,8 +51,9 @@ class OrderController {
             : Response::json(['error' => 'There was an issue creating this order.'], 400);
     }
 
-    public function updateOrder($data) {
-        if(isset($data['id'])){
+    public function updateOrder($data)
+    {
+        if (isset($data['id'])) {
             $success = $this->orderModel->updateOrder($data);
             return $success
                 ? Response::json(['message' => 'Order successfully updated.'], 201)
@@ -55,11 +63,12 @@ class OrderController {
         }
     }
 
-    public function deleteOrder($id) {
-        if($id != null){
+    public function deleteOrder($id)
+    {
+        if ($id != null) {
             $isOrderExist = $this->orderModel->getOrder($id);
 
-            if($isOrderExist){
+            if ($isOrderExist) {
                 $success = $this->orderModel->deleteOrder($id);
                 return $success
                     ? Response::json(['message' => 'Order successfully deleted.'], 201)

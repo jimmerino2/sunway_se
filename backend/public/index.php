@@ -1,4 +1,8 @@
 <?php
+
+// ini_set('display_errors', 1);
+// error_reporting(E_ALL);
+
 require_once "../src/config/db.php";
 require_once "../src/config/site_config.php";
 require_once '../src/resources/user/UserController.php';
@@ -18,6 +22,9 @@ $parts = explode('/', $route);
 $method = $_SERVER['REQUEST_METHOD'];
 $type = $parts[0];
 
+// var_dump($parts);
+// exit;
+
 // Get contents
 $headers = getallheaders();
 $data = json_decode(file_get_contents('php://input'), true);
@@ -29,10 +36,10 @@ $sessionRole = $authController->checkAuthGuard($sessionToken); // A, K, C
 
 switch ($type) {
     case 'user':
-        if($sessionRole != 'A') {
+        if ($sessionRole != 'A') {
             Response::json(['error' => 'Access denied.'], 401);
             break;
-        } 
+        }
         $controller = new UserController();
         $id = $_GET['id'] ?? $data['id'] ?? null;
         switch ($method) {
