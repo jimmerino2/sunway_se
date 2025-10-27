@@ -1,94 +1,6 @@
-<!-- <!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-    <meta name="description" content="" />
-    <meta name="author" content="" />
-    <title>Login - SB Admin</title>
-    <link href="../css/admin.css" rel="stylesheet" />
-    <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
-</head>
-
-<body class="bg-primary">
-    <div id="layoutAuthentication">
-        <div id="layoutAuthentication_content">
-            <main>
-                <div class="container">
-                    <div class="row justify-content-center">
-                        <div class="col-lg-5">
-                            <div class="card shadow-lg border-0 rounded-lg mt-5">
-                                <div class="card-header">
-                                    <h3 class="text-center font-weight-light my-4">Login</h3>
-                                </div>
-                                <div class="card-body">
-                                    <form>
-                                        <div class="form-floating mb-3">
-                                            <input class="form-control" id="inputEmail" type="email"
-                                                placeholder="name@example.com" />
-                                            <label for="inputEmail">Email address</label>
-                                        </div>
-                                        <div class="form-floating mb-3">
-                                            <input class="form-control" id="inputPassword" type="password"
-                                                placeholder="Password" />
-                                            <label for="inputPassword">Password</label>
-                                        </div>
-                                        <div class="form-check mb-3">
-                                            <input class="form-check-input" id="inputRememberPassword" type="checkbox"
-                                                value="" />
-                                            <label class="form-check-label" for="inputRememberPassword">Remember
-                                                Password</label>
-                                        </div>
-                                        <div class="d-flex align-items-center justify-content-between mt-4 mb-0">
-                                            <a class="small" href="password.html">Forgot Password?</a>
-                                            <a class="btn btn-primary" href="index.html">Login</a>
-                                        </div>
-                                    </form>
-                                </div>
-                                <div class="card-footer text-center py-3">
-                                    <div class="small"><a href="register.html">Need an account? Sign up!</a></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </main>
-        </div>
-        <div id="layoutAuthentication_footer">
-            <footer class="py-4 bg-light mt-auto">
-                <div class="container-fluid px-4">
-                    <div class="d-flex align-items-center justify-content-between small">
-                        <div class="text-muted">Copyright &copy; Your Website 2023</div>
-                        <div>
-                            <a href="#">Privacy Policy</a>
-                            &middot;
-                            <a href="#">Terms &amp; Conditions</a>
-                        </div>
-                    </div>
-                </div>
-            </footer>
-        </div>
-    </div>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
-        crossorigin="anonymous"></script>
-    <script src="js/scripts.js"></script>
-</body>
-
-</html> -->
-
-
-
-
-<!-- custom -->
-
 <?php
-
 //phpinfo();
-
 ?>
-
 
 <!DOCTYPE html>
 <html lang="en">
@@ -98,10 +10,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Modern Login Page</title>
 
-    <!-- Bootstrap 5 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 
-    <!-- Google Font -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
 
     <style>
@@ -196,7 +106,6 @@
 <body>
 
     <div class="login-container d-flex flex-column flex-md-row mx-3">
-        <!-- Left side -->
         <div class="left-side col-md-6 d-flex flex-column justify-content-center">
             <h2>Welcome to Website</h2>
             <p>
@@ -205,15 +114,19 @@
             </p>
         </div>
 
-        <!-- Right side -->
         <div class="right-side col-md-6 d-flex flex-column justify-content-center">
             <h4 class="text-center mb-4 fw-semibold">USER LOGIN</h4>
-            <form>
+
+            <form id="loginForm">
+
+                <div id="errorMessage" class="alert alert-danger" style="display: none;" role="alert">
+                </div>
+
                 <div class="mb-3">
-                    <input type="text" class="form-control" placeholder="Username" required>
+                    <input type="email" id="email" class="form-control" placeholder="Email" required>
                 </div>
                 <div class="mb-3">
-                    <input type="password" class="form-control" placeholder="Password" required>
+                    <input type="password" id="password" class="form-control" placeholder="Password" required>
                 </div>
                 <div class="remember">
                     <div>
@@ -221,26 +134,59 @@
                     </div>
                     <a href="#" class="text-decoration-none text-primary">Forgot password?</a>
                 </div>
-                <!-- <div class="text-center mt-4">
-                    <button type="submit" class="btn btn-login w-100">LOGIN USER</button>
-                </div>
                 <div class="text-center mt-4">
                     <button type="submit" class="btn btn-login w-100">LOGIN ADMIN</button>
-                </div> -->
-
-                <!-- temp -->
-                <div class="text-center mt-4">
-                    <a href="../user/user_dashboard.php" class="btn btn-login w-100">LOGIN USER</a>
                 </div>
-
-                <div class="text-center mt-4">
-                    <a href="../admin/admin_dashboard.php" class="btn btn-login w-100">LOGIN ADMIN</a>
-                </div>
-
             </form>
         </div>
     </div>
 
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const errorMessage = document.getElementById('errorMessage');
+            errorMessage.style.display = 'none';
+
+            const apiEndpoint = '/sunway_se/backend/public/auth';
+
+            // Create the data object to be sent
+            const loginData = {
+                email: email,
+                password: password
+            };
+
+            // MODIFICATION: Log the JSON object to the console
+            console.log('Sending JSON to backend:', loginData);
+
+            fetch(apiEndpoint, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(loginData) // Send the object
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.token) {
+                        localStorage.setItem('authToken', data.token);
+                        window.location.href = '../dashboard/index.php';
+                    } else {
+                        errorMessage.textContent = data.error || 'Invalid email or password.';
+                        errorMessage.style.display = 'block';
+                    }
+                })
+                .catch(error => {
+                    console.error('Login Error:', error);
+                    errorMessage.textContent = 'An error occurred. Please try again later.';
+                    errorMessage.style.display = 'block';
+                });
+        });
+    </script>
 </body>
 
 </html>
