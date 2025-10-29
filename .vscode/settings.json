@@ -1,6 +1,7 @@
 {
     "livePreview.defaultPreviewPath": "/frontend/admin_page/tables.html",
     "cSpell.words": [
+        "datatable",
         "datatables",
         "Topnav"
     ]
