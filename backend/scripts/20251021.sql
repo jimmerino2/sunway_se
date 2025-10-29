@@ -60,29 +60,29 @@ USE se_project;
     CREATE TABLE item (
         id INT AUTO_INCREMENT PRIMARY KEY,
         name VARCHAR(200) NOT NULL,
-        `desc` TEXT,
+        description TEXT,
         price DECIMAL(10,2) NOT NULL,
         image_url VARCHAR(200),
         category_id INT NOT NULL,
         FOREIGN KEY (category_id) REFERENCES category(id)
     );
 
-    INSERT INTO item (name, `desc`, price, image_url, category_id) VALUES
+    INSERT INTO item (name, description, price, image_url, category_id) VALUES
         ('Espresso', 'Strong and rich single-shot espresso to kickstart your day.', 6.50, '/coffee_espresso.png', 1),
         ('Americano', 'Smooth black coffee made with espresso and hot water.', 7.00, '/coffee_americano.png', 1),
         ('Cappuccino', 'Espresso topped with steamed milk and frothy foam.', 8.00, '/coffee_cappuccino.png', 1);
 
-    INSERT INTO item (name, `desc`, price, image_url, category_id) VALUES
+    INSERT INTO item (name, description, price, image_url, category_id) VALUES
         ('Orange Juice', 'Freshly squeezed oranges packed with vitamin C.', 6.00, '/juice_orange.png', 2),
         ('Apple Juice', 'Crisp and refreshing apple juice.', 6.00, '/juice_apple.png', 2),
         ('Watermelon Cooler', 'Chilled watermelon juice with a hint of mint.', 7.00, '/juice_watermelon.png', 2);
 
-    INSERT INTO item (name, `desc`, price, image_url, category_id) VALUES
+    INSERT INTO item (name, description, price, image_url, category_id) VALUES
         ('Chocolate Fudge Cake', 'Rich and moist chocolate cake with creamy fudge frosting.', 12.00, '/cake_chocolate_fudge.png', 3),
         ('Cheesecake', 'Classic creamy cheesecake with a buttery biscuit base.', 11.00, '/cake_cheesecake.png', 3),
         ('Red Velvet Cake', 'Soft red velvet sponge layered with cream cheese frosting.', 12.50, '/cake_red_velvet.png', 3);
 
-    INSERT INTO item (name, `desc`, price, image_url, category_id) VALUES
+    INSERT INTO item (name, description, price, image_url, category_id) VALUES
         ('Chocolate Chip Cookie', 'Classic chewy cookie loaded with chocolate chips.', 4.00, '/cookie_choc_chip.png', 4),
         ('Oatmeal Raisin Cookie', 'Hearty cookie with oats and sweet raisins.', 4.50, '/cookie_oatmeal_raisin.png', 4),
         ('Double Chocolate Cookie', 'Rich chocolate cookie with chocolate chunks.', 4.50, '/cookie_double_choc.png', 4);

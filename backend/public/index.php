@@ -27,7 +27,12 @@ $type = $parts[0];
 
 // Get contents
 $headers = getallheaders();
-$data = json_decode(file_get_contents('php://input'), true);
+$contentType = $headers['Content-Type'] ?? '';
+if (str_contains($contentType, 'application/json')) {
+    $data = json_decode(file_get_contents('php://input'), true);
+} else {
+    $data = $_POST;
+}
 
 // Authentication
 $authController = new AuthController();
@@ -95,10 +100,10 @@ switch ($type) {
                 (!is_null($id)) ? $controller->getItem($id) : $controller->listItem($_GET);
                 break;
             case 'POST':
-                $controller->createItem($data);
+                $controller->createItem($data, $_FILES);
                 break;
             case 'PATCH':
-                $controller->updateItem($data);
+                $controller->updateItem($data, $_FILES);
                 break;
             case 'DELETE':
                 $controller->deleteItem($id);

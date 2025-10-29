@@ -9,7 +9,6 @@ class ItemModel {
         ['name' => 'name'       , 'required' => true    ],
         ['name' => 'desc'       , 'required' => false   ],
         ['name' => 'price'      , 'required' => true    ],
-        ['name' => 'image_url'  , 'required' => true    ],
         ['name' => 'category_id', 'required' => true    ],
     ];
 
@@ -52,7 +51,7 @@ class ItemModel {
         return $stmt->fetch(PDO::FETCH_ASSOC); 
     }
 
-    public function saveItem($data) {
+    public function saveItem($data, $files) {
         // Remove false parameters
         $validColumns = array_column($this->columns, 'name');
         foreach ($data as $key => $value) {
@@ -61,15 +60,54 @@ class ItemModel {
             }
         }
 
+        // 1. Insert the image
+        if(isset($files['image'])) {
+            $image = $files['image'];
+            if($image['error'] === UPLOAD_ERR_OK){
+
+                // Create folder
+                $uploadDir = dirname(dirname(dirname(__DIR__))) . '/public/storage/item';
+                if (!file_exists($uploadDir)) {
+                    mkdir($uploadDir, 0755, true);
+                }
+
+                // Create file
+                $filename = uniqid() . '_' . basename($image['name']);
+                $targetPath = $uploadDir . $filename;
+
+                if (move_uploaded_file($image['tmp_name'], $targetPath)) {
+                    $data['image_url'] = '/item/' . $filename;
+                    $imageSuccess = true;
+                } else {
+                    $imageSuccess = false;
+                }
+            } else {
+                $imageSuccess = false;
+            }
+        } else {
+            $imageSuccess = false;
+        }
+
+        // 2. Insert the column
         $fields = array_keys($data);
         $placeholders = array_map(fn($f) => ':' . $f, $fields);
 
         $sql = "INSERT INTO {$this->tableName} (" . implode(',', $fields) . ") VALUES (" . implode(',', $placeholders) . ")";
         $stmt = $this->db->prepare($sql);
-        return $stmt->execute($data);   
+        $sqlSuccess = $stmt->execute($data);   
+
+        // 3. Rollback if required
+        if($imageSuccess && $sqlSuccess){
+            return true;
+        } else {
+            $sql = "DELETE FROM {$this->tableName} WHERE name = ?";
+            $stmt = $this->db->prepare($sql);
+            $stmt->execute($data['name']);
+            return false;
+        }
     }
 
-    public function updateItem(array $data): bool {
+    public function updateItem(array $data, $files): bool {
         $setClause = implode(', ', array_map(fn($f) => "$f = :$f", array_keys($data)));
 
         $sql = "UPDATE {$this->tableName} SET $setClause WHERE id = :id";

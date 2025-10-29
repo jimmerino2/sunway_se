@@ -32,7 +32,7 @@ class ItemController
         }
     }
 
-    public function createItem($data)
+    public function createItem($data, $files)
     {
         // Ensure all required fields are filled
         foreach ($this->itemModel->columns as $column) {
@@ -45,7 +45,7 @@ class ItemController
             }
         }
 
-        $success = $this->itemModel->saveItem($data);
+        $success = $this->itemModel->saveItem($data, $files);
         return $success
             ? Response::json(['message' => 'Item successfully created.'], 201)
             : Response::json(['error' => 'There was an issue creating this item.'], 400);
