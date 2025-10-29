@@ -23,6 +23,8 @@
             padding: 25px;
             box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
             margin-top: 20px;
+            /* Added min-height for better structure */
+            min-height: 500px;
         }
 
         .room {
@@ -32,6 +34,10 @@
             text-align: center;
             padding: 15px;
             font-weight: 500;
+            /* Ensure rooms fill height in flex columns */
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .private-room {
@@ -46,7 +52,8 @@
         .table-group {
             position: relative;
             display: inline-block;
-            margin: 25px;
+            /* Adjusted margins for a 4-column grid */
+            margin: 15px;
             width: 80px;
             height: 80px;
         }
@@ -121,6 +128,10 @@
             font-size: 14px;
         }
 
+        .Building_frame {
+            border: 1px solid black;
+        }
+
         h5 {
             margin-bottom: 20px;
         }
@@ -136,7 +147,6 @@
                 <div class="container my-4">
                     <h2 class="text-center mb-3">2-Story Café Floor Plan</h2>
 
-                    <!-- Floor Tabs -->
                     <ul class="nav nav-tabs" id="floorTabs" role="tablist">
                         <li class="nav-item" role="presentation">
                             <button class="nav-link active" id="floor1-tab" data-bs-toggle="tab" data-bs-target="#floor1" type="button" role="tab">Ground Floor</button>
@@ -147,112 +157,72 @@
                     </ul>
 
                     <div class="tab-content" id="floorTabsContent">
-                        <!-- Ground Floor -->
+
                         <div class="tab-pane fade show active" id="floor1" role="tabpanel">
                             <div class="floor-container">
                                 <h5 class="text-center mb-3">Ground Floor Layout</h5>
+                                <div class="Building_frame">
+                                    <div class="row" style="min-height: 500px;">
 
-                                <!-- Counter + Dining Row 1 -->
-                                <div class="row mb-3">
-                                    <div class="col-md-3 mx-1 room counter">Counter / Barista Area</div>
-                                    <div class="col-md-9 mx-1 room">
-                                        <div>Main Dining Area (Front Section)</div>
-                                        <div class="d-flex flex-wrap justify-content-center mt-3">
-                                            <!-- 5 tables -->
-                                            <div class="table-group">
-                                                <div class="table-circle"></div>
-                                                <div class="chair top"></div>
-                                                <div class="chair bottom"></div>
-                                                <div class="chair left"></div>
-                                                <div class="chair right"></div>
+                                        <div class="col-md-3 d-flex flex-column">
+
+                                            <div class="room bg-white border-0" style="height: 60px;"></div>
+
+                                            <div class="row g-1 mb-1 flex-grow-1">
+                                                <div class="col-8">
+                                                    <div class="room h-100">Kitchen</div>
+                                                </div>
+                                                <div class="col-4">
+                                                    <div class="room counter h-100">Counter</div>
+                                                </div>
                                             </div>
-                                            <div class="table-group">
-                                                <div class="table-square"></div>
-                                                <div class="chair top"></div>
-                                                <div class="chair bottom"></div>
-                                                <div class="chair left"></div>
-                                                <div class="chair right"></div>
-                                            </div>
-                                            <div class="table-group">
-                                                <div class="table-sofa"></div>
-                                                <div class="chair top"></div>
-                                                <div class="chair bottom"></div>
-                                            </div>
-                                            <!-- <div class="table-group">
-                                                <div class="table-circle"></div>
-                                                <div class="chair top"></div>
-                                                <div class="chair bottom"></div>
-                                                <div class="chair left"></div>
-                                                <div class="chair right"></div>
-                                            </div>
-                                            <div class="table-group">
-                                                <div class="table-square"></div>
-                                                <div class="chair top"></div>
-                                                <div class="chair bottom"></div>
-                                                <div class="chair left"></div>
-                                                <div class="chair right"></div>
-                                            </div> -->
+
+                                            <div class="room" style="height: 50px;">Stairs</div>
+
                                         </div>
-                                    </div>
-                                </div>
 
-                                <!-- Walkway to Back -->
-                                <div class="row mb-3">
-                                    <div class="col-12 walkway">Walkway to Rear Section</div>
-                                </div>
+                                        <div class="col-md-9">
 
-                                <!-- Back Section: Dining + Private + Restroom -->
-                                <div class="row">
-                                    <div class="col-md-8 room">
-                                        <div>Main Dining Area (Back Section)</div>
-                                        <div class="d-flex flex-wrap justify-content-center mt-3">
-                                            <!-- Another 5 tables -->
-                                            <div class="table-group">
-                                                <div class="table-circle"></div>
-                                                <div class="chair top"></div>
-                                                <div class="chair bottom"></div>
-                                                <div class="chair left"></div>
-                                                <div class="chair right"></div>
-                                            </div>
-                                            <div class="table-group">
-                                                <div class="table-square"></div>
-                                                <div class="chair top"></div>
-                                                <div class="chair bottom"></div>
-                                                <div class="chair left"></div>
-                                                <div class="chair right"></div>
-                                            </div>
-                                            <div class="table-group">
-                                                <div class="table-sofa"></div>
-                                                <div class="chair top"></div>
-                                                <div class="chair bottom"></div>
-                                            </div>
-                                            <div class="table-group">
-                                                <div class="table-circle"></div>
-                                                <div class="chair top"></div>
-                                                <div class="chair bottom"></div>
-                                                <div class="chair left"></div>
-                                                <div class="chair right"></div>
-                                            </div>
-                                            <div class="table-group">
-                                                <div class="table-square"></div>
-                                                <div class="chair top"></div>
-                                                <div class="chair bottom"></div>
-                                                <div class="chair left"></div>
-                                                <div class="chair right"></div>
-                                            </div>
-                                        </div>
-                                    </div>
+                                            <div class="d-flex flex-wrap justify-content-around">
 
-                                    <div class="col-md-4">
-                                        <div class="row g-3">
-                                            <div class="col-12 room">Stairs to 2nd Floor</div>
+                                                <?php
+                                                // Set the total number of tables you want to generate.
+                                                // I counted 32 in your original HTML, so I've set it to 32.
+                                                $numberOfTables = 32;
+
+                                                // Loop from 1 up to the total number of tables
+                                                for ($i = 1; $i <= $numberOfTables; $i++) {
+
+                                                    // Use the modulo operator (%) to check if $i is odd or even.
+                                                    // If $i is odd (1, 3, 5...), $i % 2 will be 1, and we use 'table-square'.
+                                                    // If $i is even (2, 4, 6...), $i % 2 will be 0, and we use 'table-circle'.
+                                                    $tableClass = ($i % 2 == 1) ? 'table-square' : 'table-circle';
+
+                                                    // Now we output the HTML for each table group.
+                                                    // We use PHP's `echo $i;` and `echo $tableClass;` to insert the dynamic values.
+                                                ?>
+
+                                                    <!-- This is table group #<?php echo $i; ?> -->
+                                                    <div class="table-group" id="table-group-<?php echo $i; ?>">
+                                                        <div class="<?php echo $tableClass; ?>" id="table-<?php echo $i; ?>"></div>
+                                                        <div class="chair top"></div>
+                                                        <div class="chair bottom"></div>
+                                                        <div class="chair left"></div>
+                                                        <div class="chair right"></div>
+                                                    </div>
+
+                                                <?php
+                                                } // This brace closes the for loop
+                                                ?>
+
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
 
-                        <!-- Second Floor -->
+
                         <div class="tab-pane fade" id="floor2" role="tabpanel">
                             <div class="floor-container">
                                 <h5 class="text-center mb-3">Second Floor Layout</h5>
@@ -280,6 +250,7 @@
                                 </div>
                             </div>
                         </div>
+
                     </div>
                 </div>
             </main>
