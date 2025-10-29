@@ -34,6 +34,9 @@ $authController = new AuthController();
 $sessionToken = trim(str_replace('Bearer', '', $headers['Authorization'] ?? null));
 $sessionRole = $authController->checkAuthGuard($sessionToken); // A, K, C
 
+// $_GET Handler
+$id = $_GET['id'] ?? $data['id'] ?? null;
+
 switch ($type) {
     case 'user':
         if ($sessionRole != 'A') {
@@ -41,10 +44,9 @@ switch ($type) {
             break;
         }
         $controller = new UserController();
-        $id = $_GET['id'] ?? $data['id'] ?? null;
         switch ($method) {
             case 'GET':
-                $id ? $controller->getUser($id) : $controller->listUser($_GET);
+                (!is_null($id)) ? $controller->getUser($id) : $controller->listUser($_GET);
                 break;
             case 'POST':
                 $controller->createUser($data);
@@ -65,10 +67,9 @@ switch ($type) {
         //    break;
         //} 
         $controller = new CategoryController();
-        $id = $_GET['id'] ?? $data['id'] ?? null;
         switch ($method) {
             case 'GET':
-                $id ? $controller->getCategory($id) : $controller->listCategory($_GET);
+                (!is_null($id)) ? $controller->getCategory($id) : $controller->listCategory($_GET);
                 break;
             case 'POST':
                 $controller->createCategory($data);
@@ -89,10 +90,9 @@ switch ($type) {
         //    break;
         //} 
         $controller = new ItemController();
-        $id = $_GET['id'] ?? $data['id'] ?? null;
         switch ($method) {
             case 'GET':
-                $id ? $controller->getItem($id) : $controller->listItem($_GET);
+                (!is_null($id)) ? $controller->getItem($id) : $controller->listItem($_GET);
                 break;
             case 'POST':
                 $controller->createItem($data);
@@ -113,10 +113,9 @@ switch ($type) {
         //    break;
         //} 
         $controller = new OrderController();
-        $id = $_GET['id'] ?? $data['id'] ?? null;
         switch ($method) {
             case 'GET':
-                $id ? $controller->getOrder($id) : $controller->listOrder($_GET);
+                (!is_null($id)) ? $controller->getOrder($id) : $controller->listOrder($_GET);
                 break;
             case 'POST':
                 $controller->createOrder($data);
@@ -137,10 +136,9 @@ switch ($type) {
         //    break;
         //} 
         $controller = new OrderDetailsController();
-        $id = $_GET['id'] ?? $data['id'] ?? null;
         switch ($method) {
             case 'GET':
-                $id ? $controller->getOrderDetails($id) : $controller->listOrderDetails($_GET);
+                (!is_null($id)) ? $controller->getOrderDetails($id) : $controller->listOrderDetails($_GET);
                 break;
             case 'POST':
                 $controller->createOrderDetails($data);
@@ -161,10 +159,9 @@ switch ($type) {
         //    break;
         //} 
         $controller = new SeatingController();
-        $id = $_GET['id'] ?? $data['id'] ?? null;
         switch ($method) {
             case 'GET':
-                $id ? $controller->getSeating($id) : $controller->listSeating($_GET);
+                (!is_null($id)) ? $controller->getSeating($id) : $controller->listSeating($_GET);
                 break;
             case 'POST':
                 $controller->createSeating($data);
