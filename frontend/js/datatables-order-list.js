@@ -2,7 +2,7 @@ window.addEventListener('DOMContentLoaded', event => {
     // Simple-DataTables
     // https://github.com/fiduswriter/Simple-DataTables/wiki
 
-    const datatablesSimple = document.getElementById('datatablesSimple');
+    const datatablesOrders = document.getElementById('datatablesOrders');
 
     // 1. Helper function to get status text
     function getStatusText(status) {
@@ -96,8 +96,8 @@ window.addEventListener('DOMContentLoaded', event => {
         }
 
         // 5. Initialize the DataTable *WITH* the pre-sorted data
-        if (datatablesSimple) {
-            new simpleDatatables.DataTable(datatablesSimple, {
+        if (datatablesOrders) {
+            new simpleDatatables.DataTable(datatablesOrders, {
                 data: {
                     headings: [
                         "Item",
