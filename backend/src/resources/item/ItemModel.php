@@ -19,7 +19,7 @@ class ItemModel {
     }
 
     public function listItem($filters = []) {
-        $sql = "SELECT * FROM {$this->tableName} WHERE 1=1";
+        $sql = "SELECT i.*, c.name AS 'category_name' FROM {$this->tableName} i JOIN category c ON i.category_id = c.id WHERE 1=1";
 
         // Set conditions
         $condition = "";

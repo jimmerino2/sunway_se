@@ -9,6 +9,7 @@ class OrderDetailsModel {
         ['name' => 'order_id'   , 'required' => true    ],
         ['name' => 'item_id'    , 'required' => true    ],
         ['name' => 'quantity'   , 'required' => true    ],
+        ['name' => 'staus'      , 'required' => true    ], 
     ];
 
 
@@ -17,7 +18,12 @@ class OrderDetailsModel {
     }
 
     public function listOrderDetails($filters = []) {
-        $sql = "SELECT * FROM {$this->tableName} WHERE 1=1";
+        $sql = "SELECT i.name AS 'item_name', c.name AS 'category_name', s.table_no, od.quantity, o.order_time, o.total AS 'cost', od.status FROM {$this->tableName} od 
+                JOIN orders o ON o.id = od.order_id
+                JOIN item i ON i.id = od.item_id
+                JOIN category c ON i.category_id = c.id
+                JOIN seating s ON o.table_id = s.id
+                WHERE 1=1";
 
         // Set conditions
         $condition = "";
@@ -43,7 +49,12 @@ class OrderDetailsModel {
     }
 
     public function getOrderDetails($id) {
-        $sql = "SELECT * FROM {$this->tableName} WHERE id = ?";
+        $sql = "SELECT i.name AS 'item_name', c.name AS 'category_name', s.table_no, od.quantity, o.order_time, o.total AS 'cost', od.status FROM {$this->tableName} od 
+                JOIN orders o ON o.id = od.order_id
+                JOIN item i ON i.id = od.item_id
+                JOIN category c ON i.category_id = c.id
+                JOIN seating s ON o.table_id = s.id
+                WHERE i.id = ?";
         $stmt = $this->db->prepare($sql);
         $stmt->execute([$id]);
 

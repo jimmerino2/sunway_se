@@ -8,7 +8,8 @@ class OrderModel {
         ['name' => 'id'         , 'required' => true    ],
         ['name' => 'table_id'   , 'required' => true    ],
         ['name' => 'total'      , 'required' => true    ],
-        ['name' => 'pax'        , 'required' => true    ],
+        ['name' => 'pax'        , 'required' => true    ], 
+        ['name' => 'staus'      , 'required' => true    ], 
     ];
 
 
