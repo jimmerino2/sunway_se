@@ -1,7 +1,7 @@
 <?php
 // --- Product Data (Frontend Only) ---
 $products = [
-    ["name" => "Chocolate Indulgence", "price" => 40, "genre" => "Cakes", "image" => "../images/chocolate-indulgence.png"],
+    ["name" => "Chocolateeee Indulgence", "price" => 40, "genre" => "Cakes", "image" => "../images/chocolate-indulgence.png"],
     ["name" => "Strawberry Bliss", "price" => 38, "genre" => "Cakes", "image" => "../images/strawberry-bliss.png"],
     ["name" => "Red Velvet", "price" => 42, "genre" => "Cakes", "image" => "../images/red-velvet.png"],
     ["name" => "Iced Latte", "price" => 12, "genre" => "Drinks", "image" => "../images/iced-latte.png"],
