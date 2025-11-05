@@ -1,20 +1,20 @@
 <?php
 require_once "../src/config/db.php";
-require_once 'OrderModel.php';
+require_once 'OrdersModel.php';
 require_once __DIR__ . '/../../utils/Response.php';
 
-class OrderController
+class OrdersController
 {
-    private $orderModel;
+    private $ordersModel;
 
     public function __construct()
     {
-        $this->orderModel = new orderModel();
+        $this->ordersModel = new OrdersModel();
     }
 
-    public function listOrder($filters)
+    public function listOrders($filters)
     {
-        $orders = $this->orderModel->listOrder($filters);
+        $orders = $this->ordersModel->listOrders($filters);
         if ($orders) {
             Response::json($orders);
         } else {
@@ -22,9 +22,9 @@ class OrderController
         }
     }
 
-    public function getOrder($id)
+    public function getOrders($id)
     {
-        $order = $this->orderModel->getOrder($id);
+        $order = $this->ordersModel->getOrders($id);
         if ($order) {
             Response::json($order);
         } else {
@@ -32,10 +32,10 @@ class OrderController
         }
     }
 
-    public function createOrder($data)
+    public function createOrders($data)
     {
         // Ensure all required fields are filled
-        foreach ($this->orderModel->columns as $column) {
+        foreach ($this->ordersModel->columns as $column) {
             if ($column['name'] === 'id') {
                 continue;
             }
@@ -45,16 +45,16 @@ class OrderController
             }
         }
 
-        $success = $this->orderModel->saveOrder($data);
+        $success = $this->ordersModel->saveOrders($data);
         return $success
             ? Response::json(['message' => 'Order successfully created.'], 201)
             : Response::json(['error' => 'There was an issue creating this order.'], 400);
     }
 
-    public function updateOrder($data)
+    public function updateOrders($data)
     {
         if (isset($data['id'])) {
-            $success = $this->orderModel->updateOrder($data);
+            $success = $this->ordersModel->updateOrders($data);
             return $success
                 ? Response::json(['message' => 'Order successfully updated.'], 201)
                 : Response::json(['error' => 'There was an issue updating this order.'], 400);
@@ -63,13 +63,13 @@ class OrderController
         }
     }
 
-    public function deleteOrder($id)
+    public function deleteOrders($id)
     {
         if ($id != null) {
-            $isOrderExist = $this->orderModel->getOrder($id);
+            $isOrderExist = $this->ordersModel->getOrders($id);
 
             if ($isOrderExist) {
-                $success = $this->orderModel->deleteOrder($id);
+                $success = $this->ordersModel->deleteOrders($id);
                 return $success
                     ? Response::json(['message' => 'Order successfully deleted.'], 201)
                     : Response::json(['error' => 'There was an issue deleting this order.'], 400);
