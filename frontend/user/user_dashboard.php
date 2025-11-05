@@ -19,23 +19,12 @@
     <!-- Navigation-->
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <div class="container px-4 px-lg-5">
-            <a class="navbar-brand" href="#!">Start Bootstrap</a>
+            <a class="navbar-brand" href="#!">Cakeaway</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
                     <li class="nav-item"><a class="nav-link active" aria-current="page" href="#!">Home</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#!">About</a></li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Shop</a>
-                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <li><a class="dropdown-item" href="#!">All Products</a></li>
-                            <li>
-                                <hr class="dropdown-divider" />
-                            </li>
-                            <li><a class="dropdown-item" href="#!">Popular Items</a></li>
-                            <li><a class="dropdown-item" href="#!">New Arrivals</a></li>
-                        </ul>
-                    </li>
+                    <li class="nav-item"><a class="nav-link" href="/sunway_se-main/frontend/about.php">About</a></li>
                 </ul>
                 <form class="d-flex">
                     <button class="btn btn-outline-dark" type="submit">
@@ -56,6 +45,19 @@
             </div>
         </div>
     </header>
+    <!-- Genre Filter Dropdown -->
+    <section class="py-4">
+        <div class="container px-4 px-lg-5 d-flex justify-content-start">
+            <form method="GET" class="d-flex align-items-center">
+                <label for="genre" class="me-2 fw-bold fs-5">Genre:</label>
+                <select name="genre" id="genre" class="form-select" style="width: 200px;" onchange="this.form.submit()">
+                    <option value="All" >All</option>
+                    <option value="Cakes" >Cakes</option>
+                    <option value="Drinks" >Drinks</option>
+                </select>
+            </form>
+        </div>
+    </section>
     <!-- Section-->
     <section class="py-5">
         <div class="container px-4 px-lg-5 mt-5">
@@ -63,7 +65,7 @@
                 <div class="col mb-5">
                     <div class="card h-100">
                         <!-- Product image-->
-                        <img class="card-img-top" src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg" alt="..." />
+                        <img class="card-img-top" src="../../images/chocolate-indulgence.png" alt="chocolate-indulgence" />
                         <!-- Product details-->
                         <div class="card-body p-4">
                             <div class="text-center">
@@ -84,7 +86,7 @@
                         <!-- Sale badge-->
                         <div class="badge bg-dark text-white position-absolute" style="top: 0.5rem; right: 0.5rem">Sale</div>
                         <!-- Product image-->
-                        <img class="card-img-top" src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg" alt="..." />
+                        <img class="card-img-top" src="../../images/matcha-cake.jpg" alt="matcha-cake" />
                         <!-- Product details-->
                         <div class="card-body p-4">
                             <div class="text-center">
@@ -114,7 +116,7 @@
                         <!-- Sale badge-->
                         <div class="badge bg-dark text-white position-absolute" style="top: 0.5rem; right: 0.5rem">Sale</div>
                         <!-- Product image-->
-                        <img class="card-img-top" src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg" alt="..." />
+                        <img class="card-img-top" src="../../images/chocolate-mousse-cake.jpg" alt="chocolate-mousse-cake" />
                         <!-- Product details-->
                         <div class="card-body p-4">
                             <div class="text-center">
@@ -134,7 +136,7 @@
                 <div class="col mb-5">
                     <div class="card h-100">
                         <!-- Product image-->
-                        <img class="card-img-top" src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg" alt="..." />
+                        <img class="card-img-top" src="../../images/pandan-cake.jpg" alt="pandan-cake" />
                         <!-- Product details-->
                         <div class="card-body p-4">
                             <div class="text-center">
@@ -163,7 +165,7 @@
                         <!-- Sale badge-->
                         <div class="badge bg-dark text-white position-absolute" style="top: 0.5rem; right: 0.5rem">Sale</div>
                         <!-- Product image-->
-                        <img class="card-img-top" src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg" alt="..." />
+                        <img class="card-img-top" src="../../images/japanese-cheesecake.jpg" alt="japanese-cheesecake" />
                         <!-- Product details-->
                         <div class="card-body p-4">
                             <div class="text-center">
@@ -183,7 +185,7 @@
                 <div class="col mb-5">
                     <div class="card h-100">
                         <!-- Product image-->
-                        <img class="card-img-top" src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg" alt="..." />
+                        <img class="card-img-top" src="../../images/japanese-strawberry-shortcake.jpg" alt="jap-straw-cake" />
                         <!-- Product details-->
                         <div class="card-body p-4">
                             <div class="text-center">
@@ -204,7 +206,7 @@
                         <!-- Sale badge-->
                         <div class="badge bg-dark text-white position-absolute" style="top: 0.5rem; right: 0.5rem">Sale</div>
                         <!-- Product image-->
-                        <img class="card-img-top" src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg" alt="..." />
+                        <img class="card-img-top" src="../../images/rainbow-cake.jpg" alt="rainbow" />
                         <!-- Product details-->
                         <div class="card-body p-4">
                             <div class="text-center">
@@ -232,7 +234,7 @@
                 <div class="col mb-5">
                     <div class="card h-100">
                         <!-- Product image-->
-                        <img class="card-img-top" src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg" alt="..." />
+                        <img class="card-img-top" src="../../images/fudgy-brownies.jpg" alt="fudgy-brownie" />
                         <!-- Product details-->
                         <div class="card-body p-4">
                             <div class="text-center">
