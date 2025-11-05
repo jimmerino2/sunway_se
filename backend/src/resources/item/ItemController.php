@@ -45,6 +45,18 @@ class ItemController
             }
         }
 
+        // Ensure image file is correct
+        if (!isset(($files['image']))) {
+            Response::json(['error' => "Image field is missing."], 400);
+            return;
+        }
+        $allowedExtensions = ['png', 'jpg', 'jpeg'];
+        $fileExtension = strtolower(pathinfo($files['image']['name'], PATHINFO_EXTENSION));
+        if (!in_array($fileExtension, $allowedExtensions)) {
+            Response::json(['error' => "Image uploaded is not in the correct format."], 400);
+            return;
+        }
+
         $success = $this->itemModel->saveItem($data, $files);
         return $success
             ? Response::json(['message' => 'Item successfully created.'], 201)

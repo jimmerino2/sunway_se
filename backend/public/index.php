@@ -10,8 +10,7 @@ require_once '../src/resources/auth/AuthController.php';
 require_once '../src/resources/category/CategoryController.php';
 require_once '../src/resources/seating/SeatingController.php';
 require_once '../src/resources/item/ItemController.php';
-require_once '../src/resources/order/OrderController.php';
-require_once '../src/resources/order_details/OrderDetailsController.php';
+require_once '../src/resources/orders/OrdersController.php';
 require_once '../src/utils/Response.php';
 
 // Structure URL 
@@ -112,47 +111,24 @@ switch ($type) {
                 Response::json(['error' => 'Invalid URL.'], 405);
         }
         break;
-    case 'order':
+    case 'orders':
         //if($sessionRole != 'A') {
         //    Response::json(['error' => 'Access denied.'], 401);
         //    break;
         //} 
-        $controller = new OrderController();
+        $controller = new OrdersController();
         switch ($method) {
             case 'GET':
-                (!is_null($id)) ? $controller->getOrder($id) : $controller->listOrder($_GET);
+                (!is_null($id)) ? $controller->getOrders($id) : $controller->listOrders($_GET);
                 break;
             case 'POST':
-                $controller->createOrder($data);
+                $controller->createOrders($data);
                 break;
             case 'PATCH':
-                $controller->updateOrder($data);
+                $controller->updateOrders($data);
                 break;
             case 'DELETE':
-                $controller->deleteOrder($id);
-                break;
-            default:
-                Response::json(['error' => 'Invalid URL.'], 405);
-        }
-        break;
-    case 'order_details':
-        //if($sessionRole != 'A') {
-        //    Response::json(['error' => 'Access denied.'], 401);
-        //    break;
-        //} 
-        $controller = new OrderDetailsController();
-        switch ($method) {
-            case 'GET':
-                (!is_null($id)) ? $controller->getOrderDetails($id) : $controller->listOrderDetails($_GET);
-                break;
-            case 'POST':
-                $controller->createOrderDetails($data);
-                break;
-            case 'PATCH':
-                $controller->updateOrderDetails($data);
-                break;
-            case 'DELETE':
-                $controller->deleteOrderDetails($id);
+                $controller->deleteOrders($id);
                 break;
             default:
                 Response::json(['error' => 'Invalid URL.'], 405);

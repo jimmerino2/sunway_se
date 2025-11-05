@@ -77,34 +77,22 @@ class ItemModel {
 
                 if (move_uploaded_file($image['tmp_name'], $targetPath)) {
                     $data['image_url'] = '/item/' . $filename;
-                    $imageSuccess = true;
-                } else {
-                    $imageSuccess = false;
+                    
+                    // Save into database
+                    $fields = array_keys($data);
+                    $placeholders = array_map(fn($f) => ':' . $f, $fields);
+
+                    $sql = "INSERT INTO {$this->tableName} (" . implode(',', $fields) . ") VALUES (" . implode(',', $placeholders) . ")";
+                    $stmt = $this->db->prepare($sql);
+                    $sqlSuccess = $stmt->execute($data);  
+
+                    return $sqlSuccess;
                 }
-            } else {
-                $imageSuccess = false;
+                return false;
             }
-        } else {
-            $imageSuccess = false;
-        }
-
-        // 2. Insert the column
-        $fields = array_keys($data);
-        $placeholders = array_map(fn($f) => ':' . $f, $fields);
-
-        $sql = "INSERT INTO {$this->tableName} (" . implode(',', $fields) . ") VALUES (" . implode(',', $placeholders) . ")";
-        $stmt = $this->db->prepare($sql);
-        $sqlSuccess = $stmt->execute($data);   
-
-        // 3. Rollback if required
-        if($imageSuccess && $sqlSuccess){
-            return true;
-        } else {
-            $sql = "DELETE FROM {$this->tableName} WHERE name = ?";
-            $stmt = $this->db->prepare($sql);
-            $stmt->execute($data['name']);
             return false;
-        }
+        } 
+        return false;
     }
 
     public function updateItem(array $data, $files): bool {

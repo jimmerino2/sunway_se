@@ -1,15 +1,15 @@
 <?php
 require_once '../src/config/db.php';
 
-class OrderDetailsModel {
+class OrdersModel {
     private PDO $db;
-    private string $tableName = 'order_details'; 
+    private string $tableName = 'orders'; 
     public array $columns = [
         ['name' => 'id'         , 'required' => true    ],
-        ['name' => 'order_id'   , 'required' => true    ],
         ['name' => 'item_id'    , 'required' => true    ],
+        ['name' => 'table_id'   , 'required' => true    ],
         ['name' => 'quantity'   , 'required' => true    ],
-        ['name' => 'staus'      , 'required' => true    ], 
+        ['name' => 'status'     , 'required' => true    ], 
     ];
 
 
@@ -17,10 +17,9 @@ class OrderDetailsModel {
         $this->db = getPDO();
     }
 
-    public function listOrderDetails($filters = []) {
-        $sql = "SELECT i.name AS 'item_name', c.name AS 'category_name', s.table_no, od.quantity, o.order_time, o.total AS 'cost', od.status FROM {$this->tableName} od 
-                JOIN orders o ON o.id = od.order_id
-                JOIN item i ON i.id = od.item_id
+    public function listOrders($filters = []) {
+        $sql = "SELECT i.name AS 'item_name', c.name AS 'category_name', s.table_no, o.quantity, o.order_time, (i.price * o.quantity) as 'cost', o.status FROM {$this->tableName} o
+                JOIN item i ON i.id = o.item_id
                 JOIN category c ON i.category_id = c.id
                 JOIN seating s ON o.table_id = s.id
                 WHERE 1=1";
@@ -48,10 +47,9 @@ class OrderDetailsModel {
         return $stmt->fetchAll(PDO::FETCH_ASSOC); 
     }
 
-    public function getOrderDetails($id) {
-        $sql = "SELECT i.name AS 'item_name', c.name AS 'category_name', s.table_no, od.quantity, o.order_time, o.total AS 'cost', od.status FROM {$this->tableName} od 
-                JOIN orders o ON o.id = od.order_id
-                JOIN item i ON i.id = od.item_id
+    public function getOrders($id) {
+        $sql = "SELECT i.name AS 'item_name', c.name AS 'category_name', s.table_no, o.quantity, o.order_time, o.price, o.status FROM {$this->tableName} o
+                JOIN item i ON i.id = o.item_id
                 JOIN category c ON i.category_id = c.id
                 JOIN seating s ON o.table_id = s.id
                 WHERE i.id = ?";
@@ -61,7 +59,7 @@ class OrderDetailsModel {
         return $stmt->fetch(PDO::FETCH_ASSOC); 
     }
 
-    public function saveOrderDetails($data) {
+    public function saveOrders($data) {
         // Remove false parameters
         $validColumns = array_column($this->columns, 'name');
         foreach ($data as $key => $value) {
@@ -78,7 +76,7 @@ class OrderDetailsModel {
         return $stmt->execute($data);   
     }
 
-    public function updateOrderDetails(array $data): bool {
+    public function updateOrders(array $data): bool {
         $setClause = implode(', ', array_map(fn($f) => "$f = :$f", array_keys($data)));
 
         $sql = "UPDATE {$this->tableName} SET $setClause WHERE id = :id";
@@ -87,7 +85,7 @@ class OrderDetailsModel {
         return $stmt->execute($data);
     }
 
-    public function deleteOrderDetails(int $id): bool {
+    public function deleteOrders(int $id): bool {
         $sql = "DELETE FROM {$this->tableName} WHERE id = ?";
         $stmt = $this->db->prepare($sql);
         return $stmt->execute([$id]);
