@@ -133,18 +133,48 @@ window.addEventListener('DOMContentLoaded', event => {
             }
         });
 
-        // --- 5. Remove Confirmation Submission Handler (NON-FUNCTIONAL PLACEHOLDER) ---
-        document.getElementById('confirmRemoveOrder').addEventListener('click', function () {
+        /// --- 5. Remove Confirmation Submission Handler (FINAL WORKING VERSION) ---
+        document.getElementById('confirmRemoveOrder').addEventListener('click', async function () {
             const orderId = document.getElementById('removeOrderId').value;
-            const orderItem = document.getElementById('removeOrderItem').textContent;
 
-            // ⚠️ Placeholder: Actual DELETE request is currently disabled due to API issues.
-            console.log(`[ACTION SKIPPED] Preparing to delete Order ID: ${orderId} (Item: ${orderItem})`);
-            alert(`Removal prepared for "${orderItem}". (Action SKIPPED: API DELETE issue)`);
+            // Base API endpoint without query string (ID is in the body)
+            const apiEndpoint = `http://localhost/software_engineering/backend/orders`;
 
-            const removeModalElement = document.getElementById('removeOrderModal');
-            const modalInstance = bootstrap.Modal.getInstance(removeModalElement);
-            if (modalInstance) modalInstance.hide();
+            try {
+                const responseRaw = await fetch(apiEndpoint, {
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'application/json', // Critical for PHP to read the JSON body
+                    },
+                    body: JSON.stringify({ id: orderId }) // ID sent in the JSON body
+                });
+
+                // Always try to parse the response JSON
+                const response = await responseRaw.json();
+
+                // Check for success based on the presence of the 'message' key (as per your friend's logic)
+                if (response.message !== undefined) {
+                    alert(response.message);
+
+                    // Hide the modal
+                    const removeModalElement = document.getElementById('removeOrderModal');
+                    const modalInstance = bootstrap.Modal.getInstance(removeModalElement);
+                    if (modalInstance) modalInstance.hide();
+
+                    // 🌟 CRITICAL: Refresh the table data after successful deletion 🌟
+                    await initializeDataTable();
+
+                } else if (response.error !== undefined) {
+                    // Handle explicit errors returned by the controller
+                    alert(`Failed to remove order: ${response.error}`);
+                } else {
+                    // Handle generic bad response
+                    alert(`Failed to remove order. Server response status: ${responseRaw.status}`);
+                }
+            } catch (error) {
+                console.error('Network or Parsing error removing order:', error);
+                alert('A network error occurred while removing the order.');
+            }
         });
     }
 
