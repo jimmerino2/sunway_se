@@ -21,10 +21,9 @@ window.addEventListener('DOMContentLoaded', event => {
     // 2. Helper function to create action buttons
     function getActionButtons(order) {
         // We return the raw HTML string here
-        return `
+        return /*html*/`
             <button class="btn btn-primary btn-sm" title="Change Status">Change</button>
-            <button class="btn btn-warning btn-sm" title="Edit">Edit</button>
-            <button class="btn btn-danger btn-sm" title="Delete">Delete</button>
+            <button class="btn btn-danger btn-sm" title="Remove">Remove</button>
         `;
     }
 
@@ -45,7 +44,7 @@ window.addEventListener('DOMContentLoaded', event => {
         }
 
         try {
-            const response = await fetch('http://localhost/software_engineering/backend/order_details');
+            const response = await fetch('http://localhost/software_engineering/backend/orders');
             if (!response.ok) {
                 throw new Error(`HTTP error! Status: ${response.status}`);
             }
@@ -75,9 +74,6 @@ window.addEventListener('DOMContentLoaded', event => {
                     const cost = parseFloat(order.cost ?? '0.00');
                     const quantity = parseInt(order.quantity ?? 0, 10);
 
-                    // Perform the calculation
-                    const totalCost = cost * quantity;
-
                     // Return the array for the row
                     return [
                         String(order.item_name ?? 'N/A'),
@@ -85,7 +81,7 @@ window.addEventListener('DOMContentLoaded', event => {
                         String(quantity),
                         String(order.table_no ?? 0),
                         String(order.order_time ?? 'N/A'),
-                        String(totalCost.toFixed(2)), // Use the calculated total
+                        String(cost.toFixed(2)), // Use the calculated total
                         getStatusText(order.status),
                         getActionButtons(order)
                     ];
