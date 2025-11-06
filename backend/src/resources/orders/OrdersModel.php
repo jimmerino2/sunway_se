@@ -52,7 +52,7 @@ class OrdersModel {
                 JOIN item i ON i.id = o.item_id
                 JOIN category c ON i.category_id = c.id
                 JOIN seating s ON o.table_id = s.id
-                WHERE i.id = ?";
+                WHERE o.id = ?";
         $stmt = $this->db->prepare($sql);
         $stmt->execute([$id]);
 
