@@ -48,7 +48,7 @@ class OrdersModel {
     }
 
     public function getOrders($id) {
-        $sql = "SELECT i.name AS 'item_name', c.name AS 'category_name', s.table_no, o.quantity, o.order_time, o.price, o.status FROM {$this->tableName} o
+        $sql = "SELECT i.name AS 'item_name', c.name AS 'category_name', s.table_no, o.quantity, o.order_time, i.price, o.status FROM {$this->tableName} o
                 JOIN item i ON i.id = o.item_id
                 JOIN category c ON i.category_id = c.id
                 JOIN seating s ON o.table_id = s.id
