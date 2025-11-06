@@ -3,7 +3,7 @@
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="changeStatusModalLabel">Change Order Status</h5>
+                <h5 class="modal-title" id="changeStatusModalLabel">Change Order Status & Quantity</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
@@ -15,6 +15,10 @@
                         <input type="text" class="form-control" id="currentOrderItem" readonly>
                     </div>
 
+                    <div class="mb-3">
+                        <label for="newQuantity" class="form-label">Quantity</label>
+                        <input type="number" class="form-control" id="newQuantity" name="quantity" min="1" required>
+                    </div>
                     <div class="mb-3">
                         <label for="currentStatus" class="form-label">Current Status</label>
                         <input type="text" class="form-control" id="currentStatus" readonly>

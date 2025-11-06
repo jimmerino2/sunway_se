@@ -36,7 +36,7 @@ window.addEventListener('DOMContentLoaded', event => {
         const orderData = JSON.stringify(order);
 
         return /*html*/`
-            <button class="btn btn-primary btn-sm btn-change-status" data-bs-toggle="modal" data-bs-target="#changeStatusModal" data-order='${orderData}' title="Change Status">Change</button>
+            <button class="btn btn-primary btn-sm btn-change-status" data-bs-toggle="modal" data-bs-target="#changeStatusModal" data-order='${orderData}' title="Change Status/Quantity">Change</button>
             <button class="btn btn-danger btn-sm btn-remove-order" data-bs-toggle="modal" data-bs-target="#removeOrderModal" data-order='${orderData}' title="Remove">Remove</button>
         `;
     }
@@ -46,6 +46,10 @@ window.addEventListener('DOMContentLoaded', event => {
     function prefillChangeModal(order) {
         document.getElementById('changeOrderId').value = order.id || '';
         document.getElementById('currentOrderItem').value = order.item_name || 'N/A';
+
+        // 🌟 NEW: Set the initial quantity value 🌟
+        document.getElementById('newQuantity').value = order.quantity || 1;
+
         document.getElementById('currentStatus').value = getStatusText(order.status);
         document.getElementById('newStatus').value = '';
     }
@@ -78,13 +82,19 @@ window.addEventListener('DOMContentLoaded', event => {
             }
         });
 
-        // --- 4. Status Change Submission Handler (PATCH) ---
+        // --- 4. Status/Quantity Change Submission Handler (PATCH) ---
         document.getElementById('saveStatusChange').addEventListener('click', async function () {
             const orderId = document.getElementById('changeOrderId').value;
             const newStatus = document.getElementById('newStatus').value;
+            const newQuantity = document.getElementById('newQuantity').value;
 
-            if (!newStatus) {
-                alert('Please select a new status.');
+            if (!newQuantity || parseInt(newQuantity) < 1) {
+                alert('Quantity must be 1 or more.');
+                return;
+            }
+            if (!newStatus && (newQuantity == null || newQuantity == order.quantity)) {
+                // Prevent submission if no meaningful change was made
+                alert('No changes detected for status or quantity.');
                 return;
             }
 
@@ -96,11 +106,16 @@ window.addEventListener('DOMContentLoaded', event => {
                     headers: {
                         'Content-Type': 'application/json',
                     },
-                    body: JSON.stringify({ id: orderId, status: newStatus })
+                    // Send ID, new Status, and new Quantity
+                    body: JSON.stringify({
+                        id: orderId,
+                        status: newStatus,
+                        quantity: newQuantity
+                    })
                 });
 
                 if (response.ok) {
-                    alert(`Order ${orderId} status updated successfully!`);
+                    alert(`Order ${orderId} updated successfully (Status: ${newStatus || 'unchanged'}, Quantity: ${newQuantity})!`);
 
                     const changeModalElement = document.getElementById('changeStatusModal');
                     const modalInstance = bootstrap.Modal.getInstance(changeModalElement);
@@ -110,46 +125,26 @@ window.addEventListener('DOMContentLoaded', event => {
                     await initializeDataTable();
                 } else {
                     const errorData = await response.json();
-                    alert(`Failed to update status: ${errorData.error || response.statusText}`);
+                    alert(`Failed to update order: ${errorData.error || response.statusText}`);
                 }
             } catch (error) {
-                console.error('Network error updating status:', error);
-                alert('A network error occurred while updating the status.');
+                console.error('Network error updating order:', error);
+                alert('A network error occurred while updating the order.');
             }
         });
 
-        // 5. Remove Confirmation Submission Handler (DELETE - Using JSON Body)
-        document.getElementById('confirmRemoveOrder').addEventListener('click', async function () {
+        // --- 5. Remove Confirmation Submission Handler (NON-FUNCTIONAL PLACEHOLDER) ---
+        document.getElementById('confirmRemoveOrder').addEventListener('click', function () {
             const orderId = document.getElementById('removeOrderId').value;
+            const orderItem = document.getElementById('removeOrderItem').textContent;
 
-            // Base API endpoint without query string
-            const apiEndpoint = `http://localhost/software_engineering/backend/orders`;
+            // ⚠️ Placeholder: Actual DELETE request is currently disabled due to API issues.
+            console.log(`[ACTION SKIPPED] Preparing to delete Order ID: ${orderId} (Item: ${orderItem})`);
+            alert(`Removal prepared for "${orderItem}". (Action SKIPPED: API DELETE issue)`);
 
-            try {
-                const response = await fetch(apiEndpoint, {
-                    method: 'DELETE',
-                    headers: {
-                        'Content-Type': 'application/json', // Specify content type is JSON
-                    },
-                    // Send the ID in the request body
-                    body: JSON.stringify({ id: orderId })
-                });
-
-                if (response.ok) {
-                    alert(`Order ${orderId} removed successfully!`);
-                    // ... (Modal close and refresh logic)
-                    const removeModalElement = document.getElementById('removeOrderModal');
-                    const modalInstance = bootstrap.Modal.getInstance(removeModalElement);
-                    if (modalInstance) modalInstance.hide();
-                    await initializeDataTable();
-                } else {
-                    const errorData = await response.json();
-                    alert(`Failed to remove order: ${errorData.error || response.statusText}`);
-                }
-            } catch (error) {
-                console.error('Network error removing order:', error);
-                alert('A network error occurred while removing the order.');
-            }
+            const removeModalElement = document.getElementById('removeOrderModal');
+            const modalInstance = bootstrap.Modal.getInstance(removeModalElement);
+            if (modalInstance) modalInstance.hide();
         });
     }
 
@@ -180,7 +175,6 @@ window.addEventListener('DOMContentLoaded', event => {
                     const cost = parseFloat(order.cost ?? '0.00');
                     const quantity = parseInt(order.quantity ?? 0, 10);
 
-                    // Return the array for the table row
                     return [
                         String(order.item_name ?? 'N/A'),
                         String(order.category_name ?? 'N/A'),
@@ -204,10 +198,10 @@ window.addEventListener('DOMContentLoaded', event => {
             if (simpleDataTableInstance) {
                 // SCENARIO 2: Table is already initialized (Refresh)
 
-                // Destroy the old instance safely
+                // 1. Destroy the old instance safely
                 simpleDataTableInstance.destroy();
 
-                // Re-insert the expected HTML structure for Simple-DataTables
+                // 2. Re-insert the expected HTML structure for Simple-DataTables
                 datatablesOrders.innerHTML = `
                     <thead>
                         <tr>
@@ -219,7 +213,7 @@ window.addEventListener('DOMContentLoaded', event => {
                     <tbody></tbody>`;
             }
 
-            // SCENARIO 1 (or Re-Initialize after destroy)
+            // 3. SCENARIO 1 (or Re-Initialize after destroy)
             simpleDataTableInstance = new simpleDatatables.DataTable(datatablesOrders, {
                 data: {
                     headings: [
@@ -233,8 +227,7 @@ window.addEventListener('DOMContentLoaded', event => {
                 ]
             });
 
-            // Only set up listeners once on the initial load, OR ensure they are always attached
-            // after the table element is rebuilt.
+            // 4. Attach listeners (crucial after the inner HTML is replaced)
             setupModalListeners(datatablesOrders);
         }
     }
