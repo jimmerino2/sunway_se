@@ -202,7 +202,7 @@ window.addEventListener('DOMContentLoaded', event => {
                 simpleDataTableInstance.destroy();
 
                 // 2. Re-insert the expected HTML structure for Simple-DataTables
-                datatablesOrders.innerHTML = `
+                datatablesOrders.innerHTML = /*html*/`
                     <thead>
                         <tr>
                             <th>Item</th><th>Category</th><th>Quantity</th>

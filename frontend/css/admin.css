@@ -13175,3 +13175,25 @@ body {
     font-size: 0.75rem;
     border-radius: 0.375rem !important;
 }
+
+/* Ensure the table fills the container */
+#datatablesOrders {
+    width: 100% !important;
+}
+
+/* 🎯 Constrain all columns EXCEPT the first one (Item) */
+#datatablesOrders th:not(:first-child),
+#datatablesOrders td:not(:first-child) {
+    /* CRITICAL: Forces column to be exactly the width of its content */
+    white-space: nowrap !important;
+
+    /* Optional: Tells the browser this column should be as small as possible */
+    width: 1px !important;
+    /* padding: 2px !important; */
+}
+
+/* Ensure the Item column (first child) allows text wrapping */
+#datatablesOrders th:first-child,
+#datatablesOrders td:first-child {
+    white-space: normal !important;
+}
