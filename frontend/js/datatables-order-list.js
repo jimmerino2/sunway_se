@@ -181,7 +181,7 @@ window.addEventListener('DOMContentLoaded', event => {
                         String(quantity),
                         String(order.table_no ?? 0),
                         String(order.order_time ?? 'N/A'),
-                        String(cost.toFixed(2)),
+                        String('RM ' + cost.toFixed(2)),
                         getStatusText(order.status),
                         getActionButtons(order)
                     ];
