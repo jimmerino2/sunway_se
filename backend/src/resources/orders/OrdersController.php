@@ -80,4 +80,14 @@ class OrdersController
             Response::json(['error' => 'Order ID not set.'], 400);
         }
     }
+
+    public function getRateOrders() {
+        $data = $this->ordersModel->getRateOrders();
+        Response::json($data);
+    }
+    
+    public function getRateIncome() {
+        $data = $this->ordersModel->getRateIncome();
+        Response::json($data);
+    }
 }

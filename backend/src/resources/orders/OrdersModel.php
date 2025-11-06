@@ -18,7 +18,7 @@ class OrdersModel {
     }
 
     public function listOrders($filters = []) {
-        $sql = "SELECT i.name AS 'item_name', c.name AS 'category_name', s.table_no, o.quantity, o.order_time, (i.price * o.quantity) as 'cost', o.status FROM {$this->tableName} o
+        $sql = "SELECT o.id, i.name AS 'item_name', c.name AS 'category_name', s.table_no, o.quantity, o.order_time, (i.price * o.quantity) as 'cost', o.status FROM {$this->tableName} o
                 JOIN item i ON i.id = o.item_id
                 JOIN category c ON i.category_id = c.id
                 JOIN seating s ON o.table_id = s.id
@@ -89,5 +89,25 @@ class OrdersModel {
         $sql = "DELETE FROM {$this->tableName} WHERE id = ?";
         $stmt = $this->db->prepare($sql);
         return $stmt->execute([$id]);
+    }
+
+    public function getRateOrders() {
+        $sql = "SELECT DATE(order_time) AS day, COUNT(DISTINCT order_time) AS total
+                FROM orders
+                GROUP BY DATE(order_time)
+                ORDER BY day;";
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+    
+    public function getRateIncome() {
+        $sql = "SELECT MONTH(order_time) AS month, SUM(quantity * price) AS total
+                FROM orders JOIN item ON orders.item_id = item.id
+                GROUP BY MONTH(order_time)
+                ORDER BY month;";
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 }

@@ -19,10 +19,9 @@ $base = DIR_BACKEND_STR . '/';
 $route = str_replace($base, '', $requestUri);
 $parts = explode('/', $route);
 $method = $_SERVER['REQUEST_METHOD'];
-$type = $parts[0];
 
-// var_dump($parts);
-// exit;
+$type = $parts[0];
+$specification = $parts[1] ?? null;
 
 // Get contents
 $headers = getallheaders();
@@ -119,7 +118,20 @@ switch ($type) {
         $controller = new OrdersController();
         switch ($method) {
             case 'GET':
-                (!is_null($id)) ? $controller->getOrders($id) : $controller->listOrders($_GET);
+                switch ($specification) {
+                    case null: 
+                        (!is_null($id)) ? $controller->getOrders($id) : $controller->listOrders($_GET);
+                        break;
+                    case 'rate_orders':
+                        $controller->getRateOrders();
+                        break;  
+                    case 'rate_income':
+                        $controller->getRateIncome();
+                        break;  
+                    default: 
+                        Response::json(['error' => 'Invalid URL.'], 405);
+                        break;
+                }
                 break;
             case 'POST':
                 $controller->createOrders($data);
