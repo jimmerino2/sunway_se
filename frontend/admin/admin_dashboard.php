@@ -68,7 +68,7 @@
                             <div class="card mb-4">
                                 <div class="card-header">
                                     <i class="fas fa-chart-area me-1"></i>
-                                    Customer rate per day
+                                    Order rate per day
                                 </div>
                                 <div class="card-body"><canvas id="myAreaChart" width="100%" height="40"></canvas></div>
                             </div>
@@ -128,8 +128,8 @@
         crossorigin="anonymous"></script>
     <script src="../js/scripts.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
-    <script src="../js/admin_js/chart-area-demo.js"></script>
-    <script src="../js/admin_js/chart-bar-demo.js"></script>
+    <script src="../js/admin_js/Order-rates-per-day.js"></script>
+    <script src="../js/admin_js/Monthly-income-Bar.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js"
         crossorigin="anonymous"></script>
     <script src="../js/admin_js/datatables-order-list.js"></script>
