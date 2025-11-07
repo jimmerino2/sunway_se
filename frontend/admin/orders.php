@@ -68,7 +68,7 @@
     <script src="../js/scripts.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js"
         crossorigin="anonymous"></script>
-    <script src="../js/datatables-order-list.js"></script>
+    <script src="../js/admin_js/datatables-order-list.js"></script>
 </body>
 
 </html>
