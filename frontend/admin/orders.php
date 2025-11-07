@@ -27,7 +27,7 @@
                             ALL ORDERS
                         </div>
                         <div class="card-body">
-                            <table id="datatablesOrders">
+                            <table id="datatablesOrders" class="table table-striped">
                                 <thead>
                                     <tr>
                                         <th>Item</th>

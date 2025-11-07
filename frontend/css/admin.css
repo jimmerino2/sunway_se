@@ -373,6 +373,41 @@ th {
     border-width: 0;
 }
 
+thead {
+    background-color: rgb(33, 37, 41);
+    color: var(--bs-white);
+}
+
+.datatable-table,
+.table {
+    /* Change the behavior of borders */
+    border-collapse: separate;
+    /* This spacing makes the borders visible separately */
+    border-spacing: 0;
+}
+
+thead th:first-child {
+    /* Apply radius to top-left corner of the first header cell */
+    border-top-left-radius: 0.375rem;
+    border-bottom-left-radius: 0.375rem;
+    /* Use a reasonable value, like Bootstrap's default */
+}
+
+thead th:last-child {
+    /* Apply radius to top-right corner of the last header cell */
+    border-top-right-radius: 0.375rem;
+    border-bottom-right-radius: 0.375rem;
+}
+
+/* You might also need to style the <table> itself to handle the full table border: */
+.datatable-table,
+.table {
+    border-radius: 0.375rem;
+    /* Apply overall border radius to table */
+    overflow: hidden;
+    /* Important to clip content to the rounded corners */
+}
+
 label {
     display: inline-block;
 }
@@ -2089,12 +2124,12 @@ progress {
 
 .table-bordered> :not(caption)>*,
 .datatable-table> :not(caption)>* {
-    border-width: 1px 0;
+    border-width: 0px 0;
 }
 
 .table-bordered> :not(caption)>*>*,
 .datatable-table> :not(caption)>*>* {
-    border-width: 0 1px;
+    border-width: 0 0px;
 }
 
 .table-borderless> :not(caption)>*>* {
@@ -13142,10 +13177,12 @@ body {
 }
 
 .datatable-sorter::before {
+    border-top-color: var(--bs-gray-400) !important;
     bottom: 4px;
 }
 
 .datatable-sorter::after {
+    border-bottom-color: var(--bs-gray-400) !important;
     top: 0px;
 }
 
@@ -13189,7 +13226,9 @@ body {
 
     /* Optional: Tells the browser this column should be as small as possible */
     width: 1px !important;
-    /* padding: 2px !important; */
+
+    /* center data */
+    text-align: center !important;
 }
 
 /* Ensure the Item column (first child) allows text wrapping */

@@ -36,8 +36,8 @@ window.addEventListener('DOMContentLoaded', event => {
         const orderData = JSON.stringify(order);
 
         return /*html*/`
-            <button class="btn btn-primary btn-sm btn-change-status" data-bs-toggle="modal" data-bs-target="#changeStatusModal" data-order='${orderData}' title="Change Status/Quantity">Change</button>
-            <button class="btn btn-danger btn-sm btn-remove-order" data-bs-toggle="modal" data-bs-target="#removeOrderModal" data-order='${orderData}' title="Remove">Remove</button>
+            <button class="btn btn-success btn-sm btn-change-status" data-bs-toggle="modal" data-bs-target="#changeStatusModal" data-order='${orderData}' title="Change Status/Quantity"><i class="fas fa-edit"></i></button>
+            <button class="btn btn-danger btn-sm btn-remove-order" data-bs-toggle="modal" data-bs-target="#removeOrderModal" data-order='${orderData}' title="Remove"><i class="fa-solid fa-trash"></i></button>
         `;
     }
 
@@ -209,10 +209,10 @@ window.addEventListener('DOMContentLoaded', event => {
                         String(order.item_name ?? 'N/A'),
                         String(order.category_name ?? 'N/A'),
                         String(quantity),
-                        String(order.table_no ?? 0),
+                        String('Table' + order.table_no ?? 'error'),
                         String(order.order_time ?? 'N/A'),
-                        String('RM ' + cost.toFixed(2)),
-                        getStatusText(order.status),
+                        String('RM ' + cost.toFixed(2) ?? 'error'),
+                        getStatusText(order.status ?? 'error'),
                         getActionButtons(order)
                     ];
                 });
@@ -235,9 +235,14 @@ window.addEventListener('DOMContentLoaded', event => {
                 datatablesOrders.innerHTML = /*html*/`
                     <thead>
                         <tr>
-                            <th>Item</th><th>Category</th><th>Quantity</th>
-                            <th>Table Number</th><th>Time</th><th>Cost</th>
-                            <th>Status</th><th>Actions</th>
+                            <th>Item</th>
+                            <th>Category</th>
+                            <th>Quantity</th>
+                            <th>Table Number</th>
+                            <th>Time</th>
+                            <th>Cost</th>
+                            <th>Status</th>
+                            <th>Actions</th>
                         </tr>
                     </thead>
                     <tbody></tbody>`;
@@ -254,7 +259,11 @@ window.addEventListener('DOMContentLoaded', event => {
                 perPageSelect: [10, 25, 50, 100],
                 columns: [
                     { select: 7, sortable: false }
-                ]
+                ],
+                labels: {
+                    perPage: "", // Set the label to an empty string
+                    info: "Displaying {start} of {end} of {rows} Orders"
+                },
             });
 
             // 4. Attach listeners (crucial after the inner HTML is replaced)
