@@ -1,18 +1,23 @@
-// Set new default font family and font color to mimic Bootstrap's default styling
+// Set new default font family and font color
 Chart.defaults.global.defaultFontFamily = '-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';
 Chart.defaults.global.defaultFontColor = '#292b2c';
 
-// Helper array to convert month numbers (like 11) to names (like "November")
-// Note: We use an empty string at index 0 so that 1 maps to "January", 2 to "February", etc.
+// Helper array to convert month numbers
 const monthNames = [
   "", "January", "February", "March", "April", "May", "June",
   "July", "August", "September", "October", "November", "December"
 ];
 
-// We wrap the chart creation in an async function
-// This allows us to 'await' the data from the API before building the chart
+// Declare a unique chart variable for this file
+let myBarChart;
+
 async function createMonthlyIncomeChart() {
   try {
+    // Check if this specific chart instance already exists. If so, destroy it.
+    if (myBarChart) {
+      myBarChart.destroy();
+    }
+
     // 1. Fetch the data from your API endpoint
     const response = await fetch('http://localhost/software_engineering/backend/orders/rate_income');
     if (!response.ok) {
@@ -20,44 +25,43 @@ async function createMonthlyIncomeChart() {
     }
     const apiData = await response.json();
 
-    // 2. Process the API data into arrays Chart.js can understand
+    // 2. Process the API data
     const chartLabels = [];
     const chartDataPoints = [];
-
-    let maxIncome = 0; // To dynamically set the chart's max Y-axis
+    let maxIncome = 0;
 
     apiData.forEach(item => {
-      // Use the month number (e.g., 11) to get the name ("November")
       chartLabels.push(monthNames[item.month]);
-
-      // Convert the total (which is a string "48.00") to a number (48.00)
       const income = parseFloat(item.total);
       chartDataPoints.push(income);
-
-      // Keep track of the highest value for the chart's Y-axis
       if (income > maxIncome) {
         maxIncome = income;
       }
     });
 
-    // 3. Calculate a dynamic 'max' for the Y-axis (e.g., 20% padding)
-    // This makes the chart look better than ending exactly at the max value
+    // 3. Calculate a dynamic 'max' for the Y-axis
     const yAxisMax = Math.ceil(maxIncome * 1.2);
 
     // 4. Get the chart canvas and create the new Chart
     var ctx = document.getElementById("myBarChart");
-    var myLineChart = new Chart(ctx, {
+
+    // Assign to the unique 'myBarChart' variable
+    myBarChart = new Chart(ctx, {
       type: 'bar',
       data: {
-        labels: chartLabels, // <-- Use dynamic labels
+        labels: chartLabels,
         datasets: [{
           label: "Revenue",
           backgroundColor: "rgba(2,117,216,1)",
           borderColor: "rgba(2,117,216,1)",
-          data: chartDataPoints, // <-- Use dynamic data
+          data: chartDataPoints,
         }],
       },
       options: {
+        // Add this to prevent the flashing animation on every update
+        animation: {
+          duration: 0
+        },
         scales: {
           xAxes: [{
             time: {
@@ -67,14 +71,13 @@ async function createMonthlyIncomeChart() {
               display: false
             },
             ticks: {
-              // Use the number of labels we found, or 6 (whichever is less)
               maxTicksLimit: chartLabels.length > 6 ? 6 : chartLabels.length
             }
           }],
           yAxes: [{
             ticks: {
               min: 0,
-              max: yAxisMax, // <-- Use dynamic max value
+              max: yAxisMax,
               maxTicksLimit: 5
             },
             gridLines: {
@@ -90,9 +93,13 @@ async function createMonthlyIncomeChart() {
 
   } catch (error) {
     console.error("Failed to fetch data or create chart:", error);
-    // You could show an error message on the page here
   }
 }
 
 // Call the function to run everything
+
+// 1. Run it once immediately on page load
 createMonthlyIncomeChart();
+
+// 2. Set it to run again every 10 seconds (10000 milliseconds)
+setInterval(createMonthlyIncomeChart, 10000);
