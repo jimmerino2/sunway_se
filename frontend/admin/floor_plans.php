@@ -35,8 +35,6 @@
             border-radius: 8px;
             padding: 15px;
             background-color: #fdfdfd;
-            /* **MODIFICATION: Increased height */
-            min-height: 900px;
         }
 
         h5 {
