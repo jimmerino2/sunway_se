@@ -123,9 +123,21 @@
         .table-group:hover,
         .lounge-group:hover,
         .community-table-group:hover,
-        .fire-pit-group:hover {
-            transform: scale(1.05);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        .fire-pit-group:hover,
+        .bar-stool-horizontal:hover {
+            transform: scale(1.25);
+        }
+
+        .pool-table-visual:hover {
+            transform: scale(1.01);
+        }
+
+        .table-group:hover,
+        .lounge-group:hover,
+        .community-table-group:hover,
+        .fire-pit-group:hover,
+        .bar-stool-horizontal:hover,
+        .pool-table-visual:hover {
             cursor: pointer;
         }
 
@@ -147,22 +159,6 @@
             border-radius: 3px;
             position: absolute;
             transition: background-color 0.2s ease;
-        }
-
-        .table-group:hover .table-circle,
-        .table-group:hover .table-square,
-        .lounge-group:hover .coffee-table,
-        .community-table-group:hover .community-table {
-            background-color: #d1e7dd;
-            border-color: #a3cfbb;
-        }
-
-        .table-group:hover .chair,
-        .lounge-group:hover .armchair,
-        .lounge-group:hover .sofa,
-        .community-table-group:hover .chair,
-        .fire-pit-group:hover .armchair {
-            background-color: #5a8a71;
         }
 
         /* === STANDARD 4-TOP === */
@@ -367,52 +363,6 @@
             text-orientation: mixed;
             letter-spacing: 2px;
             font-weight: 600;
-        }
-
-        /* For the private room visualization */
-        .private-room-visual {
-            background-color: #d1e7dd;
-            /* Using the old private-room green */
-            border: 1px solid #a3cfbb;
-            border-radius: 6px;
-            padding: 10px;
-            height: 200px;
-            /* Set height */
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 10px;
-        }
-
-        .large-meeting-table-group .chair {
-            width: 12px;
-            height: 12px;
-            position: absolute;
-            background-color: #888;
-            border-radius: 4px;
-        }
-
-        /* --- CHANGED THIS --- */
-        .large-meeting-table-group {
-            position: relative;
-            width: 300px;
-            /* Increased from 200px */
-            height: 100px;
-        }
-
-        /* --- CHANGED THIS --- */
-        .table-rectangle-large {
-            width: 260px;
-            /* Increased from 160px */
-            height: 60px;
-            background-color: #fff;
-            border: 1px solid #ccc;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            border-radius: 6px;
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
         }
 
         /* For the new Mini Bar on rooftop */
@@ -904,38 +854,26 @@
                                     <div class="row d-flex h-100">
                                         <div class="col-md-3 d-flex flex-column">
                                             <h6><i class="fas fa-users me-2"></i> Private Room</h6>
-
-                                            <div class="private-room-visual">
-                                                <div class="large-meeting-table-group">
-                                                    <div class="table-rectangle-large"></div>
-                                                    <div class="chair" style="top: 4px; left: 10%; transform: translateX(-50%);"></div>
-                                                    <div class="chair" style="top: 4px; left: 30%; transform: translateX(-50%);"></div>
-                                                    <div class="chair" style="top: 4px; left: 50%; transform: translateX(-50%);"></div>
-                                                    <div class="chair" style="top: 4px; left: 70%; transform: translateX(-50%);"></div>
-                                                    <div class="chair" style="top: 4px; left: 90%; transform: translateX(-50%);"></div>
-
-                                                    <div class="chair" style="bottom: 4px; left: 10%; transform: translateX(-50%);"></div>
-                                                    <div class="chair" style="bottom: 4px; left: 30%; transform: translateX(-50%);"></div>
-                                                    <div class="chair" style="bottom: 4px; left: 50%; transform: translateX(-50%);"></div>
-                                                    <div class="chair" style="bottom: 4px; left: 70%; transform: translateX(-50%);"></div>
-                                                    <div class="chair" style="bottom: 4px; left: 90%; transform: translateX(-50%);"></div>
+                                            <div class="room d-flex flex-column">
+                                                <div class="community-table-group">
+                                                    <div class="community-table">
+                                                        <div class="chair" style="top: -15px; left: 15%;"></div>
+                                                        <div class="chair" style="top: -15px; left: 45%;"></div>
+                                                        <div class="chair" style="top: -15px; left: 75%;"></div>
+                                                        <div class="chair" style="bottom: -15px; left: 15%;"></div>
+                                                        <div class="chair" style="bottom: -15px; left: 45%;"></div>
+                                                        <div class="chair" style="bottom: -15px; left: 75%;"></div>
+                                                    </div>
                                                 </div>
-                                            </div>
-
-                                            <div class="private-room-visual">
-                                                <div class="large-meeting-table-group">
-                                                    <div class="table-rectangle-large"></div>
-                                                    <div class="chair" style="top: 4px; left: 10%; transform: translateX(-50%);"></div>
-                                                    <div class="chair" style="top: 4px; left: 30%; transform: translateX(-50%);"></div>
-                                                    <div class="chair" style="top: 4px; left: 50%; transform: translateX(-50%);"></div>
-                                                    <div class="chair" style="top: 4px; left: 70%; transform: translateX(-50%);"></div>
-                                                    <div class="chair" style="top: 4px; left: 90%; transform: translateX(-50%);"></div>
-
-                                                    <div class="chair" style="bottom: 4px; left: 10%; transform: translateX(-50%);"></div>
-                                                    <div class="chair" style="bottom: 4px; left: 30%; transform: translateX(-50%);"></div>
-                                                    <div class="chair" style="bottom: 4px; left: 50%; transform: translateX(-50%);"></div>
-                                                    <div class="chair" style="bottom: 4px; left: 70%; transform: translateX(-50%);"></div>
-                                                    <div class="chair" style="bottom: 4px; left: 90%; transform: translateX(-50%);"></div>
+                                                <div class="community-table-group">
+                                                    <div class="community-table">
+                                                        <div class="chair" style="top: -15px; left: 15%;"></div>
+                                                        <div class="chair" style="top: -15px; left: 45%;"></div>
+                                                        <div class="chair" style="top: -15px; left: 75%;"></div>
+                                                        <div class="chair" style="bottom: -15px; left: 15%;"></div>
+                                                        <div class="chair" style="bottom: -15px; left: 45%;"></div>
+                                                        <div class="chair" style="bottom: -15px; left: 75%;"></div>
+                                                    </div>
                                                 </div>
                                             </div>
 
