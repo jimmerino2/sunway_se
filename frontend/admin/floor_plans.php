@@ -1115,17 +1115,8 @@
                                 <h5 class="text-center mb-3">Rooftop (3rd Floor) Layout</h5>
                                 <div class="Building_frame">
                                     <div class="row d-flex h-100">
-                                        <div class="col-md-3 d-flex flex-column">
-                                            <h6><i class="fas fa-cocktail me-2"></i> Rooftop Service Bar</h6>
-                                            <div class="room counter" style="height: 150px;">Service</div>
-                                            <h6><i class="fas fa-box-archive me-2"></i> Storage</h6>
-                                            <div class="room storage" style="height: 100px;">Staff Only</div>
-                                            <div class="room" style="height: 80px; margin-top: auto;">
-                                                <i class="fas fa-stairs me-2"></i> Stairs
-                                            </div>
-                                        </div>
-                                        <div class="col-md-9 d-flex flex-column">
 
+                                        <div class="d-flex flex-column">
                                             <h6><i class="fas fa-fire me-2"></i> Fire Pit Lounge (5 Pits)</h6>
                                             <div class="seating-zone">
                                                 <div class="fire-pit-group">
@@ -1163,8 +1154,38 @@
                                                     <div class="armchair left"></div>
                                                     <div class="armchair right"></div>
                                                 </div>
+                                                <div class="fire-pit-group">
+                                                    <div class="fire-pit"><i class="fas fa-fire"></i></div>
+                                                    <div class="armchair top"></div>
+                                                    <div class="armchair bottom"></div>
+                                                    <div class="armchair left"></div>
+                                                    <div class="armchair right"></div>
+                                                </div>
+                                                <div class="fire-pit-group">
+                                                    <div class="fire-pit"><i class="fas fa-fire"></i></div>
+                                                    <div class="armchair top"></div>
+                                                    <div class="armchair bottom"></div>
+                                                    <div class="armchair left"></div>
+                                                    <div class="armchair right"></div>
+                                                </div>
+                                                <div class="fire-pit-group">
+                                                    <div class="fire-pit"><i class="fas fa-fire"></i></div>
+                                                    <div class="armchair top"></div>
+                                                    <div class="armchair bottom"></div>
+                                                    <div class="armchair left"></div>
+                                                    <div class="armchair right"></div>
+                                                </div>
+                                                <div class="fire-pit-group">
+                                                    <div class="fire-pit"><i class="fas fa-fire"></i></div>
+                                                    <div class="armchair top"></div>
+                                                    <div class="armchair bottom"></div>
+                                                    <div class="armchair left"></div>
+                                                    <div class="armchair right"></div>
+                                                </div>
                                             </div>
+                                        </div>
 
+                                        <div class="d-flex flex-column">
                                             <h6><i class="fas fa-glass-martini me-2"></i> Mini Bar</h6>
                                             <div class="room mini-bar">Service</div>
                                             <div class="bar-seating-horizontal mb-3">
@@ -1178,7 +1199,11 @@
                                                 </div>
                                             </div>
 
-                                            <h6><i class="fas fa-cloud-sun me-2"></i> Al Fresco Dining (10 Tables)</h6>
+
+                                        </div>
+
+                                        <div class="d-flex flex-column">
+                                            <h6><i class="fas fa-cloud-sun me-2"></i> Open Dining</h6>
                                             <div class="seating-zone">
                                                 <div class="table-group">
                                                     <div class="table-square"></div>
@@ -1301,8 +1326,48 @@
                                                     <div class="chair left"></div>
                                                     <div class="chair right"></div>
                                                 </div>
+                                                <div class="community-table-group">
+                                                    <div class="community-table">
+                                                        <div class="chair" style="top: -15px; left: 15%;"></div>
+                                                        <div class="chair" style="top: -15px; left: 45%;"></div>
+                                                        <div class="chair" style="top: -15px; left: 75%;"></div>
+                                                        <div class="chair" style="bottom: -15px; left: 15%;"></div>
+                                                        <div class="chair" style="bottom: -15px; left: 45%;"></div>
+                                                        <div class="chair" style="bottom: -15px; left: 75%;"></div>
+                                                    </div>
+                                                </div>
+                                                <div class="table-group">
+                                                    <div class="table-circle"></div>
+                                                    <div class="chair top"></div>
+                                                    <div class="chair bottom"></div>
+                                                    <div class="chair left"></div>
+                                                    <div class="chair right"></div>
+                                                </div>
+                                                <div class="table-group">
+                                                    <div class="table-square"></div>
+                                                    <div class="chair top"></div>
+                                                    <div class="chair bottom"></div>
+                                                    <div class="chair left"></div>
+                                                    <div class="chair right"></div>
+                                                </div>
+                                                <div class="table-group">
+                                                    <div class="table-circle"></div>
+                                                    <div class="chair top"></div>
+                                                    <div class="chair bottom"></div>
+                                                    <div class="chair left"></div>
+                                                    <div class="chair right"></div>
+                                                </div>
                                             </div>
                                         </div>
+
+                                        <div class="row d-flex h-100 mt-2">
+                                            <div class="col-md-3 d-flex flex-column">
+                                                <div class="room" style="height: 80px;">
+                                                    <i class="fas fa-stairs me-2"></i> Stairs
+                                                </div>
+                                            </div>
+                                        </div>
+
                                     </div>
                                 </div>
                             </div>
