@@ -82,9 +82,9 @@
             transform: scale(1.05);
         }
 
-        .remember {
+        .forgot-password {
             display: flex;
-            justify-content: space-between;
+            justify-content: end;
             align-items: center;
             font-size: 0.9rem;
             margin-top: 10px;
@@ -107,10 +107,10 @@
 
     <div class="login-container d-flex flex-column flex-md-row mx-3">
         <div class="left-side col-md-6 d-flex flex-column justify-content-center">
-            <h2>Welcome to Website</h2>
+            <h2>Welcome to Cakeaway Cafe!</h2>
             <p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                Sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.
+                Savor the moment with our fresh-baked delights, available for pickup or delivery.
+                Browse our menu, place an order, or check your loyalty rewards below!
             </p>
         </div>
 
@@ -128,11 +128,8 @@
                 <div class="mb-3">
                     <input type="password" id="password" class="form-control" placeholder="Password" required>
                 </div>
-                <div class="remember">
-                    <div>
-                        <input type="checkbox" id="remember"> <label for="remember">Remember</label>
-                    </div>
-                    <a href="#" class="text-decoration-none text-primary">Forgot password?</a>
+                <div class="forgot-password">
+                    <a href="password.php" class="text-decoration-none text-primary">Forgot password?</a>
                 </div>
                 <div class="text-center mt-4">
                     <button type="submit" class="btn btn-login w-100">LOGIN ADMIN</button>

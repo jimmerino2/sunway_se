@@ -15,6 +15,75 @@
     <title>Dashboard - SB Admin</title>
     <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
     <link href="../css/admin.css" rel="stylesheet" />
+    <script>
+        // 1. Core Variables
+        const token = localStorage.getItem('authToken');
+        const loginPage = '/software_engineering/frontend/auth/login.php';
+        const emailElementId = 'sidenavUserEmail'; // ID of the element to display the email
+
+        // 2. Authorization Check (The Guard)
+        // If no token exists, redirect immediately to the login page.
+        if (!token) {
+            window.location.href = loginPage;
+        }
+
+        // 3. Helper function for handling 401 Unauthorized errors
+        function handleUnauthorized(response) {
+            if (response.status === 401) {
+                console.warn('Unauthorized access: Token invalid or expired. Redirecting to login.');
+                localStorage.removeItem('authToken');
+                window.location.href = loginPage;
+                return true;
+            }
+            return false;
+        }
+
+        // 4. Function to fetch and display the logged-in user's information
+        function fetchUserInfo() {
+            const emailElement = document.getElementById(emailElementId);
+
+            // Initial state update for the element
+            if (emailElement) {
+                emailElement.textContent = 'Fetching...';
+            }
+
+            fetch('/software_engineering/backend/user_info', {
+                    // ...
+                })
+                .then(response => {
+                    if (handleUnauthorized(response)) {
+                        return null;
+                    }
+                    return response.json();
+                })
+                // In admin_dashboard.php:
+                .then(data => {
+                    if (emailElement) {
+                        if (data && data.email) { // <--- THIS CHECK IS FAILING
+                            // Success: Update the HTML element with the user's email
+                            emailElement.textContent = data.email;
+                        } else {
+                            // Failure: Token was valid, but user data was incomplete
+                            emailElement.textContent = 'User Unknown'; // <--- IT IS LIKELY HITTING THIS LINE
+                        }
+                    }
+                })
+                .catch(error => {
+                    // 🛠️ CORRECTED: Only update the emailElement and log to console.
+                    console.error('Error fetching user info:', error);
+                    if (emailElement) {
+                        emailElement.textContent = 'Error Loading User'; // Display error in the sidebar
+                    }
+                    // Ensure there is NO line here attempting to use 'errorMessage'
+                });
+        }
+
+        // 5. Execution: Call the user info function immediately after the guard check passes
+        fetchUserInfo();
+
+        // NOTE: You would add other data fetching functions (like fetchDashboardData) here 
+        // and call them below this line.
+    </script>
     <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
 </head>
 
