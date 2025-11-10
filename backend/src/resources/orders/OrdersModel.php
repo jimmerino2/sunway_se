@@ -5,11 +5,12 @@ class OrdersModel {
     private PDO $db;
     private string $tableName = 'orders'; 
     public array $columns = [
-        ['name' => 'id'         , 'required' => true    ],
-        ['name' => 'item_id'    , 'required' => true    ],
-        ['name' => 'table_id'   , 'required' => true    ],
-        ['name' => 'quantity'   , 'required' => true    ],
-        ['name' => 'status'     , 'required' => true    ], 
+        ['name' => 'id'             , 'required' => true    ],
+        ['name' => 'item_id'        , 'required' => true    ],
+        ['name' => 'table_id'       , 'required' => true    ],
+        ['name' => 'quantity'       , 'required' => true    ],
+        ['name' => 'status'         , 'required' => true    ], 
+        ['name' => 'is_complete'    , 'required' => true    ], 
     ];
 
 
@@ -18,7 +19,7 @@ class OrdersModel {
     }
 
     public function listOrders($filters = []) {
-        $sql = "SELECT o.id, i.name AS 'item_name', c.name AS 'category_name', s.table_no, o.quantity, o.order_time, (i.price * o.quantity) as 'cost', o.status FROM {$this->tableName} o
+        $sql = "SELECT o.id, i.name AS 'item_name', c.name AS 'category_name', s.table_no, o.quantity, o.order_time, (i.price * o.quantity) as 'cost', o.status, o.is_complete FROM {$this->tableName} o
                 JOIN item i ON i.id = o.item_id
                 JOIN category c ON i.category_id = c.id
                 JOIN seating s ON o.table_id = s.id
