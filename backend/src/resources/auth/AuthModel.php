@@ -22,6 +22,15 @@ class AuthModel {
         return $user['role'] ?? false;
     }
 
+    public function getNameByEmail($email) {
+        $sql = "SELECT name FROM users  WHERE email = ?";
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute([$email]);
+        $user = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        return $user['name'] ?? false;
+    }
+
     public function login($data) {
         $sql = "SELECT id, email, password FROM users WHERE email = ?";
         $stmt = $this->db->prepare($sql);

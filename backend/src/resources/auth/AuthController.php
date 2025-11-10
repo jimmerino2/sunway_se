@@ -20,7 +20,8 @@ class AuthController
 
         $token = $this->authModel->login($data);
         if ($token) {
-            return Response::json(['message' => 'Login success.', 'token' => $token], 200);
+            $name = $this->authModel->getNameByEmail($data['email']);
+            return Response::json(['message' => 'Login success.', 'token' => $token, 'name' => $name], 200);
         }
 
         return Response::json(['error' => 'Invalid login details.'], 400);
