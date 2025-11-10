@@ -7,7 +7,7 @@ class Response {
 
         echo json_encode([
             'success' => $status >= 200 && $status < 300,
-            'message' => $data['message'] ?? $data['error'],
+            'message' => $data['message'] ?? ($data['error'] ?? ''),
             'data' => $data
         ], JSON_PRETTY_PRINT);
 
