@@ -13236,3 +13236,62 @@ body {
 #datatablesOrders td:first-child {
     white-space: normal !important;
 }
+
+/* Custom CSS for Status and Completed badges (Uniform Size) */
+
+.order-status-badge {
+    font-size: 0.85em;
+    padding: 0.35em 0.8em;
+    font-weight: 600;
+    border-radius: 1rem;
+    display: inline-block;
+    text-align: center;
+    /* Crucial: Set display as grid/flex to enforce internal content centering */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* Optional: Set a fixed height for visual uniformity (adjust as needed) */
+    height: 30px;
+}
+
+.order-status-pending,
+.order-status-cooking,
+.order-status-delivered,
+.order-complete-y,
+.order-complete-n {
+    /* Set a fixed width based on the length of "Delivered" plus padding. */
+    /* This ensures Pending and Cooking badges stretch to match Delivered's width. */
+    width: 110px;
+}
+
+/* Optional: Ensure dark text on the yellow badge for maximum contrast */
+.bg-warning.text-dark {
+    color: #212529 !important;
+}
+
+/*
+ * =========================================
+ * DATERANGEPICKER: Minimal White & Black Theme
+ * (Uses Bootstrap CSS Variables)
+ * =========================================
+ */
+
+.daterangepicker th {
+    color: var(--bs-black) !important;
+    background-color: var(--bs-white) !important;
+    border-radius: 0px !important;
+}
+
+
+
+.daterangepicker .applyBtn,
+.daterangepicker .ranges .active {
+    background-color: var(--bs-primary) !important;
+    color: var(--bs-white) !important;
+}
+
+.daterangepicker .cancelBtn,
+.daterangepicker .ranges .Custom Range {
+    background-color: var(--bs-light) !important;
+    color: var(--bs-black) !important;
+}

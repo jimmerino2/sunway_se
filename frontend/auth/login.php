@@ -140,50 +140,7 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
-    <script>
-        document.getElementById('loginForm').addEventListener('submit', function(event) {
-            event.preventDefault();
-
-            const email = document.getElementById('email').value;
-            const password = document.getElementById('password').value;
-            const errorMessage = document.getElementById('errorMessage');
-            errorMessage.style.display = 'none';
-
-            const apiEndpoint = '/software_engineering/backend/auth';
-
-            // Create the data object to be sent
-            const loginData = {
-                email: email,
-                password: password
-            };
-
-            // MODIFICATION: Log the JSON object to the console
-            console.log('Sending JSON to backend:', loginData);
-
-            fetch(apiEndpoint, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(loginData) // Send the object
-                })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.token) {
-                        localStorage.setItem('authToken', data.token);
-                        window.location.href = '/software_engineering/frontend/admin/admin_dashboard.php';
-                    } else {
-                        errorMessage.textContent = data.error || 'Invalid email or password.';
-                        errorMessage.style.display = 'block';
-                    }
-                })
-                .catch(error => {
-                    console.error('Login Error:', error);
-                    errorMessage.textContent = 'An error occurred. Please try again later.';
-                    errorMessage.style.display = 'block';
-                });
-        });
-    </script>
+    <script src="../js/admin_js/login.js"></script>
 </body>
 
 </html>

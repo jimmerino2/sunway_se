@@ -7,7 +7,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <meta name="description" content="" />
     <meta name="author" content="" />
-    <title>Tables - SB Admin</title>
+    <title>Cakeaway Dashboard</title>
+    <link rel="icon" type="image/png" href="/software_engineering/backend/public/storage/item/cakeaway.icon.png" />
+    <script src="../js/admin_js/admin_guard.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
     <link href="../css/admin.css" rel="stylesheet" />
     <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
@@ -29,16 +31,6 @@
                         <div class="card-body">
                             <table id="datatablesOrders" class="table table-striped">
                                 <thead>
-                                    <tr>
-                                        <th>Item</th>
-                                        <th>Category</th>
-                                        <th>Quantity</th>
-                                        <th>Table Number</th>
-                                        <th>Time</th>
-                                        <th>Cost</th>
-                                        <th>Status</th>
-                                        <th>Actions</th>
-                                    </tr>
                                 </thead>
                                 <tbody>
                                 </tbody>

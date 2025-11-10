@@ -7,7 +7,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <meta name="description" content="" />
     <meta name="author" content="" />
-    <title>Dashboard - SB Admin</title>
+    <title>Cakeaway Dashboard</title>
+    <link rel="icon" type="image/png" href="/software_engineering/backend/public/storage/item/cakeaway.icon.png" />
+    <script src="../js/admin_js/admin_guard.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet"
         crossorigin="anonymous" />
     <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
@@ -562,272 +564,11 @@
                             <button class="nav-link" id="floor2-tab" data-bs-toggle="tab" data-bs-target="#floor2"
                                 type="button" role="tab">Second Floor</button>
                         </li>
-                        <li class="nav-item" role="presentation">
-                            <button class="nav-link" id="floor3-tab" data-bs-toggle="tab" data-bs-target="#floor3"
-                                type="button" role="tab">Rooftop (3rd Floor)</button>
-                        </li>
                     </ul>
 
                     <div class="tab-content" id="floorTabsContent">
 
                         <div class="tab-pane fade show active" id="floor1" role="tabpanel">
-                            <div class="floor-container">
-                                <h5 class="text-center mb-3">Ground Floor Layout</h5>
-                                <div class="Building_frame">
-                                    <div class="row d-flex h-100">
-
-                                        <div class="col-md-3 d-flex flex-column">
-
-                                            <div class="d-flex row flex-grow-1">
-                                                <div class="d-flex flex-column col-md-6">
-                                                    <h6><i class="fas fa-restroom me-2"></i> Facilities</h6>
-
-                                                    <div class="room restroom flex-grow-1">Restrooms</div>
-                                                </div>
-
-                                                <div class="d-flex flex-column col-md-6">
-                                                    <h6><i class="fas fa-cash-register me-2"></i> Service</h6>
-                                                    <div class="room counter" style="height: 100px;">ORDER HERE</div>
-
-                                                    <h6><i class="fas fa-wine-glass me-2"></i> Bar</h6>
-                                                    <div class="room bar-vertical flex-grow-1">B A R</div>
-                                                </div>
-                                            </div>
-
-                                            <div style="margin-top: auto;">
-                                                <h6><i class="fas fa-fire-burner me-2"></i> Kitchen / Prep</h6>
-                                                <div class="room kitchen" style="height: 150px;">STAFF ONLY</div>
-
-                                                <div class="room">
-                                                    <i class="fas fa-stairs me-2"></i> Stairs
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-md-9 d-flex flex-column">
-                                            <div class="walkway">
-                                                <i class="fas fa-door-open me-2"></i> ENTRANCE / WALKWAY
-                                            </div>
-
-                                            <h6><i class="fas fa-couch me-2"></i> Lounge Seating (5 Groups)</h6>
-                                            <div class="seating-zone">
-                                                <div class="d-flex flex-column">
-                                                    <div>
-                                                        <div class="lounge-group clickable-seat" data-table-id="T1">
-                                                            <div class="coffee-table"></div>
-                                                            <div class="sofa bottom"></div>
-                                                        </div>
-                                                        <div class="lounge-group clickable-seat" data-table-id="T2">
-                                                            <div class="side-table"></div>
-                                                            <div class="armchair left"></div>
-                                                            <div class="armchair right"></div>
-                                                        </div>
-                                                        <div class="lounge-group clickable-seat" data-table-id="T3">
-                                                            <div class="coffee-table"></div>
-                                                            <div class="sofa bottom"></div>
-                                                        </div>
-                                                        <div class="lounge-group clickable-seat" data-table-id="T4">
-                                                            <div class="side-table"></div>
-                                                            <div class="armchair left"></div>
-                                                            <div class="armchair right"></div>
-                                                        </div>
-                                                        <div class="lounge-group clickable-seat" data-table-id="T5">
-                                                            <div class="coffee-table"></div>
-                                                            <div class="sofa bottom"></div>
-                                                        </div>
-                                                    </div>
-                                                    <div>
-                                                        <div class="lounge-group clickable-seat" data-table-id="T6">
-                                                            <div class="coffee-table"></div>
-                                                            <div class="sofa bottom"></div>
-                                                        </div>
-                                                        <div class="lounge-group clickable-seat" data-table-id="T7">
-                                                            <div class="side-table"></div>
-                                                            <div class="armchair left"></div>
-                                                            <div class="armchair right"></div>
-                                                        </div>
-                                                        <div class="lounge-group clickable-seat" data-table-id="T8">
-                                                            <div class="coffee-table"></div>
-                                                            <div class="sofa bottom"></div>
-                                                        </div>
-                                                        <div class="lounge-group clickable-seat" data-table-id="T9">
-                                                            <div class="side-table"></div>
-                                                            <div class="armchair left"></div>
-                                                            <div class="armchair right"></div>
-                                                        </div>
-                                                        <div class="lounge-group clickable-seat" data-table-id="T10">
-                                                            <div class="coffee-table"></div>
-                                                            <div class="sofa bottom"></div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <h6><i class="fas fa-utensils me-2"></i> Main Dining</h6>
-                                            <div class="seating-zone">
-                                                <div class="table-group clickable-seat" data-table-id="T11">
-                                                    <div class="table-square"></div>
-                                                    <div class="chair top"></div>
-                                                    <div class="chair bottom"></div>
-                                                    <div class="chair left"></div>
-                                                    <div class="chair right"></div>
-                                                </div>
-                                                <div class="table-group clickable-seat" data-table-id="T12">
-                                                    <div class="table-circle"></div>
-                                                    <div class="chair top"></div>
-                                                    <div class="chair bottom"></div>
-                                                    <div class="chair left"></div>
-                                                    <div class="chair right"></div>
-                                                </div>
-                                                <div class="table-group clickable-seat" data-table-id="T13">
-                                                    <div class="table-square"></div>
-                                                    <div class="chair top"></div>
-                                                    <div class="chair bottom"></div>
-                                                    <div class="chair left"></div>
-                                                    <div class="chair right"></div>
-                                                </div>
-                                                <div class="table-group clickable-seat" data-table-id="T14">
-                                                    <div class="table-circle"></div>
-                                                    <div class="chair top"></div>
-                                                    <div class="chair bottom"></div>
-                                                    <div class="chair left"></div>
-                                                    <div class="chair right"></div>
-                                                </div>
-                                                <div class="table-group clickable-seat" data-table-id="T15">
-                                                    <div class="table-square"></div>
-                                                    <div class="chair top"></div>
-                                                    <div class="chair bottom"></div>
-                                                    <div class="chair left"></div>
-                                                    <div class="chair right"></div>
-                                                </div>
-                                                <div class="table-group clickable-seat" data-table-id="T16">
-                                                    <div class="table-circle"></div>
-                                                    <div class="chair top"></div>
-                                                    <div class="chair bottom"></div>
-                                                    <div class="chair left"></div>
-                                                    <div class="chair right"></div>
-                                                </div>
-                                                <div class="table-group clickable-seat" data-table-id="T17">
-                                                    <div class="table-square"></div>
-                                                    <div class="chair top"></div>
-                                                    <div class="chair bottom"></div>
-                                                    <div class="chair left"></div>
-                                                    <div class="chair right"></div>
-                                                </div>
-                                                <div class="table-group clickable-seat" data-table-id="T18">
-                                                    <div class="table-circle"></div>
-                                                    <div class="chair top"></div>
-                                                    <div class="chair bottom"></div>
-                                                    <div class="chair left"></div>
-                                                    <div class="chair right"></div>
-                                                </div>
-                                                <div class="table-group clickable-seat" data-table-id="T19">
-                                                    <div class="table-square"></div>
-                                                    <div class="chair top"></div>
-                                                    <div class="chair bottom"></div>
-                                                    <div class="chair left"></div>
-                                                    <div class="chair right"></div>
-                                                </div>
-                                                <div class="table-group clickable-seat" data-table-id="T20">
-                                                    <div class="table-circle"></div>
-                                                    <div class="chair top"></div>
-                                                    <div class="chair bottom"></div>
-                                                    <div class="chair left"></div>
-                                                    <div class="chair right"></div>
-                                                </div>
-                                                <div class="table-group clickable-seat" data-table-id="T21">
-                                                    <div class="table-square"></div>
-                                                    <div class="chair top"></div>
-                                                    <div class="chair bottom"></div>
-                                                    <div class="chair left"></div>
-                                                    <div class="chair right"></div>
-                                                </div>
-                                                <div class="table-group clickable-seat" data-table-id="T22">
-                                                    <div class="table-circle"></div>
-                                                    <div class="chair top"></div>
-                                                    <div class="chair bottom"></div>
-                                                    <div class="chair left"></div>
-                                                    <div class="chair right"></div>
-                                                </div>
-                                                <div class="table-group clickable-seat" data-table-id="T23">
-                                                    <div class="table-square"></div>
-                                                    <div class="chair top"></div>
-                                                    <div class="chair bottom"></div>
-                                                    <div class="chair left"></div>
-                                                    <div class="chair right"></div>
-                                                </div>
-                                                <div class="table-group clickable-seat" data-table-id="T24">
-                                                    <div class="table-circle"></div>
-                                                    <div class="chair top"></div>
-                                                    <div class="chair bottom"></div>
-                                                    <div class="chair left"></div>
-                                                    <div class="chair right"></div>
-                                                </div>
-                                                <div class="table-group clickable-seat" data-table-id="T25">
-                                                    <div class="table-square"></div>
-                                                    <div class="chair top"></div>
-                                                    <div class="chair bottom"></div>
-                                                    <div class="chair left"></div>
-                                                    <div class="chair right"></div>
-                                                </div>
-                                                <div class="table-group clickable-seat" data-table-id="T26">
-                                                    <div class="table-circle"></div>
-                                                    <div class="chair top"></div>
-                                                    <div class="chair bottom"></div>
-                                                    <div class="chair left"></div>
-                                                    <div class="chair right"></div>
-                                                </div>
-                                                <div class="table-group clickable-seat" data-table-id="T27">
-                                                    <div class="table-square"></div>
-                                                    <div class="chair top"></div>
-                                                    <div class="chair bottom"></div>
-                                                    <div class="chair left"></div>
-                                                    <div class="chair right"></div>
-                                                </div>
-                                                <div class="table-group clickable-seat" data-table-id="T28">
-                                                    <div class="table-circle"></div>
-                                                    <div class="chair top"></div>
-                                                    <div class="chair bottom"></div>
-                                                    <div class="chair left"></div>
-                                                    <div class="chair right"></div>
-                                                </div>
-                                                <div class="table-group clickable-seat" data-table-id="T29">
-                                                    <div class="table-square"></div>
-                                                    <div class="chair top"></div>
-                                                    <div class="chair bottom"></div>
-                                                    <div class="chair left"></div>
-                                                    <div class="chair right"></div>
-                                                </div>
-                                                <div class="table-group clickable-seat" data-table-id="T30">
-                                                    <div class="table-circle"></div>
-                                                    <div class="chair top"></div>
-                                                    <div class="chair bottom"></div>
-                                                    <div class="chair left"></div>
-                                                    <div class="chair right"></div>
-                                                </div>
-                                                <div class="table-group clickable-seat" data-table-id="T31">
-                                                    <div class="table-square"></div>
-                                                    <div class="chair top"></div>
-                                                    <div class="chair bottom"></div>
-                                                    <div class="chair left"></div>
-                                                    <div class="chair right"></div>
-                                                </div>
-                                                <div class="table-group clickable-seat" data-table-id="T32">
-                                                    <div class="table-circle"></div>
-                                                    <div class="chair top"></div>
-                                                    <div class="chair bottom"></div>
-                                                    <div class="chair left"></div>
-                                                    <div class="chair right"></div>
-                                                </div>
-                                            </div>
-
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="tab-pane fade" id="floor2" role="tabpanel">
                             <div class="floor-container">
                                 <h5 class="text-center mb-3">Second Floor Layout</h5>
                                 <div class="Building_frame">
@@ -865,11 +606,11 @@
                                                 </div>
 
                                                 <div class="d-flex flex-column col-md-6">
-                                                    <h6><i class="fa-solid fa-trophy me-2"></i>Game</h6>
-                                                    <div class="room counter" style="height: 100px;">Darts</div>
+                                                    <h6><i class="fas fa-cash-register me-2"></i> Service</h6>
+                                                    <div class="room counter" style="height: 100px;">ORDER HERE</div>
 
-                                                    <h6><i class="fas fa-wine-glass me-2"></i> Bar</h6>
-                                                    <div class="room bar-vertical flex-grow-1">B A R</div>
+                                                    <h6><i class="fas fa-fire-burner me-2"></i> Kitchen</h6>
+                                                    <div class="room kitchen" style="height: 150px;">STAFF ONLY</div>
                                                 </div>
                                             </div>
 
@@ -967,52 +708,55 @@
                                                     <div class="chair left"></div>
                                                     <div class="chair right"></div>
                                                 </div>
+                                                <div class="table-group clickable-seat" data-table-id="T44">
+                                                    <div class="table-square"></div>
+                                                    <div class="chair top"></div>
+                                                    <div class="chair bottom"></div>
+                                                    <div class="chair left"></div>
+                                                    <div class="chair right"></div>
+                                                </div>
+                                                <div class="table-group clickable-seat" data-table-id="T44">
+                                                    <div class="table-square"></div>
+                                                    <div class="chair top"></div>
+                                                    <div class="chair bottom"></div>
+                                                    <div class="chair left"></div>
+                                                    <div class="chair right"></div>
+                                                </div>
+                                                <div class="table-group clickable-seat" data-table-id="T45">
+                                                    <div class="table-circle"></div>
+                                                    <div class="chair top"></div>
+                                                    <div class="chair bottom"></div>
+                                                    <div class="chair left"></div>
+                                                    <div class="chair right"></div>
+                                                </div>
                                             </div>
 
-                                            <h6><i class="fa-solid fa-book me-2"></i> Pool table</h6>
-                                            <div class="room h-100">
-
-                                                <div class="pool-table-visual clickable-seat" data-table-id="P1">
-                                                    <div class="pool-table-felt">
-                                                        <div class="pool-pocket pocket-tl"></div>
-                                                        <div class="pool-pocket pocket-tr"></div>
-                                                        <div class="pool-pocket pocket-bl"></div>
-                                                        <div class="pool-pocket pocket-br"></div>
-                                                        <div class="pool-pocket pocket-tm"></div>
-                                                        <div class="pool-pocket pocket-bm"></div>
-                                                    </div>
-                                                </div>
-
-                                                <div class="pool-table-visual clickable-seat" data-table-id="P2">
-                                                    <div class="pool-table-felt">
-                                                        <div class="pool-pocket pocket-tl"></div>
-                                                        <div class="pool-pocket pocket-tr"></div>
-                                                        <div class="pool-pocket pocket-bl"></div>
-                                                        <div class="pool-pocket pocket-br"></div>
-                                                        <div class="pool-pocket pocket-tm"></div>
-                                                        <div class="pool-pocket pocket-bm"></div>
-                                                    </div>
-                                                </div>
-
-                                                <div class="pool-table-visual clickable-seat" data-table-id="P3">
-                                                    <div class="pool-table-felt">
-                                                        <div class="pool-pocket pocket-tl"></div>
-                                                        <div class="pool-pocket pocket-tr"></div>
-                                                        <div class="pool-pocket pocket-bl"></div>
-                                                        <div class="pool-pocket pocket-br"></div>
-                                                        <div class="pool-pocket pocket-tm"></div>
-                                                        <div class="pool-pocket pocket-bm"></div>
-                                                    </div>
-                                                </div>
-
-                                                <div class="pool-table-visual clickable-seat" data-table-id="P4">
-                                                    <div class="pool-table-felt">
-                                                        <div class="pool-pocket pocket-tl"></div>
-                                                        <div class="pool-pocket pocket-tr"></div>
-                                                        <div class="pool-pocket pocket-bl"></div>
-                                                        <div class="pool-pocket pocket-br"></div>
-                                                        <div class="pool-pocket pocket-tm"></div>
-                                                        <div class="pool-pocket pocket-bm"></div>
+                                            <h6><i class="fas fa-couch me-2"></i> Lounge Seating (5 Groups)</h6>
+                                            <div class="seating-zone">
+                                                <div class="d-flex flex-column">
+                                                    <div>
+                                                        <div class="lounge-group clickable-seat" data-table-id="T1">
+                                                            <div class="coffee-table"></div>
+                                                            <div class="sofa bottom"></div>
+                                                        </div>
+                                                        <div class="lounge-group clickable-seat" data-table-id="T2">
+                                                            <div class="side-table"></div>
+                                                            <div class="armchair left"></div>
+                                                            <div class="armchair right"></div>
+                                                        </div>
+                                                        <div class="lounge-group clickable-seat" data-table-id="T3">
+                                                            <div class="coffee-table"></div>
+                                                            <div class="sofa bottom"></div>
+                                                        </div>
+                                                        <div class="lounge-group clickable-seat" data-table-id="T4">
+                                                            <div class="side-table"></div>
+                                                            <div class="armchair left"></div>
+                                                            <div class="armchair right"></div>
+                                                        </div>
+                                                        <div class="lounge-group clickable-seat" data-table-id="T5">
+                                                            <div class="coffee-table"></div>
+                                                            <div class="sofa bottom"></div>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -1022,59 +766,11 @@
                             </div>
                         </div>
 
-                        <div class="tab-pane fade" id="floor3" role="tabpanel">
+                        <div class="tab-pane fade" id="floor2" role="tabpanel">
                             <div class="floor-container">
                                 <h5 class="text-center mb-3">Rooftop (3rd Floor) Layout</h5>
                                 <div class="Building_frame">
                                     <div class="row d-flex h-100">
-
-                                        <div class="d-flex flex-column">
-                                            <h6><i class="fas fa-fire me-2"></i> Fire Pit Lounge (5 Pits)</h6>
-                                            <div class="seating-zone">
-                                                <div class="fire-pit-group clickable-seat" data-table-id="F1">
-                                                    <div class="fire-pit"><i class="fas fa-fire"></i></div>
-                                                    <div class="armchair top"></div>
-                                                    <div class="armchair bottom"></div>
-                                                    <div class="armchair left"></div>
-                                                    <div class="armchair right"></div>
-                                                </div>
-                                                <div class="fire-pit-group clickable-seat" data-table-id="F2">
-                                                    <div class="fire-pit"><i class="fas fa-fire"></i></div>
-                                                    <div class="armchair top"></div>
-                                                    <div class="armchair bottom"></div>
-                                                    <div class="armchair left"></div>
-                                                    <div class="armchair right"></div>
-                                                </div>
-                                                <div class="fire-pit-group clickable-seat" data-table-id="F3">
-                                                    <div class="fire-pit"><i class="fas fa-fire"></i></div>
-                                                    <div class="armchair top"></div>
-                                                    <div class="armchair bottom"></div>
-                                                    <div class="armchair left"></div>
-                                                    <div class="armchair right"></div>
-                                                </div>
-                                                <div class="fire-pit-group clickable-seat" data-table-id="F4">
-                                                    <div class="fire-pit"><i class="fas fa-fire"></i></div>
-                                                    <div class="armchair top"></div>
-                                                    <div class="armchair bottom"></div>
-                                                    <div class="armchair left"></div>
-                                                    <div class="armchair right"></div>
-                                                </div>
-                                                <div class="fire-pit-group clickable-seat" data-table-id="F5">
-                                                    <div class="fire-pit"><i class="fas fa-fire"></i></div>
-                                                    <div class="armchair top"></div>
-                                                    <div class="armchair bottom"></div>
-                                                    <div class="armchair left"></div>
-                                                    <div class="armchair right"></div>
-                                                </div>
-                                                <div class="fire-pit-group clickable-seat" data-table-id="F6">
-                                                    <div class="fire-pit"><i class="fas fa-fire"></i></div>
-                                                    <div class="armchair top"></div>
-                                                    <div class="armchair bottom"></div>
-                                                    <div class="armchair left"></div>
-                                                    <div class="armchair right"></div>
-                                                </div>
-                                            </div>
-                                        </div>
 
                                         <div class="d-flex flex-column">
                                             <h6><i class="fas fa-glass-martini me-2"></i> Mini Bar</h6>
@@ -1089,7 +785,6 @@
                                                     <div class="bar-stool-horizontal clickable-seat" data-table-id="S12" style="left: 85%;"></div>
                                                 </div>
                                             </div>
-
 
                                         </div>
 
