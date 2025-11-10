@@ -9,6 +9,8 @@ class SeatingModel {
         ['name' => 'table_no'   , 'required' => true    ],
         ['name' => 'status'     , 'required' => true    ],
         ['name' => 'floor'      , 'required' => true    ],
+        ['name' => 'type'      , 'required' => true    ],
+        ['name' => 'ttype'      , 'required' => true    ],
     ];
 
 

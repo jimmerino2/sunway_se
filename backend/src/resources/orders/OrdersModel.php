@@ -92,7 +92,7 @@ class OrdersModel {
     }
 
     public function getRateOrders() {
-        $sql = "SELECT DATE(order_time) AS day, COUNT(DISTINCT order_time) AS total
+        $sql = "SELECT DATE(order_time) AS day, COUNT(DISTINCT id) AS total
                 FROM orders
                 GROUP BY DATE(order_time)
                 ORDER BY day;";
@@ -100,11 +100,14 @@ class OrdersModel {
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
-    
+
     public function getRateIncome() {
-        $sql = "SELECT MONTH(order_time) AS month, SUM(quantity * price) AS total
-                FROM orders JOIN item ON orders.item_id = item.id
-                GROUP BY MONTH(order_time)
+        $sql = "SELECT DATE_FORMAT(order_time, '%Y-%m') AS month, 
+                    SUM(quantity * price) AS total
+                FROM orders 
+                JOIN item ON orders.item_id = item.id
+                WHERE orders.is_complete = 'Y'
+                GROUP BY DATE_FORMAT(order_time, '%Y-%m')
                 ORDER BY month;";
         $stmt = $this->db->prepare($sql);
         $stmt->execute();
