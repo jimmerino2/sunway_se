@@ -73,7 +73,7 @@ class ItemModel {
 
                 // Create file
                 $filename = uniqid() . '_' . basename($image['name']);
-                $targetPath = $uploadDir . $filename;
+                $targetPath = $uploadDir . '/' . $filename;
 
                 if (move_uploaded_file($image['tmp_name'], $targetPath)) {
                     $data['image_url'] = '/item/' . $filename;
