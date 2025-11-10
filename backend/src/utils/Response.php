@@ -6,8 +6,8 @@ class Response {
         header('Content-Type: application/json');
 
         echo json_encode([
-            'status' => $status,
             'success' => $status >= 200 && $status < 300,
+            'message' => $data['message'] ?? $data['error'],
             'data' => $data
         ], JSON_PRETTY_PRINT);
 
