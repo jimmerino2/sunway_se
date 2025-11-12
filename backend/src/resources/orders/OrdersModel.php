@@ -1,54 +1,55 @@
 <?php
 require_once '../src/config/db.php';
 
-class OrdersModel {
+class OrdersModel
+{
     private PDO $db;
-    private string $tableName = 'orders'; 
+    private string $tableName = 'orders';
     public array $columns = [
-        ['name' => 'id'             , 'required' => true    ],
-        ['name' => 'item_id'        , 'required' => true    ],
-        ['name' => 'table_id'       , 'required' => true    ],
-        ['name' => 'quantity'       , 'required' => true    ],
-        ['name' => 'status'         , 'required' => true    ], 
-        ['name' => 'is_complete'    , 'required' => true    ], 
+        ['name' => 'id', 'required' => true],
+        ['name' => 'item_id', 'required' => true],
+        ['name' => 'table_id', 'required' => true],
+        ['name' => 'quantity', 'required' => true],
+        ['name' => 'status', 'required' => true],
+        ['name' => 'is_complete', 'required' => true],
     ];
 
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->db = getPDO();
     }
 
-    public function listOrders($filters = []) {
-        $sql = "SELECT o.id, i.name AS 'item_name', c.name AS 'category_name', s.table_no, o.quantity, o.order_time, (i.price * o.quantity) as 'cost', o.status, o.is_complete FROM {$this->tableName} o
+    public function listOrders($filters = [])
+    {
+        $sql = "SELECT o.id, i.name AS 'item_name', c.name AS 'category_name', s.table_no, o.table_id, o.quantity, o.order_time, (i.price * o.quantity) as 'cost', o.status, o.is_complete FROM {$this->tableName} o
                 JOIN item i ON i.id = o.item_id
                 JOIN category c ON i.category_id = c.id
                 JOIN seating s ON o.table_id = s.id
                 WHERE 1=1";
 
         // Set conditions
-        $condition = "";
         $params = [];
-        if(!empty($filters)){
-            // Remove false parameters
+        if (!empty($filters)) {
             $validColumns = array_column($this->columns, 'name');
             foreach ($filters as $key => $value) {
-                if (!in_array($key, $validColumns)) {
-                    unset($filters[$key]);
-                }
-            }
 
-            foreach ($filters as $key => $value) {
-                $sql .= " AND $key = :$key";
-                $params[$key] = $value;
+                // --- THIS IS THE FIX ---
+                // We check if the key is a valid column and add the 'o.' prefix
+                if (in_array($key, $validColumns)) {
+                    $sql .= " AND o.$key = :$key"; // <-- Was missing 'o.'
+                    $params[$key] = $value;
+                }
             }
         }
 
         $stmt = $this->db->prepare($sql);
         $stmt->execute($params);
-        return $stmt->fetchAll(PDO::FETCH_ASSOC); 
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function getOrders($id) {
+    public function getOrders($id)
+    {
         $sql = "SELECT i.name AS 'item_name', c.name AS 'category_name', s.table_no, o.quantity, o.order_time, i.price, o.status FROM {$this->tableName} o
                 JOIN item i ON i.id = o.item_id
                 JOIN category c ON i.category_id = c.id
@@ -57,10 +58,11 @@ class OrdersModel {
         $stmt = $this->db->prepare($sql);
         $stmt->execute([$id]);
 
-        return $stmt->fetch(PDO::FETCH_ASSOC); 
+        return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
-    public function saveOrders($data) {
+    public function saveOrders($data)
+    {
         // Remove false parameters
         $validColumns = array_column($this->columns, 'name');
         foreach ($data as $key => $value) {
@@ -74,10 +76,11 @@ class OrdersModel {
 
         $sql = "INSERT INTO {$this->tableName} (" . implode(',', $fields) . ") VALUES (" . implode(',', $placeholders) . ")";
         $stmt = $this->db->prepare($sql);
-        return $stmt->execute($data);   
+        return $stmt->execute($data);
     }
 
-    public function updateOrders(array $data): bool {
+    public function updateOrders(array $data): bool
+    {
         $setClause = implode(', ', array_map(fn($f) => "$f = :$f", array_keys($data)));
 
         $sql = "UPDATE {$this->tableName} SET $setClause WHERE id = :id";
@@ -86,13 +89,34 @@ class OrdersModel {
         return $stmt->execute($data);
     }
 
-    public function deleteOrders(int $id): bool {
+    public function clearOrdersByTable($tableId)
+    {
+        try {
+            // This is the efficient query that uses the table_id
+            $sql = "UPDATE orders 
+                    SET is_complete = 'Y' 
+                    WHERE is_complete = 'N' AND table_id = :table_id";
+
+            $stmt = $this->db->prepare($sql);
+            $stmt->bindParam(':table_id', $tableId);
+
+            return $stmt->execute(); // Returns true on success, false on failure
+
+        } catch (PDOException $e) {
+            error_log($e->getMessage()); // Log the error
+            return false; // Return false on error
+        }
+    }
+
+    public function deleteOrders(int $id): bool
+    {
         $sql = "DELETE FROM {$this->tableName} WHERE id = ?";
         $stmt = $this->db->prepare($sql);
         return $stmt->execute([$id]);
     }
 
-    public function getRateOrders() {
+    public function getRateOrders()
+    {
         $sql = "SELECT DATE(order_time) AS day, COUNT(DISTINCT id) AS total
                 FROM orders
                 GROUP BY DATE(order_time)
@@ -102,7 +126,8 @@ class OrdersModel {
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function getRateIncome() {
+    public function getRateIncome()
+    {
         $sql = "SELECT DATE_FORMAT(order_time, '%Y-%m-%d') AS day, 
                     SUM(quantity * price) AS total
                 FROM orders 

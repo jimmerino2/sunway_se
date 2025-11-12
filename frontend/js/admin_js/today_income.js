@@ -1,17 +1,23 @@
-async function updateLatestMonthlySales() {
+async function updateTodaysSales() {
     const apiUrl = "http://localhost/software_engineering/backend/orders/rate_income";
     const salesDiv = document.getElementById("Total_sales_today");
 
-    // Initial check for the HTML element
     if (!salesDiv) {
         console.error("Error: Div with ID 'Total_sales_today' not found.");
         return;
     }
 
-    // Set a loading indicator while fetching
     salesDiv.textContent = "Loading...";
 
     try {
+        // --- 1. Determine Today's Date (YYYY-MM-DD format) ---
+        const today = new Date();
+        // Use a function to ensure two digits for month and day (e.g., 01, 09)
+        const pad = (num) => num.toString().padStart(2, '0');
+
+        const todayDateString = `${today.getFullYear()}-${pad(today.getMonth() + 1)}-${pad(today.getDate())}`;
+
+        // --- 2. Fetch Data ---
         const response = await fetch(apiUrl);
 
         if (!response.ok) {
@@ -20,43 +26,40 @@ async function updateLatestMonthlySales() {
 
         const result = await response.json();
 
-        // 1. Validate the API response
         if (!result.success || !result.data || result.data.length === 0) {
             salesDiv.textContent = "N/A";
-            console.error("API response indicates failure or no data.");
+            console.warn("API response indicates failure or no data.");
             return;
         }
 
         const incomeData = result.data;
 
-        // 2. Get the last element of the array (the latest month's total)
-        const latestEntry = incomeData[incomeData.length - 1];
+        // --- 3. Filter for Today's Entry ---
+        // Find the single entry in the data array where the "day" property matches todayDateString
+        const todayEntry = incomeData.find(item => item.day === todayDateString);
 
-        const latestTotal = parseFloat(latestEntry.total);
-        const latestMonth = latestEntry.month;
+        if (todayEntry) {
+            const todaysTotal = parseFloat(todayEntry.total);
 
-        // 3. Format the output and update the div content
-        if (!isNaN(latestTotal)) {
-            // Update the text with the formatted total
-            salesDiv.textContent = `RM ${latestTotal.toFixed(2)}`;
-
-            // // Optional: Update the card-body to clarify it's the latest month, not today
-            // const cardBody = salesDiv.closest('.card-footer').previousElementSibling;
-            // if (cardBody) {
-            //     cardBody.innerHTML = `**Latest Sales (${latestMonth})**`;
-            // }
-
-            console.log(`Successfully updated sales: RM ${latestTotal.toFixed(2)} for ${latestMonth}`);
+            // --- 4. Format and Update ---
+            if (!isNaN(todaysTotal)) {
+                // Display today's sales
+                salesDiv.textContent = `RM ${todaysTotal.toFixed(2)}`;
+                console.log(`Successfully updated sales for ${todayDateString}: RM ${todaysTotal.toFixed(2)}`);
+            } else {
+                salesDiv.textContent = "Invalid Data";
+            }
         } else {
-            salesDiv.textContent = "Invalid Data";
+            // No sales entry found for today's date
+            salesDiv.textContent = "RM 0.00";
+            console.log(`No sales found for today (${todayDateString}).`);
         }
 
     } catch (error) {
-        // Display error message in the div
         salesDiv.textContent = "Error fetching data";
         console.error("Failed to fetch income data:", error);
     }
 }
 
-// Call the function to execute the process once the document is ready
-document.addEventListener('DOMContentLoaded', updateLatestMonthlySales);
+// Call the new function
+document.addEventListener('DOMContentLoaded', updateTodaysSales);

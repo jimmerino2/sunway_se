@@ -15,10 +15,11 @@ class OrdersController
     public function listOrders($filters)
     {
         $orders = $this->ordersModel->listOrders($filters);
-        if ($orders) {
+
+        if ($orders !== false) {
             Response::json($orders);
         } else {
-            Response::json(null);
+            Response::json(['error' => 'Failed to retrieve orders.'], 500);
         }
     }
 
@@ -63,6 +64,26 @@ class OrdersController
         }
     }
 
+    public function clearOrders($data)
+    {
+        // This is the logic we moved from the updateOrders function
+        if (isset($data['table_id'])) {
+            try {
+                // Call the same model function as before
+                $success = $this->ordersModel->clearOrdersByTable($data['table_id']);
+
+                return $success
+                    ? Response::json(['message' => 'Orders successfully cleared.'], 200)
+                    : Response::json(['error' => 'There was an issue clearing orders.'], 400);
+            } catch (PDOException $e) {
+                Response::json(['error' => 'Database error: ' . $e->getMessage()], 500);
+            }
+        } else {
+            // This runs if 'table_id' was missing from the request
+            Response::json(['error' => 'table_id is required to clear orders.'], 400);
+        }
+    }
+
     public function deleteOrders($id)
     {
         if ($id != null) {
@@ -81,12 +102,14 @@ class OrdersController
         }
     }
 
-    public function getRateOrders() {
+    public function getRateOrders()
+    {
         $data = $this->ordersModel->getRateOrders();
         Response::json($data);
     }
-    
-    public function getRateIncome() {
+
+    public function getRateIncome()
+    {
         $data = $this->ordersModel->getRateIncome();
         Response::json($data);
     }

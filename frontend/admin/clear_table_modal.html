@@ -1,0 +1,98 @@
+<div class="modal fade" id="editTableModal" tabindex="-1" aria-labelledby="editTableModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content rounded-3 shadow-lg">
+
+            <div class="modal-header bg-light border-bottom-0">
+                <h5 class="modal-title" id="editTableModalLabel">Table Details</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <div class="modal-body p-4">
+                <input type="hidden" id="modal-table-id" />
+
+                <div class="mb-3">
+                    <label class="form-label text-muted small text-uppercase">Current Status</label><br>
+                    <span id="modal-current-status" class="badge fs-6"></span>
+                </div>
+                <div class="border-top my-3"></div>
+                <h6 class="mb-3"><i class="fas fa-receipt me-2"></i>Active Orders</h6>
+                <div id="modal-order-list-container">
+                    <ul class="list-group list-group-flush" id="modal-order-list">
+                    </ul>
+                    <div id="modal-no-orders-msg" class="text-center p-3 text-muted" style="display: none;">
+                        <i class="fas fa-clipboard-list fa-2x mb-2"></i>
+                        <p class="mb-0">No active orders for this table.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer border-top-0">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+
+                <button type="button" class="btn btn-primary" id="checkout-btn-from-edit">
+                    <i class="fas fa-cash-register me-2"></i>Checkout
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="checkoutModal" tabindex="-1" aria-labelledby="checkoutModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content rounded-3 shadow-lg">
+            <div class="modal-header bg-light border-bottom-0">
+                <h5 class="modal-title" id="checkoutModalLabel">Checkout Bill for Table </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body p-4">
+                <h6 class="mb-3"><i class="fas fa-receipt me-2"></i>Final Bill</h6>
+
+                <div id="checkout-order-list-container">
+                    <ul class="list-group list-group-flush" id="checkout-order-list">
+                    </ul>
+                </div>
+
+                <div class="border-top my-3"></div>
+
+                <div class="d-flex justify-content-end fs-4 fw-bold">
+                    <span>Total:</span>
+                    <span id="checkout-total-cost" class="ms-3 text-success">RM 0.00</span>
+                </div>
+            </div>
+            <div class="modal-footer border-top-0">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-success" id="final-clear-table-btn">
+                    <i class="fas fa-check-double me-2"></i>Confirm & Clear Table
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="incompleteOrdersModal" tabindex="-1" aria-labelledby="incompleteOrdersModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content rounded-3 shadow-lg">
+            <div class="modal-header bg-danger text-white">
+                <h5 class="modal-title" id="incompleteOrdersModalLabel">
+                    <i class="fas fa-exclamation-triangle me-2"></i> Cannot Clear Table
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+                    aria-label="Close"></button>
+            </div>
+            <div class="modal-body p-4">
+                <p class="fs-5">This table cannot be cleared because it still has the following incomplete orders:</p>
+
+                <div id="incomplete-order-list-container" class="mt-3 mb-3">
+                    <ul class="list-group list-group-flush" id="incomplete-order-list">
+                    </ul>
+                </div>
+
+                <p class="text-muted">Please ensure all items are Delivered or canceled before clearing.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">OK</button>
+            </div>
+        </div>
+    </div>
+</div>

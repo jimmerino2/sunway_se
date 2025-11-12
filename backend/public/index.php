@@ -119,16 +119,16 @@ switch ($type) {
         switch ($method) {
             case 'GET':
                 switch ($specification) {
-                    case null: 
+                    case null:
                         (!is_null($id)) ? $controller->getOrders($id) : $controller->listOrders($_GET);
                         break;
                     case 'rate_orders':
                         $controller->getRateOrders();
-                        break;  
+                        break;
                     case 'rate_income':
                         $controller->getRateIncome();
-                        break;  
-                    default: 
+                        break;
+                    default:
                         Response::json(['error' => 'Invalid URL.'], 405);
                         break;
                 }
@@ -137,7 +137,11 @@ switch ($type) {
                 $controller->createOrders($data);
                 break;
             case 'PATCH':
-                $controller->updateOrders($data);
+                if (isset($data['action']) && $data['action'] === 'clear_table') {
+                    $controller->clearOrders($data); // Call your new function
+                } else {
+                    $controller->updateOrders($data); // Call the normal update function
+                }
                 break;
             case 'DELETE':
                 $controller->deleteOrders($id);

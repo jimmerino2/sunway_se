@@ -21,6 +21,9 @@ window.addEventListener('DOMContentLoaded', event => {
     const currentYear = new Date().getFullYear();
     const startYear = currentYear - 5; // Go back 5 years
 
+    // Clear existing options before populating
+    selector.innerHTML = '';
+
     for (let year = currentYear; year >= startYear; year--) {
       const option = document.createElement('option');
       option.value = year;
@@ -46,23 +49,7 @@ window.addEventListener('DOMContentLoaded', event => {
         myBarChart.destroy();
       }
 
-      // 1. Create the 12-Month Template FOR THE SELECTED YEAR
-      const monthlyDataMap = new Map();
-
-      for (let i = 1; i <= 12; i++) { // Loop 1 (Jan) to 12 (Dec)
-        const month = i;
-
-        // Key format "YYYY-MM" (e.g., "2025-01")
-        const monthKey = `${selectedYear}-${month.toString().padStart(2, '0')}`;
-
-        // Label format "Month YYYY" (e.g., "January 2025")
-        const label = `${monthNames[month]} ${selectedYear}`;
-
-        // Add this month to our template with 0 income
-        monthlyDataMap.set(monthKey, { label: label, income: 0 });
-      }
-
-      // 2. Fetch the data from your API endpoint
+      // 1. Fetch the data from your API endpoint
       const responseRaw = await fetch('http://localhost/software_engineering/backend/orders/rate_income');
       if (!responseRaw.ok) {
         throw new Error(`HTTP error! Status: ${responseRaw.status}`);
@@ -75,36 +62,54 @@ window.addEventListener('DOMContentLoaded', event => {
       }
       const apiData = responseData.data;
 
-      // 3. Merge API Data into the Template
-      apiData.forEach(item => {
-        const monthKey = item.month; // "YYYY-MM"
-        const income = parseFloat(item.total);
+      // 2. Aggregate Daily Data into Monthly Totals (NEW LOGIC) 📈
+      const aggregatedMonthlyTotals = new Map(); // Key: "YYYY-MM", Value: total income for that month
 
-        // If this data from the API exists in our 12-month template,
-        // update its income value.
-        if (monthlyDataMap.has(monthKey)) {
-          monthlyDataMap.get(monthKey).income = income;
+      apiData.forEach(item => {
+        // Your API uses "day": "YYYY-MM-DD", but you need "YYYY-MM"
+        const dayKey = item.day;
+        const monthKey = dayKey ? dayKey.substring(0, 7) : null; // Extracts "YYYY-MM"
+        const dailyIncome = parseFloat(item.total);
+
+        // Check for valid data format
+        if (monthKey && !isNaN(dailyIncome)) {
+          // Get current total for the month, or 0 if undefined
+          const currentTotal = aggregatedMonthlyTotals.get(monthKey) || 0;
+          // Add the current day's income to the month's total
+          aggregatedMonthlyTotals.set(monthKey, currentTotal + dailyIncome);
         }
       });
 
-      // 4. Generate Chart Arrays FROM THE TEMPLATE and find max income
+      // 3. Create the 12-Month Template for the SELECTED YEAR 🗓️
       const chartLabels = [];
       const chartDataPoints = [];
-      let maxIncome = 0; // Tracks the highest income found
+      let maxIncome = 0;
 
-      for (const data of monthlyDataMap.values()) {
-        chartLabels.push(data.label);
-        chartDataPoints.push(data.income);
-        if (data.income > maxIncome) {
-          maxIncome = data.income; // Update the max
+      for (let i = 1; i <= 12; i++) { // Loop 1 (Jan) to 12 (Dec)
+        const month = i;
+        const monthString = month.toString().padStart(2, '0');
+
+        // Key format "YYYY-MM" (e.g., "2025-01")
+        const monthKey = `${selectedYear}-${monthString}`;
+
+        // Label format "Month YYYY" (e.g., "January 2025")
+        const label = `${monthNames[month]}`;
+        chartLabels.push(label); // Push the month name as the label
+
+        // Get the total from the aggregated map, or default to 0
+        const monthlyTotal = aggregatedMonthlyTotals.get(monthKey) || 0;
+        chartDataPoints.push(monthlyTotal);
+
+        if (monthlyTotal > maxIncome) {
+          maxIncome = monthlyTotal; // Update the max
         }
       }
 
-      // 5. Calculate a dynamic 'max' for the Y-axis
+      // 4. Calculate a dynamic 'max' for the Y-axis
       // If data exists, scale up by 20% and round up. If no data, use a fallback max of 5000.
       const yAxisMax = maxIncome > 0 ? Math.ceil(maxIncome * 1.2) : 5000;
 
-      // 6. Get the chart canvas and create the new Chart
+      // 5. Get the chart canvas and create the new Chart
       var ctx = document.getElementById("myBarChart");
       if (!ctx) {
         console.warn("Chart canvas element 'myBarChart' not found.");
@@ -116,7 +121,7 @@ window.addEventListener('DOMContentLoaded', event => {
         data: {
           labels: chartLabels, // 12 labels for the selected year
           datasets: [{
-            label: "Revenue",
+            label: "Revenue (RM)",
             backgroundColor: "rgba(2,117,216,1)",
             borderColor: "rgba(2,117,216,1)",
             data: chartDataPoints, // 12 data points
@@ -142,8 +147,9 @@ window.addEventListener('DOMContentLoaded', event => {
             yAxes: [{
               ticks: {
                 min: 0,
+                // Ensure tick is an integer if possible, and scale is good
                 max: yAxisMax, // <-- Dynamic scaling applied here
-                maxTicksLimit: 5
+                maxTicksLimit: 8 // Increased to 8 for better scale visualization
               },
               gridLines: {
                 display: true
