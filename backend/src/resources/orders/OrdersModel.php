@@ -103,13 +103,13 @@ class OrdersModel {
     }
 
     public function getRateIncome() {
-        $sql = "SELECT DATE_FORMAT(order_time, '%Y-%m') AS month, 
+        $sql = "SELECT DATE_FORMAT(order_time, '%Y-%m-%d') AS day, 
                     SUM(quantity * price) AS total
                 FROM orders 
                 JOIN item ON orders.item_id = item.id
                 WHERE orders.is_complete = 'Y'
-                GROUP BY DATE_FORMAT(order_time, '%Y-%m')
-                ORDER BY month;";
+                GROUP BY DATE_FORMAT(order_time, '%Y-%m-%d')
+                ORDER BY day;";
         $stmt = $this->db->prepare($sql);
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
