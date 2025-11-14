@@ -1,82 +1,118 @@
 // Global chart variable
 let myLineChart;
 let allApiData = []; // This will store all data from the API
+const apiUrl = 'http://localhost/software_engineering/backend/orders/rate_orders';
+const TOKEN_KEY = 'authToken'; // Key used by admin_guard.js
 
 // Set new default font family and font color
 Chart.defaults.global.defaultFontFamily = 'Inter, -apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';
 Chart.defaults.global.defaultFontColor = '#292b2c';
 
-// Wait for the DOM to be ready
+// --- Main Execution Logic (Polling Loop) ---
 document.addEventListener('DOMContentLoaded', () => {
+  let checkTokenIntervalId = null;
 
-  // --- This is the *initial* fetch call ---
-  fetch('http://localhost/software_engineering/backend/orders/rate_orders')
-    .then(response => {
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-      return response.json();
-    })
-    .then(apiResponse => {
-      if (apiResponse.success && Array.isArray(apiResponse.data)) {
-        // Store the fetched data globally
-        allApiData = new Map(apiResponse.data.map(d => [d.day, d.total]));
+  // Start a polling interval to wait for the token to become available
+  checkTokenIntervalId = setInterval(() => {
+    const token = localStorage.getItem(TOKEN_KEY);
 
-        // Initialize the app (creates chart, daterangepicker)
-        initializeApp();
-
-        // --- ADDED THIS LINE ---
-        // Start the 10-second auto-update timer
-        setInterval(fetchAndRefreshChart, 10000);
-        // --- END OF ADDED LINE ---
-
-      } else {
-        console.error('API response was not successful or data is missing:', apiResponse.message);
-      }
-    })
-    .catch(error => console.error('Error fetching data:', error));
+    if (token) {
+      // Token found! Stop checking and initialize the chart.
+      clearInterval(checkTokenIntervalId);
+      initializeChartData(token);
+    }
+  }, 100); // Check every 100 milliseconds
 });
 
+// --- Initial Data Fetch Function ---
+async function initializeChartData(token) {
+
+  try {
+    // --- Initial Fetch Call (Now uses the valid token) ---
+    const response = await fetch(apiUrl, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      }
+    });
+
+    if (!response.ok) {
+      console.error(`HTTP error! status: ${response.status}`);
+      return;
+    }
+
+    const apiResponse = await response.json();
+
+    if (apiResponse.success && Array.isArray(apiResponse.data)) {
+      // Store the fetched data globally
+      allApiData = new Map(apiResponse.data.map(d => [d.day, d.total]));
+
+      // Initialize the app (creates chart, daterangepicker)
+      initializeApp();
+
+      // Start the 10-second auto-update timer
+      setInterval(fetchAndRefreshChart, 10000);
+
+    } else {
+      console.error('API response was not successful or data is missing:', apiResponse.message);
+    }
+  } catch (error) {
+    console.error('Error fetching data:', error);
+  }
+}
+
 // ---
-// --- NEW FUNCTION TO HANDLE LIVE UPDATES ---
+// --- FUNCTION TO HANDLE LIVE UPDATES ---
 // ---
 
 /**
  * Fetches new data from the API, updates the global data store,
  * and refreshes the chart using the currently selected date range.
  */
-function fetchAndRefreshChart() {
-  console.log("Auto-refreshing chart data..."); // For debugging
+async function fetchAndRefreshChart() {
+  const token = localStorage.getItem(TOKEN_KEY);
 
-  fetch('http://localhost/software_engineering/backend/orders/rate_orders')
-    .then(response => {
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
+  if (!token) {
+    console.error("Authorization token missing for auto-refresh. Stopping interval.");
+    return;
+  }
+
+  try {
+    const response = await fetch(apiUrl, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
       }
-      return response.json();
-    })
-    .then(apiResponse => {
-      if (apiResponse.success && Array.isArray(apiResponse.data)) {
+    });
 
-        // 1. Update the global data store with the fresh data
-        allApiData = new Map(apiResponse.data.map(d => [d.day, d.total]));
+    if (!response.ok) {
+      console.error(`HTTP error! status: ${response.status}`);
+      return;
+    }
 
-        // 2. Get the daterangepicker instance to find its current range
-        const picker = $('#myDateRange').data('daterangepicker');
+    const apiResponse = await response.json();
 
-        if (picker) {
-          // 3. Re-render the chart with the *current* date range
-          updateChart(picker.startDate, picker.endDate);
-          console.log("Chart refreshed with new data.");
-        } else {
-          // This might happen if the fetch completes before the picker is initialized
-          console.warn("Could not find daterangepicker instance to refresh chart.");
-        }
+    if (apiResponse.success && Array.isArray(apiResponse.data)) {
+      // 1. Update the global data store with the fresh data
+      allApiData = new Map(apiResponse.data.map(d => [d.day, d.total]));
+
+      // 2. Get the daterangepicker instance to find its current range
+      const picker = $('#myDateRange').data('daterangepicker');
+
+      if (picker) {
+        // 3. Re-render the chart with the *current* date range
+        updateChart(picker.startDate, picker.endDate);
       } else {
-        console.error('Auto-refresh: API response error:', apiResponse.message);
+        console.warn("Could not find daterangepicker instance to refresh chart.");
       }
-    })
-    .catch(error => console.error('Error auto-refreshing data:', error));
+    } else {
+      console.error('Auto-refresh: API response error:', apiResponse.message);
+    }
+  } catch (error) {
+    console.error('Error auto-refreshing data:', error);
+  }
 }
 
 // ---

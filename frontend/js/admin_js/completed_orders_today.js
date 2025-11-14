@@ -6,6 +6,7 @@ async function displayCompletedOrdersToday() {
     const api_url = "http://localhost/software_engineering/backend/orders";
     const completedOrdersElement = document.getElementById("Completed_Orders_Today");
 
+
     // Check if the target element exists
     if (!completedOrdersElement) {
         console.error("Target element with ID 'Completed_Orders_Today' not found.");
@@ -18,7 +19,13 @@ async function displayCompletedOrdersToday() {
     }
 
     try {
-        const response = await fetch(api_url);
+        const response = await fetch(api_url, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            }
+        });
 
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
@@ -37,7 +44,7 @@ async function displayCompletedOrdersToday() {
         // This is the dynamic date string to match against the order_time field
         const todayDateString = `${year}-${month}-${day}`;
 
-        console.log(`Checking for completed orders on: ${todayDateString}`);
+        // console.log(`Checking for completed orders on: ${todayDateString}`);
 
         if (json.success && Array.isArray(json.data)) {
 
@@ -87,4 +94,4 @@ const completedOrdersRefreshInterval = 10000; // 10 seconds in milliseconds
 const completedOrdersIntervalId = setInterval(displayCompletedOrdersToday, completedOrdersRefreshInterval);
 
 // Optional: Log the interval start for confirmation in the console
-console.log(`Completed orders today refresh started, running every ${completedOrdersRefreshInterval / 1000} seconds. Interval ID: ${completedOrdersIntervalId}`);
+// console.log(`Completed orders today refresh started, running every ${completedOrdersRefreshInterval / 1000} seconds. Interval ID: ${completedOrdersIntervalId}`);

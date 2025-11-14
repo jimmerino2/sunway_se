@@ -36,6 +36,14 @@ window.addEventListener('DOMContentLoaded', event => {
   }
 
   async function createMonthlyIncomeChart() {
+
+    // Check for token before fetching
+    if (!token) {
+      console.error("Authorization token not found. Access denied.");
+      if (myBarChart) myBarChart.destroy();
+      return;
+    }
+
     try {
       // Get the currently selected year from the dropdown
       const selectedYear = document.getElementById('yearSelector').value;
@@ -50,7 +58,16 @@ window.addEventListener('DOMContentLoaded', event => {
       }
 
       // 1. Fetch the data from your API endpoint
-      const responseRaw = await fetch('http://localhost/software_engineering/backend/orders/rate_income');
+      // --- FIX: Add Authorization Header ---
+      const responseRaw = await fetch('http://localhost/software_engineering/backend/orders/rate_income', {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        }
+      });
+      // --- END FIX ---
+
       if (!responseRaw.ok) {
         throw new Error(`HTTP error! Status: ${responseRaw.status}`);
       }

@@ -1,5 +1,6 @@
 // Define the API URL
-const apiUrl = "http://localhost/software_engineering/backend/seating?status=f";
+const api_url = "http://localhost/software_engineering/backend/seating?status=f";
+
 
 // Get the element where the count will be displayed
 const availableTablesElement = document.getElementById("Available_Tables");
@@ -21,7 +22,13 @@ async function updateAvailableTables() {
 
     try {
         // 1. Fetch the data from the API
-        const response = await fetch(apiUrl);
+        const response = await fetch(api_url, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            }
+        });
 
         // 2. Check for a successful HTTP status (e.g., 200 OK)
         if (!response.ok) {
@@ -64,4 +71,4 @@ const refreshInterval = 10000; // 10 seconds
 const intervalId = setInterval(updateAvailableTables, refreshInterval);
 
 // Optional: Log the interval start for confirmation in the console
-console.log(`Available tables refresh started, running every ${refreshInterval / 1000} seconds. Interval ID: ${intervalId}`);
+// console.log(`Available tables refresh started, running every ${refreshInterval / 1000} seconds. Interval ID: ${intervalId}`);

@@ -3,61 +3,20 @@
         <div class="sb-sidenav-menu">
             <div class="nav">
                 <div class="sb-sidenav-menu-heading">Core</div>
-                <a class="nav-link" href="admin_dashboard.php">
-                    <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                <a id="admin_dashboard" class="nav-link text-nowrap" href="admin_dashboard.php">
+                    <span class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></span>
                     Dashboard
                 </a>
-                <a class="nav-link" href="orders.php">
-                    <div class="sb-nav-link-icon"><i class="fa-solid fa-bowl-food"></i></div>
+                <a id="orders" class="nav-link text-nowrap" href="orders.php">
+                    <span class="sb-nav-link-icon">
+                        <i class="fa-solid fa-bowl-food"></i>
+                    </span>
                     Orders
                 </a>
-                <a class="nav-link" href="floor_plans.php">
-                    <div class="sb-nav-link-icon"><i class="fa-solid fa-shop"></i></div>
+                <a id="floor_plan" class="nav-link text-nowrap" href="floor_plans.php">
+                    <span class="sb-nav-link-icon"><i class="fa-solid fa-shop"></i></span>
                     Floor plan
                 </a>
-
-                <!-- <div class="sb-sidenav-menu-heading">Interface</div>
-                    <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapsePages"
-                        aria-expanded="false" aria-controls="collapsePages">
-                        <div class="sb-nav-link-icon"><i class="fas fa-book-open"></i></div>
-                        Pages
-                        <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
-                    </a>
-
-                <div class="collapse" id="collapsePages" aria-labelledby="headingTwo"
-                    data-bs-parent="#sidenavAccordion">
-                    <nav class="sb-sidenav-menu-nested nav accordion" id="sidenavAccordionPages">
-                        <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
-                            data-bs-target="#pagesCollapseAuth" aria-expanded="false"
-                            aria-controls="pagesCollapseAuth">
-                            Authentication
-                            <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
-                        </a>
-                        <div class="collapse" id="pagesCollapseAuth" aria-labelledby="headingOne"
-                            data-bs-parent="#sidenavAccordionPages">
-                            <nav class="sb-sidenav-menu-nested nav">
-                                <a class="nav-link" href="../auth/login.php">Login</a>
-                                <a class="nav-link" href="../auth/register.php">Register</a>
-                                <a class="nav-link" href="../auth/password.php">Forgot Password</a>
-                            </nav>
-                        </div>
-                        <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
-                            data-bs-target="#pagesCollapseError" aria-expanded="false"
-                            aria-controls="pagesCollapseError">
-                            Error
-                            <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
-                        </a>
-                        <div class="collapse" id="pagesCollapseError" aria-labelledby="headingOne"
-                            data-bs-parent="#sidenavAccordionPages">
-                            <nav class="sb-sidenav-menu-nested nav">
-                                <a class="nav-link" href="../error_page/401.html">401 Page</a>
-                                <a class="nav-link" href="../error_page/404.html">404 Page</a>
-                                <a class="nav-link" href="../error_page/500.html">500 Page</a>
-                            </nav>
-                        </div>
-                    </nav>
-                </div> -->
-
             </div>
         </div>
         <div class="sb-sidenav-footer">

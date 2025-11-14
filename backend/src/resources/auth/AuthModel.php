@@ -13,26 +13,32 @@ class AuthModel
 
     public function checkAuthGuard($token, $authenticate = DB_AUTH)
     {
-        if (!$authenticate) return 'A';
+        if (!$authenticate) return 'Authenticated';
         if (empty($token)) return false;
         $tokenHashed = hash('sha256', $token);
 
-        $sql = "SELECT session.user_id, users.role FROM session JOIN users ON session.user_id = users.id  WHERE token = ? AND expire_at > NOW()";
+        $sql = "SELECT session.user_id, users.role, users.name 
+                FROM session 
+                JOIN users ON session.user_id = users.id  
+                WHERE token = ? AND expire_at > NOW()";
+
+
         $stmt = $this->db->prepare($sql);
         $stmt->execute([$tokenHashed]);
         $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        return $user['role'] ?? false;
+        return $user ?? false;
     }
 
-    public function getNameByEmail($email)
+    public function getUserDetailsByEmail($email)
     {
-        $sql = "SELECT name FROM users  WHERE email = ?";
+        // Get both name and role
+        $sql = "SELECT name, role FROM users  WHERE email = ?";
         $stmt = $this->db->prepare($sql);
         $stmt->execute([$email]);
         $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        return $user['name'] ?? false;
+        return $user; // Returns array ['name' => '...', 'role' => '...'] or false
     }
 
     public function login($data)

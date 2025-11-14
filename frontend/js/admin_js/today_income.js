@@ -7,6 +7,12 @@ async function updateTodaysSales() {
         return;
     }
 
+    if (!token) {
+        console.error("Authorization token not found.");
+        salesDiv.textContent = "Login Required";
+        return;
+    }
+
     salesDiv.textContent = "Loading...";
 
     try {
@@ -18,9 +24,20 @@ async function updateTodaysSales() {
         const todayDateString = `${today.getFullYear()}-${pad(today.getMonth() + 1)}-${pad(today.getDate())}`;
 
         // --- 2. Fetch Data ---
-        const response = await fetch(apiUrl);
+        const response = await fetch(apiUrl, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            }
+        });
 
         if (!response.ok) {
+            if (response.status === 401) {
+                salesDiv.textContent = "Access Denied";
+                console.error("Authorization failed for API call.");
+                return;
+            }
             throw new Error(`HTTP error! Status: ${response.status}`);
         }
 
@@ -45,14 +62,12 @@ async function updateTodaysSales() {
             if (!isNaN(todaysTotal)) {
                 // Display today's sales
                 salesDiv.textContent = `RM ${todaysTotal.toFixed(2)}`;
-                console.log(`Successfully updated sales for ${todayDateString}: RM ${todaysTotal.toFixed(2)}`);
             } else {
                 salesDiv.textContent = "Invalid Data";
             }
         } else {
             // No sales entry found for today's date
             salesDiv.textContent = "RM 0.00";
-            console.log(`No sales found for today (${todayDateString}).`);
         }
 
     } catch (error) {

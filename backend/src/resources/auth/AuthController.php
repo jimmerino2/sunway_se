@@ -15,21 +15,24 @@ class AuthController
     public function login($data)
     {
         if (empty($data['email']) || empty($data['password'])) {
-
+            // Just send the error message. Response::json will handle the structure.
             return Response::json(['message' => 'Invalid login details.'], 400);
         }
 
         $token = $this->authModel->login($data);
-        if ($token) {
-            $name = $this->authModel->getNameByEmail($data['email']);
 
+        if ($token) {
+            // Get the user details (this is from AuthModel, which is correct)
+            $userDetails = $this->authModel->getUserDetailsByEmail($data['email']);
             return Response::json([
                 'message' => 'Login success.',
-                'token' => $token, // lowercase 'token'
-                'name' => $name    // lowercase 'name'
+                'token'   => $token,
+                'name'    => $userDetails['name'] ?? 'User',
+                'role'    => $userDetails['role'] ?? 'user'
             ], 200);
         }
 
+        // Just send the error message for failure
         return Response::json(['message' => 'Invalid login details.'], 400);
     }
 

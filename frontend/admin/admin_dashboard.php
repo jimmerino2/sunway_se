@@ -51,7 +51,7 @@
                         </div>
                         <div class="col-xl-3 col-md-6">
                             <div class="card bg-success text-white mb-4">
-                                <div class="card-body">Completed Orders Today</div>
+                                <div class="card-body">Completed Orders</div>
                                 <div class="card-footer d-flex align-items-center justify-content-between">
                                     <div id="Completed_Orders_Today" class="small text-white">N/A</div>
                                 </div>

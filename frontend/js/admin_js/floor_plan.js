@@ -10,7 +10,15 @@ $(document).ready(function () {
     // --- 2. Load Seating ---
     async function loadSeatingPlan() {
         try {
-            const response = await fetch(API_SEATING_URL);
+
+            const response = await fetch(API_SEATING_URL, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+
             if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
             const result = await response.json();
             if (Array.isArray(result)) {
@@ -28,7 +36,14 @@ $(document).ready(function () {
     // --- 3. Load Orders ---
     async function loadOrders() {
         try {
-            const response = await fetch(API_GET_ORDERS_URL);
+            const response = await fetch(API_GET_ORDERS_URL, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+
             if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
             const result = await response.json();
 
@@ -412,7 +427,8 @@ $(document).ready(function () {
                 fetch(API_CLEAR_ORDERS_URL, {
                     method: 'PATCH',
                     headers: {
-                        'Content-Type': 'application/json'
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
                     },
                     body: JSON.stringify({
                         table_id: tableApiId,
@@ -423,7 +439,8 @@ $(document).ready(function () {
                 fetch(API_SEATING_URL, {
                     method: 'PATCH',
                     headers: {
-                        'Content-Type': 'application/json'
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
                     },
                     body: JSON.stringify({
                         id: tableApiId,
@@ -473,11 +490,11 @@ $(document).ready(function () {
     // --- 11. Initial Load ---
     async function initializePage() {
         // Load orders first to ensure data is available for seating status
-        await loadOrders();
-        // Then load seating, which will render and apply status
+        await loadOrders();        // Then load seating, which will render and apply status
+
         await loadSeatingPlan();
 
-        console.log('Orders and seating loaded.');
+        // console.log('Orders and seating loaded.');
     }
 
     initializePage();

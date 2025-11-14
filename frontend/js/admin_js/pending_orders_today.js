@@ -19,7 +19,14 @@ async function displayPendingOrders() {
     }
 
     try {
-        const response = await fetch(api_url);
+        // 1. Fetch the data from the API
+        const response = await fetch(api_url, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            }
+        });
 
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
@@ -70,4 +77,4 @@ const pendingOrdersRefreshInterval = 10000; // 10 seconds in milliseconds
 const pendingOrdersIntervalId = setInterval(displayPendingOrders, pendingOrdersRefreshInterval);
 
 // Optional: Log the interval start for confirmation in the console
-console.log(`Pending orders refresh started, running every ${pendingOrdersRefreshInterval / 1000} seconds. Interval ID: ${pendingOrdersIntervalId}`);
+// console.log(`Pending orders refresh started, running every ${pendingOrdersRefreshInterval / 1000} seconds. Interval ID: ${pendingOrdersIntervalId}`);

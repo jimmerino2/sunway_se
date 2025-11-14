@@ -119,7 +119,7 @@ window.addEventListener('DOMContentLoaded', event => {
         document.getElementById('currentStatus').value = currentStatusText;
         document.getElementById('newStatus').value = ''; // Reset dropdown
 
-        // 💡 FIX: Store original values on the modal element itself
+        // 💡 Store original values on the modal element itself
         const modalElement = document.getElementById('changeStatusModal');
         modalElement.setAttribute('data-original-quantity', order.quantity || '1');
         modalElement.setAttribute('data-original-status', order.status || '');
@@ -133,6 +133,10 @@ window.addEventListener('DOMContentLoaded', event => {
     // Function to set up modal event listeners
     function setupModalListeners(tableElement) {
 
+        // **FIX IMPLEMENTATION:** Variables to temporarily store the triggering elements
+        let removeModalTrigger = null;
+        let changeModalTrigger = null; // <-- NEW: Used for the #changeStatusModal ARIA fix
+
         // Event Delegation Listener for Action Buttons (prefills modals)
         tableElement.addEventListener('click', function (e) {
             const btn = e.target.closest('.btn-change-status, .btn-remove-order');
@@ -143,8 +147,10 @@ window.addEventListener('DOMContentLoaded', event => {
 
                 if (btn.classList.contains('btn-change-status')) {
                     prefillChangeModal(orderData);
+                    changeModalTrigger = btn; // <-- CAPTURE TRIGGER for Change Modal
                 } else if (btn.classList.contains('btn-remove-order')) {
                     prefillRemoveModal(orderData);
+                    removeModalTrigger = btn; // <-- CAPTURE TRIGGER for Remove Modal
                 }
 
             } catch (error) {
@@ -158,7 +164,7 @@ window.addEventListener('DOMContentLoaded', event => {
             const newStatus = document.getElementById('newStatus').value;
             const newQuantity = document.getElementById('newQuantity').value;
 
-            // 💡 FIX: Get original values from the modal's data attributes
+            // Get original values from the modal's data attributes
             const modalElement = document.getElementById('changeStatusModal');
             const originalQuantity = modalElement.getAttribute('data-original-quantity');
             const originalStatus = modalElement.getAttribute('data-original-status');
@@ -168,7 +174,7 @@ window.addEventListener('DOMContentLoaded', event => {
                 return;
             }
 
-            // 💡 FIX: Build a dynamic payload
+            // Build a dynamic payload
             const payload = {
                 id: orderId
             };
@@ -202,12 +208,19 @@ window.addEventListener('DOMContentLoaded', event => {
             const apiEndpoint = 'http://localhost/software_engineering/backend/orders';
 
             try {
+                // Check token existence before fetch
+                if (!token) {
+                    alert('Session expired or login required.');
+                    return;
+                }
+
                 const response = await fetch(apiEndpoint, {
                     method: 'PATCH',
                     headers: {
                         'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}` // <-- ADDED AUTH HEADER
                     },
-                    // 💡 FIX: Send the new dynamic payload
+                    // Send the new dynamic payload
                     body: JSON.stringify(payload)
                 });
 
@@ -218,27 +231,71 @@ window.addEventListener('DOMContentLoaded', event => {
                     const changeModalElement = document.getElementById('changeStatusModal');
                     const modalInstance = bootstrap.Modal.getInstance(changeModalElement);
                     if (modalInstance) modalInstance.hide();
-
+                    changeModalTrigger = null;
                     await initializeDataTable();
                 } else {
                     const errorData = await response.json();
+                    // This is the line that was crashing when initializeDataTable was called inside the catch block
                     alert(`Failed to update order: ${errorData.error || response.statusText}`);
                 }
             } catch (error) {
                 console.error('Network error updating order:', error);
                 alert('A network error occurred while updating the order.');
+
+                // IMPORTANT: Do NOT call initializeDataTable here on network failure.
+                // It's likely that a failed fetch leads to bad state, causing the destroy error.
+                // Let the user manually refresh or try again.
             }
         });
+
+        // **FIX IMPLEMENTATION:** Focus Return Listener for Change Status Modal
+        const changeModalElement = document.getElementById('changeStatusModal');
+
+        changeModalElement.addEventListener('hide.bs.modal', function () {
+            // After the modal is hidden, return focus to the button that opened it
+            if (changeModalTrigger) {
+                changeModalTrigger.focus();
+                // Clear the variable after use
+                changeModalTrigger = null;
+            } else {
+                // Fallback to focus the table container if the trigger is missing
+                tableElement.focus();
+            }
+        });
+
+        // **FIX IMPLEMENTATION:** Focus Return Listener for Remove Modal (from previous fix)
+        const removeModalElement = document.getElementById('removeOrderModal');
+
+        removeModalElement.addEventListener('hide.bs.modal', function () {
+            // After the modal is hidden, return focus to the button that opened it
+            if (removeModalTrigger) {
+                removeModalTrigger.focus();
+                // Clear the variable after use
+                removeModalTrigger = null;
+            } else {
+                // Fallback to focus the table container if the trigger is missing
+                tableElement.focus();
+            }
+        });
+
+
         // Remove Confirmation Submission Handler (DELETE)
         document.getElementById('confirmRemoveOrder').addEventListener('click', async function () {
             const orderId = document.getElementById('removeOrderId').value;
             const apiEndpoint = `http://localhost/software_engineering/backend/orders`;
 
             try {
+                // Check token existence before fetch
+                if (!token) {
+                    alert('Session expired or login required.');
+                    return;
+                }
+
                 const responseRaw = await fetch(apiEndpoint, {
                     method: 'DELETE',
                     headers: {
                         'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}` // <-- ADDED AUTH HEADER
                     },
                     body: JSON.stringify({ id: orderId })
                 });
@@ -255,6 +312,7 @@ window.addEventListener('DOMContentLoaded', event => {
                 } else if (response.error !== undefined) {
                     alert(`Failed to remove order: ${response.error}`);
                 } else {
+                    // This is where the code uses the raw status in a fallback
                     alert(`Failed to remove order. Server response status: ${responseRaw.status}`);
                 }
             } catch (error) {
@@ -271,9 +329,28 @@ window.addEventListener('DOMContentLoaded', event => {
             "Item", "Category", "Quantity", "Table Number", "Time", "Cost", "Status", "Completed", "Actions"
         ];
 
+        // Check token existence before fetch
+        if (!token) {
+            console.error("Authorization token missing. Cannot load orders table.");
+            if (datatablesOrders) datatablesOrders.innerHTML = '<tr><td colspan="9" class="text-center">Authentication Required.</td></tr>';
+            return;
+        }
+
         try {
-            const responseRaw = await fetch('http://localhost/software_engineering/backend/orders');
+            // --- ADDED AUTH HEADER TO INITIAL FETCH ---
+            const responseRaw = await fetch('http://localhost/software_engineering/backend/orders', {
+                method: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+            // --- END ADDED AUTH HEADER ---
+
             if (!responseRaw.ok) {
+                // Handle 401 Unauthorized here
+                if (responseRaw.status === 401) {
+                    throw new Error(`Authorization Failed. Status: ${responseRaw.status}`);
+                }
                 throw new Error(`HTTP error! Status: ${responseRaw.status}`);
             }
 
@@ -343,18 +420,20 @@ window.addEventListener('DOMContentLoaded', event => {
 
         } catch (error) {
             console.error('Failed to fetch or process order data:', error);
+            if (datatablesOrders) datatablesOrders.innerHTML = '<tr><td colspan="9" class="text-center">Error loading data. Check console.</td></tr>';
             return;
         }
 
         // 7. Initialization/Refresh Logic
         if (datatablesOrders) {
 
+            // **CRITICAL FIX:** Added try/catch for robust destruction to prevent TypeError
             if (simpleDataTableInstance) {
-                simpleDataTableInstance.destroy();
-
-                // 🛠️ FIX: REMOVED the datatablesOrders.innerHTML = ... block
-                // This fixes the 'offsetWidth' error.
-                // This requires your base HTML file to already have the <thead>
+                try {
+                    simpleDataTableInstance.destroy();
+                } catch (e) {
+                    console.error("Failed to destroy existing table instance. Forcing new initialization.", e);
+                }
             }
 
             // SCENARIO 1 (or Re-Initialize after destroy)
@@ -365,9 +444,6 @@ window.addEventListener('DOMContentLoaded', event => {
                 },
                 perPageSelect: [10, 25, 50, 100],
                 columns: [
-                    // 🛠️ FIX: Removed the 'render' functions.
-                    // This fixes the 'toLowerCase' error.
-                    // We only need to disable sorting on the 'Actions' column (index 8).
                     {
                         select: 8, // 'Actions' column
                         sortable: false

@@ -21,7 +21,7 @@ document.getElementById('loginForm').addEventListener('submit', function (event)
     fetch(apiEndpoint, {
         method: 'POST',
         headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
         },
         body: JSON.stringify(loginData) // Send the object
     })
@@ -48,11 +48,32 @@ document.getElementById('loginForm').addEventListener('submit', function (event)
                 // We will use lowercase 'token' and 'name'
                 const token = responseData.data.token;
                 const name = responseData.data.name;
+                const role = responseData.data.role;
+                const basePath = '/software_engineering/frontend/admin/';
+                let destinationPage = '';
 
                 if (token) {
+
                     localStorage.setItem('authToken', token);
-                    localStorage.setItem('username', name);
-                    window.location.href = '/software_engineering/frontend/admin/admin_dashboard.php';
+                    //debug
+                    // localStorage.setItem('username', name);
+                    // localStorage.setItem('role', role);
+
+                    // Use if/else logic to determine the correct destination
+                    if (role === 'A') {
+                        destinationPage = 'admin_dashboard.php';
+                    } else if (role === 'C') {
+                        destinationPage = 'floor_plans.php';
+                    } else if (role === 'K') {
+                        destinationPage = 'orders.php';
+                    } else {
+                        // Fallback for safety, e.g., if role is null or an unexpected value
+                        console.warn(`Unknown or missing role ('${role}'). Defaulting to admin dashboard.`);
+                        destinationPage = 'admin_dashboard.php';
+                    }
+
+                    // Perform the redirect to the correct page
+                    window.location.href = basePath + destinationPage;
                 } else {
                     // This case handles a successful status but missing essential data
                     errorMessage.textContent = 'Login successful but token missing. (Check console for details)';

@@ -1,8 +1,10 @@
 <?php
+require_once '../src/utils/Response.php';
 
 // ini_set('display_errors', 1);
 // error_reporting(E_ALL);
 
+// These paths go up one level from 'public' to 'backend' and then into 'src'
 require_once "../src/config/db.php";
 require_once "../src/config/site_config.php";
 require_once '../src/resources/user/UserController.php';
@@ -11,7 +13,6 @@ require_once '../src/resources/category/CategoryController.php';
 require_once '../src/resources/seating/SeatingController.php';
 require_once '../src/resources/item/ItemController.php';
 require_once '../src/resources/orders/OrdersController.php';
-require_once '../src/utils/Response.php';
 
 // Structure URL 
 $requestUri = trim(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH), '/');
@@ -32,22 +33,24 @@ if (str_contains($contentType, 'application/json')) {
     $data = $_POST;
 }
 
-// Authentication
+// --- GET BOTH TOKEN TYPES ---
+// 1. Get the Master Token from the request (using 'X-Master-Token' header)
+$request_master_token = $headers['X-Master-Token'] ?? null;
+// 2. Get the "source of truth" Master Token from your .env file
+$env_master_token = $_ENV['MASTER_TOKEN'] ?? null;
+
+// 3. Get the regular User Token (for orders, seating)
 $authController = new AuthController();
 $sessionToken = trim(str_replace('Bearer', '', $headers['Authorization'] ?? null));
-$sessionRole = $authController->checkAuthGuard($sessionToken); // A, K, C
+$sessionData = $authController->checkAuthGuard($sessionToken);
+
 
 // $_GET Handler
 $id = $_GET['id'] ?? $data['id'] ?? null;
 
 switch ($type) {
-    /* ... all your other cases (user, category, item, orders, seating) go here ...
-    */
     case 'user':
-        if ($sessionRole != 'A') {
-            Response::json(['error' => 'Access denied.'], 401);
-            break;
-        }
+        // CHECK: Master Token check REMOVED
         $controller = new UserController();
         switch ($method) {
             case 'GET':
@@ -67,10 +70,7 @@ switch ($type) {
         }
         break;
     case 'category':
-        //if($sessionRole != 'A') {
-        //    Response::json(['error' => 'Access denied.'], 401);
-        //    break;
-        //} 
+        // CHECK: Master Token check REMOVED
         $controller = new CategoryController();
         switch ($method) {
             case 'GET':
@@ -90,10 +90,7 @@ switch ($type) {
         }
         break;
     case 'item':
-        //if($sessionRole != 'A') {
-        //    Response::json(['error' => 'Access denied.'], 401);
-        //    break;
-        //} 
+        // CHECK: Master Token check REMOVED
         $controller = new ItemController();
         switch ($method) {
             case 'GET':
@@ -112,11 +109,14 @@ switch ($type) {
                 Response::json(['error' => 'Invalid URL.'], 405);
         }
         break;
+
+    // --- REGULAR USER TOKEN ROUTES ---
     case 'orders':
-        //if($sessionRole != 'A') {
-        //    Response::json(['error' => 'Access denied.'], 401);
-        //    break;
-        //} 
+        // CHECK: Use regular User Token
+        if (!$sessionData) {
+            Response::json(['error' => 'Access denied.'], 401);
+            break;
+        }
         $controller = new OrdersController();
         switch ($method) {
             case 'GET':
@@ -140,9 +140,9 @@ switch ($type) {
                 break;
             case 'PATCH':
                 if (isset($data['action']) && $data['action'] === 'clear_table') {
-                    $controller->clearOrders($data); // Call your new function
+                    $controller->clearOrders($data);
                 } else {
-                    $controller->updateOrders($data); // Call the normal update function
+                    $controller->updateOrders($data);
                 }
                 break;
             case 'DELETE':
@@ -153,10 +153,11 @@ switch ($type) {
         }
         break;
     case 'seating':
-        //if($sessionRole != 'A') {
-        //    Response::json(['error' => 'Access denied.'], 401);
-        //    break;
-        //} 
+        // CHECK: Use regular User Token
+        if (!$sessionData) {
+            Response::json(['error' => 'Access denied.'], 401);
+            break;
+        }
         $controller = new SeatingController();
         switch ($method) {
             case 'GET':
@@ -176,8 +177,7 @@ switch ($type) {
         }
         break;
 
-
-    // This is the important one for this fix:
+    // This route remains the same
     case 'auth':
         switch ($method) {
             case 'POST':
@@ -185,24 +185,22 @@ switch ($type) {
                 $authController->login($data);
                 break;
 
-            // --- UPDATED BLOCK ---
             case 'GET':
-                if ($sessionRole) {
-                    // Just pass the payload, Response::json will wrap it
-                    Response::json(['role' => $sessionRole], 200);
+                if ($sessionData) {
+                    Response::json([
+                        'role' => $sessionData['role'],
+                        'name' => $sessionData['name']
+                    ], 200);
                 } else {
-                    // Just pass the payload
                     Response::json(['message' => 'Invalid or expired token.'], 401);
                 }
                 break;
-            // --- END OF UPDATED BLOCK ---
-
             default:
                 Response::json(['error' => 'Invalid URL.'], 405);
                 break;
         }
         break;
     default:
-        echo json_encode(['error' => 'Invalid URL.']);
+        Response::json(['error' => 'Invalid URL.'], 404);
         break;
 }

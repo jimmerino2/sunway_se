@@ -11,7 +11,6 @@
     <title>Cakeaway Login Page</title>
     <link rel="icon" type="image/png" href="/software_engineering/backend/public/storage/item/cakeaway.icon.png" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
 
     <style>
@@ -129,10 +128,10 @@
                     <input type="password" id="password" class="form-control" placeholder="Password" required>
                 </div>
                 <div class="forgot-password">
-                    <a href="password.php" class="text-decoration-none text-primary">Forgot password?</a>
+                    <a href="register.php" class="text-decoration-none text-primary">Register?</a>
                 </div>
                 <div class="text-center mt-4">
-                    <button type="submit" class="btn btn-login w-100">LOGIN ADMIN</button>
+                    <button type="submit" class="btn btn-login w-100">LOGIN DASHBOARD</button>
                 </div>
             </form>
         </div>
