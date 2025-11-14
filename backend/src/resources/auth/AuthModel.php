@@ -1,17 +1,20 @@
 <?php
 require_once '../src/config/db.php';
 
-class AuthModel {
+class AuthModel
+{
     private PDO $db;
-    private string $tableName = 'session'; 
+    private string $tableName = 'session';
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->db = getPDO();
     }
 
-    public function checkAuthGuard($token, $authenticate = DB_AUTH) {
+    public function checkAuthGuard($token, $authenticate = DB_AUTH)
+    {
         if (!$authenticate) return 'A';
-        if (empty($token)) return false; 
+        if (empty($token)) return false;
         $tokenHashed = hash('sha256', $token);
 
         $sql = "SELECT session.user_id, users.role FROM session JOIN users ON session.user_id = users.id  WHERE token = ? AND expire_at > NOW()";
@@ -22,7 +25,8 @@ class AuthModel {
         return $user['role'] ?? false;
     }
 
-    public function getNameByEmail($email) {
+    public function getNameByEmail($email)
+    {
         $sql = "SELECT name FROM users  WHERE email = ?";
         $stmt = $this->db->prepare($sql);
         $stmt->execute([$email]);
@@ -31,14 +35,15 @@ class AuthModel {
         return $user['name'] ?? false;
     }
 
-    public function login($data) {
+    public function login($data)
+    {
         $sql = "SELECT id, email, password FROM users WHERE email = ?";
         $stmt = $this->db->prepare($sql);
         $stmt->execute([$data['email']]);
         $loginDetails = $stmt->fetch(PDO::FETCH_ASSOC);
 
         // Validate password
-        if ($loginDetails && (password_verify($data['password'], $loginDetails['password']) || ($loginDetails['id'] === 1 && $data['password'] === $loginDetails['password']))) {
+        if ($loginDetails && password_verify($data['password'], $loginDetails['password'])) {
             $user_id = $loginDetails['id'];
 
             // Clear old session(s)
