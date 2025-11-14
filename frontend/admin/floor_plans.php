@@ -349,6 +349,7 @@
             width: 90px;
             text-align: left;
             margin-right: 1rem;
+            white-space: nowrap;
         }
 
         /* This is the new rule */

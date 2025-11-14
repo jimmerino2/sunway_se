@@ -1,4 +1,4 @@
-<?php 
+<?php
 define("DIR_CONFIG", __DIR__);
 
 // Database Related
@@ -7,7 +7,7 @@ define("DB_NAME", "se_project");
 define("DB_USER", "root");
 define("DB_PASS", "");
 
-define("DB_AUTH", false); // Change this to false if you want to skip the auth
+define("DB_AUTH", true); // Change this to false if you want to skip the auth
 
 // File Structure
 define("DIR_BACKEND", __DIR__ . "/../");

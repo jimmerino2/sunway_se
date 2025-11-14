@@ -44,30 +44,4 @@
 </nav>
 
 <!-- Logout Modal -->
-<div class="modal fade" id="logoutModal" tabindex="-1" aria-labelledby="logoutModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content border-0 shadow-lg">
-            <div class="modal-header bg-primary text-white">
-                <h5 class="modal-title" id="logoutModalLabel">Logging Out...</h5>
-            </div>
-            <div class="modal-body text-center">
-                <div class="spinner-border text-primary mb-3" role="status"></div>
-                <p class="text-dark mb-1">Please wait while we log you out.</p>
-                <p class="text-muted small">You will be redirected to the login page shortly.</p>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- Logout Modal Logic -->
-<script>
-    const sec = 2; // seconds before redirect
-    const timeset = sec * 1000;
-    const logoutModal = document.getElementById('logoutModal');
-
-    logoutModal.addEventListener('shown.bs.modal', function() {
-        setTimeout(function() {
-            window.location.href = "../auth/login.php";
-        }, timeset);
-    });
-</script>
+<?= include '../auth/logout_modal.html'; ?>

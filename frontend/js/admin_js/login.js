@@ -35,12 +35,17 @@ document.getElementById('loginForm').addEventListener('submit', function (event)
             return responseRaw.json();
         })
         .then(responseData => {
-            // --- START OF REQUIRED FIX ---
+
+            // --- NEW DEBUGGING LINE ---
+            // Log the *entire* response object from the server to see what we got
+            console.log('Server Response Data:', responseData);
+            // --- END OF DEBUGGING LINE ---
 
             // 1. Check the 'success' flag from the API response body
             if (responseData.success && responseData.data) {
 
                 // 2. Extract token and name from the nested 'data' object
+                // We will use lowercase 'token' and 'name'
                 const token = responseData.data.token;
                 const name = responseData.data.name;
 
@@ -50,8 +55,9 @@ document.getElementById('loginForm').addEventListener('submit', function (event)
                     window.location.href = '/software_engineering/frontend/admin/admin_dashboard.php';
                 } else {
                     // This case handles a successful status but missing essential data
-                    errorMessage.textContent = 'Login successful but token missing.';
+                    errorMessage.textContent = 'Login successful but token missing. (Check console for details)';
                     errorMessage.style.display = 'block';
+                    console.error('Login Error: responseData.data exists, but responseData.data.token is missing or empty.', responseData.data);
                 }
             } else {
                 // 3. Handle unsuccessful login (e.g., wrong credentials)
@@ -59,7 +65,6 @@ document.getElementById('loginForm').addEventListener('submit', function (event)
                 errorMessage.textContent = responseData.data?.message || 'Invalid email or password.';
                 errorMessage.style.display = 'block';
             }
-            // --- END OF REQUIRED FIX ---
         })
         .catch(error => {
             // This catches network errors or the custom errors thrown above (e.g., HTTP error)

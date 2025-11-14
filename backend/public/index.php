@@ -41,6 +41,8 @@ $sessionRole = $authController->checkAuthGuard($sessionToken); // A, K, C
 $id = $_GET['id'] ?? $data['id'] ?? null;
 
 switch ($type) {
+    /* ... all your other cases (user, category, item, orders, seating) go here ...
+    */
     case 'user':
         if ($sessionRole != 'A') {
             Response::json(['error' => 'Access denied.'], 401);
@@ -173,12 +175,28 @@ switch ($type) {
                 Response::json(['error' => 'Invalid URL.'], 405);
         }
         break;
+
+
+    // This is the important one for this fix:
     case 'auth':
         switch ($method) {
             case 'POST':
                 $data = json_decode(file_get_contents('php://input'), true);
                 $authController->login($data);
                 break;
+
+            // --- UPDATED BLOCK ---
+            case 'GET':
+                if ($sessionRole) {
+                    // Just pass the payload, Response::json will wrap it
+                    Response::json(['role' => $sessionRole], 200);
+                } else {
+                    // Just pass the payload
+                    Response::json(['message' => 'Invalid or expired token.'], 401);
+                }
+                break;
+            // --- END OF UPDATED BLOCK ---
+
             default:
                 Response::json(['error' => 'Invalid URL.'], 405);
                 break;

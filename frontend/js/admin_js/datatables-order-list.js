@@ -117,7 +117,12 @@ window.addEventListener('DOMContentLoaded', event => {
             default: currentStatusText = 'Unknown'; break;
         }
         document.getElementById('currentStatus').value = currentStatusText;
-        document.getElementById('newStatus').value = '';
+        document.getElementById('newStatus').value = ''; // Reset dropdown
+
+        // 💡 FIX: Store original values on the modal element itself
+        const modalElement = document.getElementById('changeStatusModal');
+        modalElement.setAttribute('data-original-quantity', order.quantity || '1');
+        modalElement.setAttribute('data-original-status', order.status || '');
     }
 
     function prefillRemoveModal(order) {
@@ -153,10 +158,46 @@ window.addEventListener('DOMContentLoaded', event => {
             const newStatus = document.getElementById('newStatus').value;
             const newQuantity = document.getElementById('newQuantity').value;
 
+            // 💡 FIX: Get original values from the modal's data attributes
+            const modalElement = document.getElementById('changeStatusModal');
+            const originalQuantity = modalElement.getAttribute('data-original-quantity');
+            const originalStatus = modalElement.getAttribute('data-original-status');
+
             if (!newQuantity || parseInt(newQuantity) < 1) {
                 alert('Quantity must be 1 or more.');
                 return;
             }
+
+            // 💡 FIX: Build a dynamic payload
+            const payload = {
+                id: orderId
+            };
+
+            let statusChanged = false;
+            let quantityChanged = false;
+
+            // Check if status was selected AND it's different from the original
+            if (newStatus && newStatus !== originalStatus) {
+                payload.status = newStatus;
+                statusChanged = true;
+            }
+
+            // Check if quantity is different from the original
+            // Note: Use '!=' instead of '!==' to compare string "2" and number 2
+            if (newQuantity != originalQuantity) {
+                payload.quantity = newQuantity;
+                quantityChanged = true;
+            }
+
+            // If nothing changed, just close the modal
+            if (!statusChanged && !quantityChanged) {
+                alert('No changes were made.');
+                const modalInstance = bootstrap.Modal.getInstance(modalElement);
+                if (modalInstance) modalInstance.hide();
+                return;
+            }
+
+            // --- The rest of your function is the same ---
 
             const apiEndpoint = 'http://localhost/software_engineering/backend/orders';
 
@@ -166,15 +207,13 @@ window.addEventListener('DOMContentLoaded', event => {
                     headers: {
                         'Content-Type': 'application/json',
                     },
-                    body: JSON.stringify({
-                        id: orderId,
-                        status: newStatus,
-                        quantity: newQuantity
-                    })
+                    // 💡 FIX: Send the new dynamic payload
+                    body: JSON.stringify(payload)
                 });
 
                 if (response.ok) {
-                    alert(`Order ${orderId} updated successfully (Status: ${newStatus || 'unchanged'}, Quantity: ${newQuantity})!`);
+                    // This alert is now a bit simpler
+                    alert(`Order ${orderId} updated successfully!`);
 
                     const changeModalElement = document.getElementById('changeStatusModal');
                     const modalInstance = bootstrap.Modal.getInstance(changeModalElement);
@@ -190,7 +229,6 @@ window.addEventListener('DOMContentLoaded', event => {
                 alert('A network error occurred while updating the order.');
             }
         });
-
         // Remove Confirmation Submission Handler (DELETE)
         document.getElementById('confirmRemoveOrder').addEventListener('click', async function () {
             const orderId = document.getElementById('removeOrderId').value;
