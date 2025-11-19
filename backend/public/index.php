@@ -113,10 +113,10 @@ switch ($type) {
     // --- REGULAR USER TOKEN ROUTES ---
     case 'orders':
         // CHECK: Use regular User Token
-        if (!$sessionData) {
-            Response::json(['error' => 'Access denied.'], 401);
-            break;
-        }
+        //if (!$sessionData) {
+        //    Response::json(['error' => 'Access denied.'], 401);
+        //    break;
+        //}
         $controller = new OrdersController();
         switch ($method) {
             case 'GET':
