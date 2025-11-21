@@ -140,7 +140,9 @@
 
 <script>
 const tableNo = localStorage.getItem("table_no");
-const orders = JSON.parse(localStorage.getItem("orders_" + tableNo)) || [];
+const stored = localStorage.getItem("orders_" + tableNo);
+const orders = stored ? JSON.parse(stored) : [];
+
 const submitBtn = document.getElementById('submitBtn');
 if (orders.length === 0) {
     submitBtn.style.display = 'none';
@@ -157,25 +159,40 @@ document.querySelector("#confirmSubmitBtn")?.addEventListener("click", async () 
             const orderData = {
                 item_id: order.item_id,
                 quantity: order.quantity,
-                status: 'O',
+                status: 'P',
                 is_complete: 'N',
                 order_time: new Date().toISOString(), 
                 table_id: tableNo,
             };
 
-            const response = await getApiResponse(
+            await getApiResponse(
                 "http://localhost/software_engineering/backend/orders",
                 "POST",
                 orderData
             );
         }
 
+        const seatingResponse = await getApiResponse ("http://localhost/software_engineering/backend/seating?table_no=" + tableNo, "GET",)
+        const seatingData = {
+            id: seatingResponse.data[0].id,
+            table_no: seatingResponse.data[0].table_no,
+            status: 'C',
+        };
+        const response = await getApiResponse(
+            "http://localhost/software_engineering/backend/seating",
+            "PATCH",
+            seatingData
+        );
+        console.log(seatingData);
+        console.log(response);
+        
+
         localStorage.setItem('orders_' + tableNo, []); 
         localStorage.setItem('cart_count', 0); 
 
         showNotification('Your order has been successfully submitted.');
         setTimeout(() => {
-            window.location.href = "index.php";
+            window.location.href = "index.php"; 
         }, 1000);
 
     } catch (error) {

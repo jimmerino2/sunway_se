@@ -62,7 +62,7 @@ class SeatingController
     {
         if (isset($data['id'])) {
             // Check for unique seating 
-            $isTableNoTaken = $this->seatingModel->checkUniqueTableNo($data['id'], $data['name']);
+            $isTableNoTaken = $this->seatingModel->checkUniqueTableNo($data['id'], $data['table_no']);
             if ($isTableNoTaken) {
                 Response::json(['error' => 'There is already a seating with this table number.'], 400);
                 return;

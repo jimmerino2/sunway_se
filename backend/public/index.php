@@ -154,10 +154,10 @@ switch ($type) {
         break;
     case 'seating':
         // CHECK: Use regular User Token
-        if (!$sessionData) {
-            Response::json(['error' => 'Access denied.'], 401);
-            break;
-        }
+        //if (!$sessionData) {
+        //    Response::json(['error' => 'Access denied.'], 401);
+        //    break;
+        //}
         $controller = new SeatingController();
         switch ($method) {
             case 'GET':

@@ -5,7 +5,8 @@ document.addEventListener("DOMContentLoaded", () => {
     return;
   }
   const tableNo = localStorage.getItem("table_no");
-  const data = JSON.parse(localStorage.getItem("orders_" + tableNo));
+  const stored = localStorage.getItem("orders_" + tableNo);
+  const data = stored ? JSON.parse(stored) : [];
 
   const dataTable = $(table).DataTable({
     data: data,
