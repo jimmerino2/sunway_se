@@ -12,7 +12,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet"/>
     <link href="../css/customer.css" rel="stylesheet"> 
-    <link href="../css/customerDatatables.css" rel="stylesheet"> 
+    <link href="../css/customerDatatablesCheckout.css" rel="stylesheet"> 
 </head>
 
 <body>
@@ -29,8 +29,8 @@
     <!-- Cart Items -->
     <section style="display: flex; flex-direction: column; flex-grow: 1; position: relative; padding: 20px;">
         <div id="container-parent" style="flex-grow: 1; overflow-y: auto;">
-            <table id="table-order" style="width: 100%; border-collapse: collapse;">
-                <thead id="table-order-header"></thead>
+            <table id="table-checkout" style="width: 100%; border-collapse: collapse;">
+                <thead id="table-checkout-header"></thead>
                 <tbody></tbody>
                 <tfoot>
                     <tr>
@@ -50,7 +50,7 @@
         </div>
     </section>
 
-
+    <?php include 'components/orderButton.html'?>
     <?php include 'components/footer.html'?>
 </body>
 

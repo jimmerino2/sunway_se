@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
-  const table = document.querySelector("#table-order");
+  const table = document.querySelector("#table-checkout");
   if (!table) {
     console.warn("orderTable element not found.");
     return;

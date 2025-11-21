@@ -13,7 +13,7 @@
         const newUrl = window.location.origin + window.location.pathname;
         window.history.replaceState({}, document.title, newUrl);
     } 
-    
+
     (async () => {
         const categoryResponse = await getApiResponse('http://localhost/software_engineering/backend/category');
         const categoryData = categoryResponse.data;
@@ -96,6 +96,7 @@
         </div>
     </section>
 
+    <?php include 'components/orderButton.html'?>
     <?php include 'components/footer.html'?>
 </body>
 </html>
