@@ -43,6 +43,9 @@ class OrdersModel
             }
         }
 
+        var_dump($sql);
+        exit;
+
         $stmt = $this->db->prepare($sql);
         $stmt->execute($params);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);

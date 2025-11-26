@@ -6,13 +6,20 @@
 
 <script>
     // Get table number from URL
-    if (!localStorage.getItem('table_no')) {
-        const urlParams = new URLSearchParams(window.location.search);
-        const tableNumber = urlParams.get('table_no') ?? 1; 
-        localStorage.setItem('table_no', tableNumber);   
-        const newUrl = window.location.origin + window.location.pathname;
-        window.history.replaceState({}, document.title, newUrl);
-    } 
+    const urlParams = new URLSearchParams(window.location.search);
+    const tableNumber = urlParams.get('table_no') ?? localStorage.getItem('table_no') ?? 1; 
+
+    if (tableNumber != localStorage.getItem('table_no')) {
+        let tableNo = localStorage.getItem('table_no');
+        localStorage.setItem('orders_' + tableNo, []); 
+        localStorage.setItem('cart_count', 0); 
+    }
+    localStorage.setItem('table_no', tableNumber);   
+    const newUrl = window.location.origin + window.location.pathname;
+    window.history.replaceState({}, document.title, newUrl);
+
+    console.log(localStorage.getItem('table_no'));
+    
 
     (async () => {
         const categoryResponse = await getApiResponse('http://localhost/software_engineering/backend/category');
