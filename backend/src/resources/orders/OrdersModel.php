@@ -9,7 +9,7 @@ class OrdersModel
         ['name' => 'id', 'required' => true],
         ['name' => 'item_id', 'required' => true],
         ['name' => 'table_id', 'required' => true],
-        ['name' => 'table_no', 'required' => true],
+        ['name' => 'table_no', 'required' => false],
         ['name' => 'quantity', 'required' => true],
         ['name' => 'status', 'required' => true],
         ['name' => 'is_complete', 'required' => true],

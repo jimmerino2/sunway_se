@@ -18,9 +18,6 @@
     const newUrl = window.location.origin + window.location.pathname;
     window.history.replaceState({}, document.title, newUrl);
 
-    console.log(localStorage.getItem('table_no'));
-    
-
     (async () => {
         const categoryResponse = await getApiResponse('http://localhost/software_engineering/backend/category');
         const categoryData = categoryResponse.data;

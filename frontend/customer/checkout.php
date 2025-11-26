@@ -183,10 +183,7 @@ document.querySelector("#confirmSubmitBtn")?.addEventListener("click", async () 
             "PATCH",
             seatingData
         );
-        console.log(seatingData);
-        console.log(response);
         
-
         localStorage.setItem('orders_' + tableNo, []); 
         localStorage.setItem('cart_count', 0); 
 
