@@ -9,6 +9,7 @@ class OrdersModel
         ['name' => 'id', 'required' => true],
         ['name' => 'item_id', 'required' => true],
         ['name' => 'table_id', 'required' => true],
+        ['name' => 'table_no', 'required' => true],
         ['name' => 'quantity', 'required' => true],
         ['name' => 'status', 'required' => true],
         ['name' => 'is_complete', 'required' => true],
@@ -33,18 +34,19 @@ class OrdersModel
         if (!empty($filters)) {
             $validColumns = array_column($this->columns, 'name');
             foreach ($filters as $key => $value) {
-
-                // --- THIS IS THE FIX ---
-                // We check if the key is a valid column and add the 'o.' prefix
                 if (in_array($key, $validColumns)) {
-                    $sql .= " AND o.$key = :$key"; // <-- Was missing 'o.'
+                    switch ($key) {
+                        case 'table_no':
+                            $sql .= " AND s.$key = :$key"; 
+                            break;
+                        default:
+                            $sql .= " AND o.$key = :$key"; 
+                            break;
+                    }
                     $params[$key] = $value;
                 }
             }
         }
-
-        var_dump($sql);
-        exit;
 
         $stmt = $this->db->prepare($sql);
         $stmt->execute($params);
