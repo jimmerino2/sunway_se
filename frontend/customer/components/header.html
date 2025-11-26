@@ -1,17 +1,16 @@
 <!-- Navbar -->
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
   <div class="container px-4 px-lg-5">
-    <a
-      class="navbar-brand"
-      href="http://localhost/software_engineering/frontend/customer"
-      >Cakeaway</a
-    >
+    <a class="navbar-brand" href="http://localhost/software_engineering/frontend/customer/index.php">Cakeaway</a>
     <a class="btn btn-outline-dark" href="checkout.php">
       <i class="bi bi-cart-fill me-1"></i>
       Cart
-      <span id="cart_count" class="badge bg-dark text-white ms-1 rounded-pill"
-        >0</span
-      >
+      <span id="cart_count" class="badge bg-dark text-white ms-1 rounded-pill">0</span>
+    </a>
+    <a class="btn btn-outline-dark mx-2">
+      <i class="bi bi-cart-fill me-1"></i>
+      table
+      <span id="TableNo" class="badge bg-dark text-white ms-1 rounded-pill">0</span>
     </a>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
@@ -23,6 +22,12 @@
 
 <script>
   const cartCount = localStorage.getItem("cart_count");
+  const tableno = localStorage.getItem("table_no");
+
   const cartCountHtml = document.getElementById("cart_count");
   cartCountHtml.textContent = cartCount;
+
+  const TableNoHtml = document.getElementById("TableNo");
+  TableNoHtml.textContent = tableno;
+
 </script>
