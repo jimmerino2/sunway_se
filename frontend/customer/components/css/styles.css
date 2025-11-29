@@ -1,0 +1,355 @@
+/* =========================================
+   1. GLOBAL & RESET
+   ========================================= */
+body {
+    background-color: #f8f9fa;
+    font-family: system-ui, -apple-system, sans-serif;
+    -webkit-tap-highlight-color: transparent;
+    /* Padding is handled dynamically in head.php */
+}
+
+/* =========================================
+   2. NAVIGATION
+   ========================================= */
+/* Bottom Nav Items */
+.nav-link-custom {
+    color: #adb5bd;
+    font-size: 0.75rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    transition: color 0.2s;
+}
+
+.nav-link-custom.active {
+    color: #0d6efd;
+}
+
+.nav-link-custom i {
+    font-size: 1.4rem;
+    margin-bottom: 2px;
+}
+
+/* =========================================
+   3. HOME / MENU PAGE
+   ========================================= */
+/* Horizontal Category Scroll */
+.category-scroll {
+    overflow-x: auto;
+    white-space: nowrap;
+    -ms-overflow-style: none;
+    /* IE and Edge */
+    scrollbar-width: none;
+    /* Firefox */
+}
+
+.category-scroll::-webkit-scrollbar {
+    display: none;
+}
+
+/* Menu Item Card */
+.item-card {
+    border: none;
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+    transition: transform 0.1s ease;
+}
+
+.item-card:active {
+    transform: scale(0.98);
+    background-color: #f1f3f5;
+}
+
+/* =========================================
+   4. PRODUCT DETAILS MODAL (Pop-up)
+   ========================================= */
+#menuDetails .modal-dialog {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: calc(100% - 3rem);
+    max-width: 400px;
+    width: 90%;
+    margin: 1.5rem auto;
+}
+
+#menuDetails .modal-content {
+    border-radius: 20px;
+    border: none;
+    background: #fff;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+    overflow: hidden;
+}
+
+.modal-hero-img {
+    position: relative;
+    width: 100%;
+    height: 250px;
+    background-color: #f8f9fa;
+    overflow: hidden;
+}
+
+.product-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.btn-close-float {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    width: 35px;
+    height: 35px;
+    background: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(4px);
+    border-radius: 50%;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    z-index: 10;
+    cursor: pointer;
+}
+
+.modal-body-custom {
+    padding: 20px 24px;
+}
+
+.info-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 10px;
+}
+
+.info-name {
+    font-size: 1.35rem;
+    font-weight: 700;
+    color: #212529;
+    line-height: 1.2;
+    margin-right: 10px;
+}
+
+.info-price {
+    font-size: 1.35rem;
+    font-weight: 700;
+    color: #0d6efd;
+    white-space: nowrap;
+}
+
+.info-desc {
+    color: #6c757d;
+    font-size: 0.9rem;
+    line-height: 1.5;
+    margin-bottom: 25px;
+}
+
+/* Action Row (Quantity + Add Button) */
+.action-row {
+    display: flex;
+    align-items: stretch;
+    gap: 15px;
+    height: 50px;
+}
+
+.qty-stepper {
+    display: flex;
+    align-items: center;
+    background-color: #f1f3f5;
+    border-radius: 12px;
+    padding: 0 5px;
+    height: 100%;
+    width: 130px;
+    justify-content: space-between;
+}
+
+.qty-btn {
+    width: 35px;
+    height: 35px;
+    border: none;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    color: #333;
+    font-weight: bold;
+    font-size: 1.2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.qty-val {
+    flex-grow: 1;
+    text-align: center;
+    border: none;
+    background: transparent;
+    font-weight: 700;
+    font-size: 1.1rem;
+    width: 30px;
+    padding: 0;
+}
+
+.btn-add {
+    flex-grow: 1;
+    height: 100%;
+    border-radius: 12px;
+    background-color: #0d6efd;
+    color: white;
+    font-weight: 700;
+    font-size: 1rem;
+    border: none;
+    box-shadow: 0 4px 10px rgba(13, 110, 253, 0.25);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-add:active {
+    background-color: #0b5ed7;
+    transform: scale(0.98);
+}
+
+/* =========================================
+   5. CART / CHECKOUT PAGE
+   ========================================= */
+.cart-card {
+    background: white;
+    border-radius: 16px;
+    border: none;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+    margin-bottom: 15px;
+    overflow: hidden;
+    transition: transform 0.1s;
+}
+
+.cart-card:active {
+    transform: scale(0.99);
+}
+
+.cart-img {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 12px;
+}
+
+/* Checkout Bottom Bar */
+.checkout-bar {
+    position: fixed;
+    bottom: 65px;
+    left: 0;
+    width: 100%;
+    background: white;
+    border-top: 1px solid #f0f0f0;
+    padding: 15px 20px;
+    z-index: 1020;
+    box-shadow: 0 -5px 15px rgba(0, 0, 0, 0.05);
+}
+
+/* Edit Drawer (Bottom Sheet) */
+.modal-dialog-bottom {
+    display: flex;
+    align-items: center;
+    min-height: calc(100% - 2rem);
+    margin: 1rem auto;
+    max-width: 400px;
+    width: 90%;
+}
+
+.drawer-content {
+    border-radius: 24px;
+    border: none;
+    background: white;
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+    overflow: hidden;
+}
+
+.drawer-img-header {
+    height: 200px;
+    width: 100%;
+    background: #f0f0f0;
+    position: relative;
+}
+
+.drawer-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.qty-pill {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #f1f3f5;
+    border-radius: 12px;
+    padding: 4px;
+    height: 50px;
+    width: 140px;
+}
+
+.qty-input {
+    width: 40px;
+    border: none;
+    background: transparent;
+    text-align: center;
+    font-weight: 700;
+    font-size: 1.2rem;
+}
+
+/* =========================================
+   6. ORDERS PAGE
+   ========================================= */
+.summary-card {
+    background: linear-gradient(135deg, #212529 0%, #343a40 100%);
+    border-radius: 16px;
+    color: white;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.order-card {
+    background: white;
+    border-radius: 16px;
+    border: 1px solid #f0f0f0;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.02);
+    margin-bottom: 12px;
+    padding: 16px;
+    transition: transform 0.1s;
+}
+
+.order-card:active {
+    transform: scale(0.99);
+}
+
+/* Status Badges */
+.status-badge {
+    font-size: 0.75rem;
+    font-weight: 700;
+    padding: 5px 12px;
+    border-radius: 50px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.status-pending {
+    background-color: #e9ecef;
+    color: #495057;
+}
+
+.status-cooking {
+    background-color: #fff3cd;
+    color: #856404;
+}
+
+.status-delivered {
+    background-color: #d1e7dd;
+    color: #0f5132;
+}

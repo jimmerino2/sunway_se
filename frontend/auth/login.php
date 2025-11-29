@@ -155,7 +155,7 @@
         }
     </script>
 
-    <script src="../js/admin_js/login.js"></script>
+    <script src="components/js/login.js"></script>
 </body>
 
 </html>

@@ -18,4 +18,4 @@ RewriteCond %{REQUEST_FILENAME} -d
 RewriteCond %{REQUEST_FILENAME}/index.php !-f
 RewriteCond %{REQUEST_FILENAME}/index.html !-f
 # 2) …then redirect (302) to your projects dashboard:
-RewriteRule ^.*$ /software_engineering/frontend/auth/login.php [L,R=302]
+RewriteRule ^.*$ /software_engineering/frontend/customer/ [L,R=302]

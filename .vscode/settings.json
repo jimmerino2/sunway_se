@@ -1,3 +1,28 @@
 {
-    "livePreview.defaultPreviewPath": "/frontend/auth/login.php"
+    "livePreview.defaultPreviewPath": "/frontend/auth/login.php",
+    "files.exclude": {
+        "**/.git": true,
+        "**/.svn": true,
+        "**/.hg": true,
+        "**/.DS_Store": true,
+        "**/Thumbs.db": true,
+        ".env": true,
+        ".htaccess": true,
+        "composer.lock": true,
+        "composer.json": true,
+        "LICENSE": true,
+        ".gitignore": true,
+        "vendor": true,
+        "backend": true
+    },
+    "hide-files.files": [
+        ".env",
+        ".htaccess",
+        "composer.lock",
+        "composer.json",
+        "LICENSE",
+        ".gitignore",
+        "vendor",
+        "backend"
+    ],
 }

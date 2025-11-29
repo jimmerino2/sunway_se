@@ -1,0 +1,25 @@
+<div class="position-fixed start-50 translate-middle-x p-3" style="z-index: 1060; top: 70px">
+  <div id="toast-notification" class="toast hide" role="alert" aria-live="assertive" aria-atomic="true"
+    data-bs-delay="700">
+    <div class="toast-header">
+      <strong class="me-auto">Cakeaway</strong>
+      <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+    </div>
+    <div id="toast-notification-body" class="toast-body">
+      Hello, world! This is a toast message.
+    </div>
+  </div>
+</div>
+
+<script>
+  function showNotification(message) {
+    const toastText = document.getElementById("toast-notification-body");
+    const toastElement = document.getElementById("toast-notification");
+
+    if (toastText && toastElement) {
+      toastText.textContent = message;
+      const toast = bootstrap.Toast.getOrCreateInstance(toastElement);
+      toast.show();
+    }
+  }
+</script>
