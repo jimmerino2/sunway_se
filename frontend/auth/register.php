@@ -205,7 +205,7 @@
         </div>
     </div>
 
-    <?= include 'src/admin_auth_modal.html'; ?>
+    <?= include 'components/src/admin_auth_modal.html'; ?>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
         crossorigin="anonymous"></script>

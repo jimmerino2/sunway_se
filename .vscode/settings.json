@@ -1,5 +1,13 @@
 {
     "livePreview.defaultPreviewPath": "/frontend/auth/login.php",
+    "files.exclude": {
+        "**/.git": true,
+        "**/.svn": true,
+        "**/.hg": true,
+        "**/.DS_Store": true,
+        "**/Thumbs.db": true
+    },
+    "hide-files.files": [],
     // "files.exclude": {
     //     "**/.git": true,
     //     "**/.svn": true,
