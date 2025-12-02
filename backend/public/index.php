@@ -33,6 +33,15 @@ if (str_contains($contentType, 'application/json')) {
     $data = $_POST;
 }
 
+// --- FIX: Check for _method override for PATCH/PUT/DELETE tunneling ---
+$methodOverride = $data['_method'] ?? null;
+if ($methodOverride && in_array(strtoupper($methodOverride), ['PUT', 'PATCH', 'DELETE'])) {
+    $method = strtoupper($methodOverride);
+    // Remove it from data so it doesn't get passed to the controller
+    unset($data['_method']);
+}
+// --------------------------------------------------------------------------
+
 // --- GET BOTH TOKEN TYPES ---
 // 1. Get the Master Token from the request (using 'X-Master-Token' header)
 $request_master_token = $headers['X-Master-Token'] ?? null;

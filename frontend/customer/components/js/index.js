@@ -25,7 +25,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // 2. Initialize Data
     loadCategories();
-    loadItems();
+    loadItems(); // Initial load fetches only active items
 
     // 3. Setup Modal Event Listeners
     setupModalLogic();
@@ -62,8 +62,14 @@ async function loadItems(categoryId = '') {
 
     container.innerHTML = `<div class="text-center py-5"><div class="spinner-border text-primary"></div><div class="small mt-2">Loading...</div></div>`;
 
-    let url = 'http://localhost/software_engineering/backend/item';
-    if (categoryId) url += `?category_id=${categoryId}`;
+    // START: Specific URL requested
+    let url = 'http://localhost/software_engineering/backend/item?active=1';
+
+    // Conditionally append category_id using '&'
+    if (categoryId) {
+        url += `&category_id=${categoryId}`;
+    }
+    // END: Specific URL requested
 
     try {
         const res = await getApiResponse(url);

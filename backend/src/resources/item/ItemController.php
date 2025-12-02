@@ -14,11 +14,16 @@ class ItemController
 
     public function listItem($filters)
     {
+        // 🌟 ADMIN FIX: NO DEFAULT FILTER APPLIED HERE.
+        // If $filters is empty, ItemModel::listItem runs a SELECT * query, returning all items (active=1 or active=0).
+
         $items = $this->itemModel->listItem($filters);
+
         if ($items) {
             Response::json($items);
         } else {
-            Response::json(null);
+            // Return empty array instead of null for consistency if no items found
+            Response::json([]);
         }
     }
 
@@ -34,13 +39,12 @@ class ItemController
 
     public function createItem($data, $files)
     {
-        // Ensure all required fields are filled
-        foreach ($this->itemModel->columns as $column) {
-            if ($column['name'] === 'id') {
-                continue;
-            }
-            if ($column['required'] && !in_array($column['name'], array_keys($data))) {
-                Response::json(['error' => ucfirst($column['name']) . " field is missing."], 400);
+        // Fields that must be present and not empty
+        $required_fields = ['name', 'price', 'category_id', 'description'];
+
+        foreach ($required_fields as $field) {
+            if (!isset($data[$field]) || empty($data[$field])) {
+                Response::json(['error' => ucfirst($field) . " field is missing or empty."], 400);
                 return;
             }
         }
@@ -57,6 +61,9 @@ class ItemController
             return;
         }
 
+        // Add 'active' = 1 by default when creating
+        $data['active'] = 1;
+
         $success = $this->itemModel->saveItem($data, $files);
         return $success
             ? Response::json(['message' => 'Item successfully created.'], 201)
@@ -65,31 +72,45 @@ class ItemController
 
     public function updateItem($data, $files = [])
     {
-        if (isset($data['id'])) {
-            $success = $this->itemModel->updateItem($data, $files);
-            return $success
-                ? Response::json(['message' => 'Item successfully updated.'], 201)
-                : Response::json(['error' => 'There was an issue updating this item.'], 400);
-        } else {
+        // Check for ID presence
+        if (!isset($data['id'])) {
             Response::json(['error' => 'Item ID not set.'], 400);
+            return;
         }
+
+        $id = $data['id'];
+
+        // Check if the item exists
+        if (!$this->itemModel->getItem($id)) {
+            Response::json(['error' => 'Item does not exist.'], 404);
+            return;
+        }
+
+        $success = $this->itemModel->updateItem($data, $files);
+
+        return $success
+            ? Response::json(['message' => 'Item successfully updated.'], 200)
+            : Response::json(['error' => 'There was an issue updating this item.'], 400);
     }
 
     public function deleteItem($id)
     {
-        if ($id != null) {
-            $isItemExist = $this->itemModel->getItem($id);
-
-            if ($isItemExist) {
-                $success = $this->itemModel->deleteItem($id);
-                return $success
-                    ? Response::json(['message' => 'Item successfully deleted.'], 201)
-                    : Response::json(['error' => 'There was an issue deleting this item.'], 400);
-            } else {
-                Response::json(['error' => 'Item does not exist.'], 400);
-            }
-        } else {
+        // DELETE MODIFICATION: Still performs soft delete via UPDATE in the Model.
+        if ($id === null) {
             Response::json(['error' => 'Item ID not set.'], 400);
+            return;
+        }
+
+        $isItemExist = $this->itemModel->getItem($id);
+
+        if ($isItemExist) {
+            // This method now calls ItemModel::deleteItem, which sets active = 0.
+            $success = $this->itemModel->deleteItem($id);
+            return $success
+                ? Response::json(['message' => 'Item successfully deactivated (soft deleted).'], 200)
+                : Response::json(['error' => 'There was an issue deactivating this item.'], 400);
+        } else {
+            Response::json(['error' => 'Item does not exist.'], 404);
         }
     }
 }

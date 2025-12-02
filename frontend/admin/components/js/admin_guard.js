@@ -51,18 +51,21 @@ function updateNavVisibility(role) {
     const dashboardLink = document.getElementById('admin_dashboard');
     const ordersLink = document.getElementById('orders');
     const floorPlanLink = document.getElementById('floor_plan');
+    const menuLink = document.getElementById('menu');
 
-    if (!dashboardLink || !ordersLink || !floorPlanLink) return;
+    if (!dashboardLink || !ordersLink || !floorPlanLink || !menuLink) return;
 
-    // Reset
+    // Reset: Hide all links initially
     dashboardLink.style.display = 'none';
     ordersLink.style.display = 'none';
     floorPlanLink.style.display = 'none';
+    menuLink.style.display = 'none'; // <-- New: Ensure Menu link is hidden by default
 
     if (role === 'A') { // Admin
         dashboardLink.style.display = 'block';
         ordersLink.style.display = 'block';
         floorPlanLink.style.display = 'block';
+        menuLink.style.display = 'block'; // <-- New: Show Menu link only for Admin
     } else if (role === 'K') { // Kitchen
         ordersLink.style.display = 'block';
     } else if (role === 'C') { // Cashier
