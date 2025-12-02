@@ -358,7 +358,7 @@ window.openStatusModal = function (id, name, isActive) {
     const nameEl = document.getElementById('deleteItemName');
     const action = isActive ? 'deactivate' : 'reactivate';
 
-    if (nameEl) nameEl.innerHTML = `Are you sure you want to **${action}** the item: **${name}**?`;
+    if (nameEl) nameEl.innerHTML = `Are you sure you want to ${action} ${name} from the user menu?`;
 
     const confirmBtn = document.getElementById('confirmDeleteBtn');
     if (confirmBtn) {

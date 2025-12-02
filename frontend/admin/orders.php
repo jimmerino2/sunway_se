@@ -17,19 +17,23 @@ $currentPage = "orders";
         <div id="layoutSidenav_content">
             <main>
                 <div class="container-fluid px-4">
-                    <h1 class="mt-4">All Orders</h1>
-                    <div class="card mb-4 mt-4">
-                        <div class="card-header">
-                            <i class="fas fa-table me-1"></i> Order List
-                        </div>
-                        <div class="card-body">
-                            <table id="datatablesOrders" class="table table-striped">
-                                <thead></thead>
-                                <tbody></tbody>
-                            </table>
+                    <div class="container-fluid px-4">
+                        <h1 class="mt-4">Orders</h1>
+                        <ol class="breadcrumb mb-4">
+                            <li class="breadcrumb-item active">All Orders from customers</li>
+                        </ol>
+                        <div class="card mb-4 mt-4">
+                            <div class="card-header">
+                                <i class="fas fa-table me-1"></i> Order List
+                            </div>
+                            <div class="card-body">
+                                <table id="datatablesOrders" class="table table-striped">
+                                    <thead></thead>
+                                    <tbody></tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
-                </div>
             </main>
 
             <?php include 'components/src/footer.php'; ?>

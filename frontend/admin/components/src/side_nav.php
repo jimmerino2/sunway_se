@@ -21,6 +21,10 @@
                     <span class="sb-nav-link-icon"><i class="fa-solid fa-shop"></i></span>
                     Floor plan
                 </a>
+                <a id="users" class="nav-link text-nowrap" href="users.php">
+                    <span class="sb-nav-link-icon"><i class="fa-solid fa-users"></i></span>
+                    users
+                </a>
             </div>
         </div>
         <div class="sb-sidenav-footer">
