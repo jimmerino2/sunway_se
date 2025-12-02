@@ -13277,28 +13277,29 @@ body {
     vertical-align: middle;
 }
 
+
 /* =================================================================
-   BASE STYLES: Card Structure, Borders, and Focus Reset
+   BASE STYLES: Card Structure, Borders, and Opacity
    ================================================================= */
 
-/* 1. Ensure Card Border Consistency & Remove Outlines */
+/* 1. Ensure Card Border Consistency & Opacity for Inactive Items */
 .menu-card {
-    /* Transitions for smooth hover effects */
     transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
     border-radius: 0.75rem;
-    /* Soft rounded corners */
     overflow: hidden;
-    /* Important for clean corners on image/badges */
     position: relative !important;
-    /* Required for absolute badge positioning */
     border: 1px solid rgba(0, 0, 0, 0.1);
-    /* Light default border for all cards */
+}
+
+/* Dim the entire card when inactive */
+.menu-card.inactive-card-dim {
+    opacity: 0.6;
+    border-color: rgba(0, 0, 0, 0.1);
 }
 
 /* Hover effect */
 .menu-card:hover {
     transform: translateY(-3px);
-    /* Lifts the card slightly */
     box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
 }
 
@@ -13309,22 +13310,12 @@ body {
     box-shadow: none !important;
 }
 
-/* 3. Image Aspect Ratio Consistency */
-.ratio.ratio-16x9 {
-    background-color: #f8f9fa;
-}
-
-.menu-card .card-img-top {
-    object-fit: cover;
-    height: 100%;
-}
-
-/* 4. Description Truncation (Visual fallback for line clamping) */
+/* 3. Description Truncation (Visual fallback for line clamping) */
 .menu-description {
     min-height: 2.5em;
     line-height: 1.25em;
     display: -webkit-box;
-    line-clamp: 2;
+    -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -13332,7 +13323,7 @@ body {
 
 
 /* =================================================================
-   BADGE STYLES: Price and Status Positioning/Sizing
+   BADGE STYLES: Sizing and Positioning
    ================================================================= */
 
 /* Price Badge specific styling (smaller) */
@@ -13351,12 +13342,11 @@ body {
     font-weight: 700;
     border-radius: 0.25rem;
     z-index: 10;
-    /* Ensures it sits above the image */
 }
 
-/* Ensure the inactive badge doesn't inherit unnecessary opacity if applied to the card */
 .inactive-status-badge {
     opacity: 1;
+    /* Ensure the badge itself is fully visible even if the card is dimmed */
 }
 
 
@@ -13364,18 +13354,18 @@ body {
    BUTTON STYLES: Uniform Width Fix
    ================================================================= */
 
+/* 1. Button Base Sizing (Applies to btn-sm) */
 .menu-card .btn-sm {
-    /* Slightly smaller text for better fit */
+    /* Smaller text for better fit inside fixed width */
     font-size: 0.85rem;
     font-weight: 600;
     border-radius: 0.3rem;
     padding: 0.5rem 0.75rem;
-    /* Maintain vertical padding */
 }
 
-/* 2. FORCE button width to be exactly the same */
+/* 2. FORCE button width to be exactly the same (This is the final fix) */
 .menu-card .menu-action-btn {
-    /* Set a fixed, explicit width (e.g., 130px) to override all auto-sizing */
+    /* Set a fixed, explicit width to override all auto-sizing */
     width: 130px;
 
     /* Ensure content is centered inside the fixed box */
@@ -13393,7 +13383,6 @@ body {
 .menu-card .menu-action-btn i {
     margin-right: 0.2rem;
 }
-
 
 /*
  * =========================================

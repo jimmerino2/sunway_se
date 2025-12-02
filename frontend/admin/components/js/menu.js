@@ -175,8 +175,8 @@ function renderMenu(items) {
                 ? `<span class="badge bg-success position-absolute top-0 end-0 m-2 active-status-badge">Active</span>`
                 : `<span class="badge bg-warning text-dark position-absolute top-0 end-0 m-2 inactive-status-badge">Inactive</span>`;
 
-            // Unified card class, relying on custom CSS for borders
-            const cardClass = 'shadow-sm';
+            // CARD CLASS: Dim inactive cards via CSS
+            const cardClass = isActive ? 'shadow-sm' : 'shadow-sm inactive-card-dim';
 
             const statusAction = isActive ? 'Deactivate' : 'Reactivate';
             const statusButtonClass = isActive ? 'btn-danger' : 'btn-success';
