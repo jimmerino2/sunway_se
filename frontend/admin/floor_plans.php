@@ -19,10 +19,12 @@ $currentPage = "floor_plan";
                 <div class="container-fluid my-4">
                     <ul class="nav nav-tabs" id="floorTabs" role="tablist">
                         <li class="nav-item" role="presentation">
-                            <button class="nav-link active" id="floor1-tab" data-bs-toggle="tab" data-bs-target="#floor1" type="button">Ground Floor</button>
+                            <button class="nav-link active" id="floor1-tab" data-bs-toggle="tab"
+                                data-bs-target="#floor1" type="button" role="tab">Ground Floor</button>
                         </li>
                         <li class="nav-item" role="presentation">
-                            <button class="nav-link" id="floor2-tab" data-bs-toggle="tab" data-bs-target="#floor2" type="button">Rooftop</button>
+                            <button class="nav-link" id="floor2-tab" data-bs-toggle="tab" data-bs-target="#floor2"
+                                type="button" role="tab">Second Floor</button>
                         </li>
                     </ul>
 
@@ -35,7 +37,6 @@ $currentPage = "floor_plan";
                                         <div class="col-md-3 d-flex flex-column">
                                             <h6><i class="fas fa-users me-2"></i> Private Room</h6>
                                             <div class="room d-flex flex-column" id="private-room-container"></div>
-
                                             <div class="d-flex row flex-grow-1">
                                                 <div class="d-flex flex-column col-md-6">
                                                     <h6><i class="fas fa-restroom me-2"></i> Facilities</h6>
@@ -48,18 +49,17 @@ $currentPage = "floor_plan";
                                                     <div class="room kitchen" style="height: 150px;">STAFF ONLY</div>
                                                 </div>
                                             </div>
-                                            <div class="room" style="height: 80px; margin-top: auto;"><i class="fas fa-stairs me-2"></i> Stairs</div>
+                                            <div class="room" style="height: 80px; margin-top: auto;">
+                                                <i class="fas fa-stairs me-2"></i> Stairs
+                                            </div>
                                         </div>
-
                                         <div class="col-md-9 d-flex flex-column">
                                             <h6><i class="fas fa-laptop me-2"></i> Solo Work Bar</h6>
                                             <div class="bar-seating-horizontal mb-3">
                                                 <div class="bar-table-horizontal" id="solo-bar-container"></div>
                                             </div>
-
                                             <h6><i class="fas fa-users me-2"></i> Group Work</h6>
                                             <div class="seating-zone h-100" id="group-work-container"></div>
-
                                             <h6><i class="fas fa-couch me-2"></i> Lounge Seating</h6>
                                             <div class="seating-zone" id="lounge-seating-container"></div>
                                         </div>
@@ -86,7 +86,9 @@ $currentPage = "floor_plan";
                                         </div>
                                         <div class="row d-flex h-100 mt-2">
                                             <div class="col-md-3 d-flex flex-column">
-                                                <div class="room" style="height: 80px;"><i class="fas fa-stairs me-2"></i> Stairs</div>
+                                                <div class="room" style="height: 80px;">
+                                                    <i class="fas fa-stairs me-2"></i> Stairs
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -96,8 +98,13 @@ $currentPage = "floor_plan";
                     </div>
                 </div>
             </main>
-
-            <?php include 'components/src/footer.php'; ?>
+            <footer class="py-4 bg-light mt-auto">
+                <div class="container-fluid px-4">
+                    <div class="d-flex align-items-center justify-content-between small">
+                        <div class="text-muted">Copyright &copy; Your Website 2023</div>
+                    </div>
+                </div>
+            </footer>
         </div>
     </div>
 
