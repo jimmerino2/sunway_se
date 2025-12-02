@@ -169,43 +169,54 @@ function renderMenu(items) {
 
             // Determine active status and styling for Admin View
             const isActive = item.active == 1;
-            const statusBadge = isActive
-                ? `<span class="badge bg-success ms-2">Active</span>`
-                : `<span class="badge bg-warning text-dark ms-2">Inactive</span>`;
 
-            const cardClass = isActive ? 'shadow-sm' : 'shadow-none border border-warning opacity-75';
+            // SMALLER, TOP-RIGHT STATUS BADGE
+            const statusBadgeHtml = isActive
+                ? `<span class="badge bg-success position-absolute top-0 end-0 m-2 active-status-badge">Active</span>`
+                : `<span class="badge bg-warning text-dark position-absolute top-0 end-0 m-2 inactive-status-badge">Inactive</span>`;
+
+            // Unified card class, relying on custom CSS for borders
+            const cardClass = 'shadow-sm';
+
             const statusAction = isActive ? 'Deactivate' : 'Reactivate';
-            const statusButtonClass = isActive ? 'btn-outline-danger' : 'btn-outline-success';
-            const statusButtonIcon = isActive ? 'fas fa-trash' : 'fas fa-redo';
+            const statusButtonClass = isActive ? 'btn-danger' : 'btn-success';
+            const statusButtonIcon = isActive ? 'fas fa-trash-alt' : 'fas fa-redo-alt';
 
             html += `
-                <div class="col-xl-3 col-md-6 mb-4">
-                    <div class="card h-100 ${cardClass} border-0 menu-card">
-                        <div class="ratio ratio-4x3">
+                <div class="col-xl-3 col-lg-4 col-md-6 mb-4">
+                    <div class="card h-100 ${cardClass} menu-card position-relative"> 
+                        
+                        ${statusBadgeHtml}
+                        
+                        <div class="ratio ratio-16x9">
                             <img src="${fullImgUrl}" 
                                  class="card-img-top object-fit-cover" 
                                  alt="${item.name}"
+                                 loading="lazy"
                                  onerror="this.src='https://dummyimage.com/600x400/dee2e6/6c757d.jpg&text=Image+Error'">
                         </div>
-                        <div class="card-body d-flex flex-column">
-                            <div class="d-flex justify-content-between align-items-start mb-2">
-                                <h6 class="card-title mb-0 fw-bold text-truncate" title="${item.name}">${item.name}</h6>
-                                <div class="d-flex align-items-center">
-                                    <span class="badge bg-success">RM ${parseFloat(item.price).toFixed(2)}</span>
-                                    ${statusBadge}
-                                </div>
+                        
+                        <div class="card-body d-flex flex-column p-3">
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <h5 class="card-title fw-bold text-dark text-truncate me-2" title="${item.name}">
+                                    ${item.name}
+                                </h5>
+                                <span class="badge bg-primary text-nowrap price-badge">
+                                    RM ${parseFloat(item.price).toFixed(2)}
+                                </span>
                             </div>
-                            <p class="card-text text-muted small flex-grow-1" style="display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;">
-                                ${item.description || ''}
+                            
+                            <p class="card-text text-muted small flex-grow-1 mb-3 menu-description">
+                                ${item.description ? item.description.substring(0, 100) + (item.description.length > 100 ? '...' : '') : 'No description provided.'}
                             </p>
                             
-                            <div class="mt-3 d-flex gap-2">
-                                <button class="btn btn-outline-primary btn-sm flex-fill" onclick="openEditModal(${item.id})">
-                                    <i class="fas fa-edit"></i> Edit
+                            <div class="mt-auto d-flex gap-2">
+                                <button class="btn btn-outline-primary btn-sm flex-fill fw-bold menu-action-btn" onclick="openEditModal(${item.id})">
+                                    <i class="fas fa-edit mx-1"></i> Edit
                                 </button>
-                                <button class="btn ${statusButtonClass} btn-sm flex-fill" 
+                                <button class="btn ${statusButtonClass} btn-sm flex-fill fw-bold menu-action-btn" 
                                         onclick="openStatusModal(${item.id}, '${item.name.replace(/'/g, "\\'")}', ${isActive})">
-                                    <i class="${statusButtonIcon}"></i> ${statusAction}
+                                    <i class="${statusButtonIcon} mx-1"></i> ${statusAction}
                                 </button>
                             </div>
                         </div>

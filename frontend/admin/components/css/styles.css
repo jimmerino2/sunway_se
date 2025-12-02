@@ -13277,6 +13277,124 @@ body {
     vertical-align: middle;
 }
 
+/* =================================================================
+   BASE STYLES: Card Structure, Borders, and Focus Reset
+   ================================================================= */
+
+/* 1. Ensure Card Border Consistency & Remove Outlines */
+.menu-card {
+    /* Transitions for smooth hover effects */
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+    border-radius: 0.75rem;
+    /* Soft rounded corners */
+    overflow: hidden;
+    /* Important for clean corners on image/badges */
+    position: relative !important;
+    /* Required for absolute badge positioning */
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    /* Light default border for all cards */
+}
+
+/* Hover effect */
+.menu-card:hover {
+    transform: translateY(-3px);
+    /* Lifts the card slightly */
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
+}
+
+/* 2. Remove Blue Focus Outline on Button/Card Interaction */
+.menu-card .btn:focus,
+.menu-card:focus-within {
+    outline: none !important;
+    box-shadow: none !important;
+}
+
+/* 3. Image Aspect Ratio Consistency */
+.ratio.ratio-16x9 {
+    background-color: #f8f9fa;
+}
+
+.menu-card .card-img-top {
+    object-fit: cover;
+    height: 100%;
+}
+
+/* 4. Description Truncation (Visual fallback for line clamping) */
+.menu-description {
+    min-height: 2.5em;
+    line-height: 1.25em;
+    display: -webkit-box;
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+
+/* =================================================================
+   BADGE STYLES: Price and Status Positioning/Sizing
+   ================================================================= */
+
+/* Price Badge specific styling (smaller) */
+.price-badge {
+    padding: 0.35rem 0.6rem;
+    font-size: 0.9rem;
+    font-weight: 600;
+    border-radius: 0.25rem;
+}
+
+/* Status Badge specific styling (smallest, top-right badge) */
+.active-status-badge,
+.inactive-status-badge {
+    padding: 0.2rem 0.6rem;
+    font-size: 0.75rem;
+    font-weight: 700;
+    border-radius: 0.25rem;
+    z-index: 10;
+    /* Ensures it sits above the image */
+}
+
+/* Ensure the inactive badge doesn't inherit unnecessary opacity if applied to the card */
+.inactive-status-badge {
+    opacity: 1;
+}
+
+
+/* =================================================================
+   BUTTON STYLES: Uniform Width Fix
+   ================================================================= */
+
+.menu-card .btn-sm {
+    /* Slightly smaller text for better fit */
+    font-size: 0.85rem;
+    font-weight: 600;
+    border-radius: 0.3rem;
+    padding: 0.5rem 0.75rem;
+    /* Maintain vertical padding */
+}
+
+/* 2. FORCE button width to be exactly the same */
+.menu-card .menu-action-btn {
+    /* Set a fixed, explicit width (e.g., 130px) to override all auto-sizing */
+    width: 130px;
+
+    /* Ensure content is centered inside the fixed box */
+    justify-content: center;
+    align-items: center;
+    display: flex;
+
+    /* Disable flex-fill width distribution, letting the fixed width take priority */
+    flex-grow: 0;
+    flex-shrink: 0;
+    flex-basis: auto;
+}
+
+/* 3. Spacing between the icon and text */
+.menu-card .menu-action-btn i {
+    margin-right: 0.2rem;
+}
+
+
 /*
  * =========================================
  * DATERANGEPICKER: Minimal White & Black Theme
