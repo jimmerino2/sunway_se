@@ -63,10 +63,10 @@ class ItemController
             : Response::json(['error' => 'There was an issue creating this item.'], 400);
     }
 
-    public function updateItem($data)
+    public function updateItem($data, $files = [])
     {
         if (isset($data['id'])) {
-            $success = $this->itemModel->updateItem($data);
+            $success = $this->itemModel->updateItem($data, $files);
             return $success
                 ? Response::json(['message' => 'Item successfully updated.'], 201)
                 : Response::json(['error' => 'There was an issue updating this item.'], 400);

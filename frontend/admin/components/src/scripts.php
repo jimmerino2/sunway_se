@@ -21,13 +21,11 @@
         <script src="components/js/completed_orders_today.js"></script>
         <script src="components/js/pending_orders_today.js"></script>
 
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
-        <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
-        <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
-        <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
-
     <?php elseif ($currentPage === 'orders'): ?>
         <script src="components/js/datatables-order-list.js"></script>
+
+    <?php elseif ($currentPage === 'menu'): ?>
+        <script src="components/js/menu.js"></script>
 
     <?php endif; ?>
 
