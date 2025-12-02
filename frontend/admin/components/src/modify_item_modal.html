@@ -1,6 +1,5 @@
-<!-- 1. Add/Edit Item Modal -->
 <div class="modal fade" id="itemModal" tabindex="-1" aria-labelledby="itemModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
+    <div class="modal-dialog" style="margin-top: 100px; max-width: 850px;">
         <div class="modal-content">
             <form id="itemForm" onsubmit="handleFormSubmit(event)">
                 <div class="modal-header">
@@ -8,7 +7,6 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <!-- Hidden ID for Edit Mode -->
                     <input type="hidden" id="itemId" name="id">
 
                     <div class="mb-3">
@@ -25,7 +23,6 @@
                         <label for="itemCategory" class="form-label">Category <span class="text-danger">*</span></label>
                         <select class="form-select" id="itemCategory" name="category_id" required>
                             <option value="" disabled selected>Select a category</option>
-                            <!-- Populated by JS -->
                         </select>
                     </div>
 
@@ -50,7 +47,6 @@
     </div>
 </div>
 
-<!-- 2. Delete Confirmation Modal -->
 <div class="modal fade" id="deleteModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
