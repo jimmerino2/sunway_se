@@ -1,10 +1,10 @@
 <?php
 require_once '../src/utils/Response.php';
 
-// Debugging (Uncomment if needed)
 // ini_set('display_errors', 1);
 // error_reporting(E_ALL);
 
+// These paths go up one level from 'public' to 'backend' and then into 'src'
 require_once "../src/config/db.php";
 require_once "../src/config/site_config.php";
 require_once '../src/resources/user/UserController.php';
@@ -14,29 +14,12 @@ require_once '../src/resources/seating/SeatingController.php';
 require_once '../src/resources/item/ItemController.php';
 require_once '../src/resources/orders/OrdersController.php';
 
-// CORS Headers (Crucial for JS fetch)
-header("Access-Control-Allow-Origin: *");
-header("Access-Control-Allow-Methods: GET, POST, PATCH, PUT, DELETE, OPTIONS");
-header("Access-Control-Allow-Headers: Content-Type, Authorization, X-Master-Token");
-
-if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
-    http_response_code(200);
-    exit();
-}
-
-// URL Structure
+// Structure URL 
 $requestUri = trim(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH), '/');
 $base = DIR_BACKEND_STR . '/';
 $route = str_replace($base, '', $requestUri);
 $parts = explode('/', $route);
-
 $method = $_SERVER['REQUEST_METHOD'];
-
-// *** FIX: METHOD OVERRIDE FOR FILE UPLOADS ***
-// If we send POST with a field "_method=PATCH", treat it as PATCH.
-if ($method === 'POST' && isset($_POST['_method'])) {
-    $method = strtoupper($_POST['_method']);
-}
 
 $type = $parts[0];
 $specification = $parts[1] ?? null;
@@ -50,15 +33,64 @@ if (str_contains($contentType, 'application/json')) {
     $data = $_POST;
 }
 
-// Authentication (Keep your existing logic)
+// --- GET BOTH TOKEN TYPES ---
+// 1. Get the Master Token from the request (using 'X-Master-Token' header)
+$request_master_token = $headers['X-Master-Token'] ?? null;
+// 2. Get the "source of truth" Master Token from your .env file
+$env_master_token = $_ENV['MASTER_TOKEN'] ?? null;
+
+// 3. Get the regular User Token (for orders, seating)
 $authController = new AuthController();
 $sessionToken = trim(str_replace('Bearer', '', $headers['Authorization'] ?? null));
 $sessionData = $authController->checkAuthGuard($sessionToken);
 
+
+// $_GET Handler
 $id = $_GET['id'] ?? $data['id'] ?? null;
 
 switch ($type) {
+    case 'user':
+        // CHECK: Master Token check REMOVED
+        $controller = new UserController();
+        switch ($method) {
+            case 'GET':
+                (!is_null($id)) ? $controller->getUser($id) : $controller->listUser($_GET);
+                break;
+            case 'POST':
+                $controller->createUser($data);
+                break;
+            case 'PATCH':
+                $controller->updateUser($data);
+                break;
+            case 'DELETE':
+                $controller->deleteUser($id);
+                break;
+            default:
+                Response::json(['error' => 'Invalid URL.'], 405);
+        }
+        break;
+    case 'category':
+        // CHECK: Master Token check REMOVED
+        $controller = new CategoryController();
+        switch ($method) {
+            case 'GET':
+                (!is_null($id)) ? $controller->getCategory($id) : $controller->listCategory($_GET);
+                break;
+            case 'POST':
+                $controller->createCategory($data);
+                break;
+            case 'PATCH':
+                $controller->updateCategory($data);
+                break;
+            case 'DELETE':
+                $controller->deleteCategory($id);
+                break;
+            default:
+                Response::json(['error' => 'Invalid URL.'], 405);
+        }
+        break;
     case 'item':
+        // CHECK: Master Token check REMOVED
         $controller = new ItemController();
         switch ($method) {
             case 'GET':
@@ -68,45 +100,107 @@ switch ($type) {
                 $controller->createItem($data, $_FILES);
                 break;
             case 'PATCH':
-                // Now supports $_FILES because the real request was POST
                 $controller->updateItem($data, $_FILES);
                 break;
             case 'DELETE':
                 $controller->deleteItem($id);
                 break;
             default:
-                Response::json(['error' => 'Invalid Method'], 405);
+                Response::json(['error' => 'Invalid URL.'], 405);
         }
         break;
 
-    // ... (Keep other cases: user, category, orders, seating, auth exactly as they were) ...
-    // I am omitting them here to save space, but DO NOT DELETE THEM in your file.
+    // --- REGULAR USER TOKEN ROUTES ---
+    case 'orders':
+        // CHECK: Use regular User Token
+        //if (!$sessionData) {
+        //    Response::json(['error' => 'Access denied.'], 401);
+        //    break;
+        //}
+        $controller = new OrdersController();
+        switch ($method) {
+            case 'GET':
+                switch ($specification) {
+                    case null:
+                        (!is_null($id)) ? $controller->getOrders($id) : $controller->listOrders($_GET);
+                        break;
+                    case 'rate_orders':
+                        $controller->getRateOrders();
+                        break;
+                    case 'rate_income':
+                        $controller->getRateIncome();
+                        break;
+                    default:
+                        Response::json(['error' => 'Invalid URL.'], 405);
+                        break;
+                }
+                break;
+            case 'POST':
+                $controller->createOrders($data);
+                break;
+            case 'PATCH':
+                if (isset($data['action']) && $data['action'] === 'clear_table') {
+                    $controller->clearOrders($data);
+                } else {
+                    $controller->updateOrders($data);
+                }
+                break;
+            case 'DELETE':
+                $controller->deleteOrders($id);
+                break;
+            default:
+                Response::json(['error' => 'Invalid URL.'], 405);
+        }
+        break;
+    case 'seating':
+        // CHECK: Use regular User Token
+        //if (!$sessionData) {
+        //    Response::json(['error' => 'Access denied.'], 401);
+        //    break;
+        //}
+        $controller = new SeatingController();
+        switch ($method) {
+            case 'GET':
+                (!is_null($id)) ? $controller->getSeating($id) : $controller->listSeating($_GET);
+                break;
+            case 'POST':
+                $controller->createSeating($data);
+                break;
+            case 'PATCH':
+                $controller->updateSeating($data);
+                break;
+            case 'DELETE':
+                $controller->deleteSeating($id);
+                break;
+            default:
+                Response::json(['error' => 'Invalid URL.'], 405);
+        }
+        break;
 
-    // Quick re-insert of AUTH for safety since it's vital
+    // This route remains the same
     case 'auth':
         switch ($method) {
             case 'POST':
                 $data = json_decode(file_get_contents('php://input'), true);
                 $authController->login($data);
                 break;
+
             case 'GET':
                 if ($sessionData) {
-                    Response::json(['role' => $sessionData['role'], 'name' => $sessionData['name']], 200);
+                    Response::json([
+                        'role' => $sessionData['role'],
+                        'name' => $sessionData['name']
+                    ], 200);
                 } else {
                     Response::json(['message' => 'Invalid or expired token.'], 401);
                 }
                 break;
+            default:
+                Response::json(['error' => 'Invalid URL.'], 405);
+                break;
         }
         break;
-
     default:
-        // Fallback for known routes not fully pasted here
-        if (in_array($type, ['user', 'category', 'orders', 'seating'])) {
-            // You should keep your original switch cases for these!
-            // This block is just a placeholder if you copy-paste blindly.
-            Response::json(['error' => 'Route exists but code hidden in this snippet'], 500);
-        } else {
-            Response::json(['error' => 'Invalid URL.'], 404);
-        }
+        Response::json(['error' => 'Invalid URL.'], 404);
         break;
 }

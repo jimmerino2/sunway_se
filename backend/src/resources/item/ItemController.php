@@ -9,13 +9,17 @@ class ItemController
 
     public function __construct()
     {
-        $this->itemModel = new ItemModel();
+        $this->itemModel = new itemModel();
     }
 
     public function listItem($filters)
     {
         $items = $this->itemModel->listItem($filters);
-        Response::json($items ?: []);
+        if ($items) {
+            Response::json($items);
+        } else {
+            Response::json(null);
+        }
     }
 
     public function getItem($id)
@@ -30,65 +34,62 @@ class ItemController
 
     public function createItem($data, $files)
     {
-        // 1. Validate Required Fields
+        // Ensure all required fields are filled
         foreach ($this->itemModel->columns as $column) {
-            if ($column['name'] === 'id') continue;
-
-            // Check if required field is missing
-            if ($column['required'] && (!isset($data[$column['name']]) || trim($data[$column['name']]) === '')) {
+            if ($column['name'] === 'id') {
+                continue;
+            }
+            if ($column['required'] && !in_array($column['name'], array_keys($data))) {
                 Response::json(['error' => ucfirst($column['name']) . " field is missing."], 400);
                 return;
             }
         }
 
-        // 2. Validate Image
-        if (!isset($files['image']) || $files['image']['error'] !== UPLOAD_ERR_OK) {
-            Response::json(['error' => "Image field is missing or invalid."], 400);
+        // Ensure image file is correct
+        if (!isset(($files['image']))) {
+            Response::json(['error' => "Image field is missing."], 400);
             return;
         }
-
         $allowedExtensions = ['png', 'jpg', 'jpeg'];
         $fileExtension = strtolower(pathinfo($files['image']['name'], PATHINFO_EXTENSION));
         if (!in_array($fileExtension, $allowedExtensions)) {
-            Response::json(['error' => "Image must be PNG, JPG, or JPEG."], 400);
+            Response::json(['error' => "Image uploaded is not in the correct format."], 400);
             return;
         }
 
-        // 3. Save
         $success = $this->itemModel->saveItem($data, $files);
         return $success
             ? Response::json(['message' => 'Item successfully created.'], 201)
-            : Response::json(['error' => 'Database error during creation.'], 500);
+            : Response::json(['error' => 'There was an issue creating this item.'], 400);
     }
 
-    public function updateItem($data, $files)
+    public function updateItem($data)
     {
         if (isset($data['id'])) {
-            // FIX: Pass ($data, $files) to match Model signature
-            $success = $this->itemModel->updateItem($data, $files);
-
+            $success = $this->itemModel->updateItem($data);
             return $success
-                ? Response::json(['message' => 'Item successfully updated.'], 200)
-                : Response::json(['error' => 'Update failed.'], 500);
+                ? Response::json(['message' => 'Item successfully updated.'], 201)
+                : Response::json(['error' => 'There was an issue updating this item.'], 400);
         } else {
-            Response::json(['error' => 'Item ID is missing.'], 400);
+            Response::json(['error' => 'Item ID not set.'], 400);
         }
     }
 
     public function deleteItem($id)
     {
-        if ($id) {
-            $exists = $this->itemModel->getItem($id);
-            if ($exists) {
+        if ($id != null) {
+            $isItemExist = $this->itemModel->getItem($id);
+
+            if ($isItemExist) {
                 $success = $this->itemModel->deleteItem($id);
                 return $success
-                    ? Response::json(['message' => 'Item deleted.'], 200)
-                    : Response::json(['error' => 'Delete failed.'], 500);
+                    ? Response::json(['message' => 'Item successfully deleted.'], 201)
+                    : Response::json(['error' => 'There was an issue deleting this item.'], 400);
             } else {
-                Response::json(['error' => 'Item not found.'], 404);
+                Response::json(['error' => 'Item does not exist.'], 400);
             }
         } else {
-            Response::json(['error' => 'ID is required.'], 400);
+            Response::json(['error' => 'Item ID not set.'], 400);
         }
     }
 }

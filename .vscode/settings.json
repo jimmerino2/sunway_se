@@ -6,23 +6,34 @@
         "**/.hg": true,
         "**/.DS_Store": true,
         "**/Thumbs.db": true,
-        ".env": true,
-        ".htaccess": true,
-        "composer.lock": true,
-        "composer.json": true,
-        "LICENSE": true,
-        ".gitignore": true,
-        "vendor": true,
-        // "backend": true
+        "**/flutter/ephemeral": true,
+        "**/.symlinks": true,
+        "**/.plugin_symlinks": true
     },
-    "hide-files.files": [
-        ".env",
-        ".htaccess",
-        "composer.lock",
-        "composer.json",
-        "LICENSE",
-        ".gitignore",
-        "vendor",
-        // "backend"
-    ],
+    "hide-files.files": [],
+    // "files.exclude": {
+    //     "**/.git": true,
+    //     "**/.svn": true,
+    //     "**/.hg": true,
+    //     "**/.DS_Store": true,
+    //     "**/Thumbs.db": true,
+    //     ".env": true,
+    //     ".htaccess": true,
+    //     "composer.lock": true,
+    //     "composer.json": true,
+    //     "LICENSE": true,
+    //     ".gitignore": true,
+    //     "vendor": true,
+    //     "backend": true
+    // },
+    // "hide-files.files": [
+    //     ".env",
+    //     ".htaccess",
+    //     "composer.lock",
+    //     "composer.json",
+    //     "LICENSE",
+    //     ".gitignore",
+    //     "vendor",
+    //     "backend"
+    // ],
 }

@@ -13,10 +13,6 @@
                     </span>
                     Orders
                 </a>
-                <a id="menu" class="nav-link text-nowrap" href="menu.php">
-                    <span class="sb-nav-link-icon"><i class="fa-solid fa-mug-hot"></i></span>
-                    Menu
-                </a>
                 <a id="floor_plan" class="nav-link text-nowrap" href="floor_plans.php">
                     <span class="sb-nav-link-icon"><i class="fa-solid fa-shop"></i></span>
                     Floor plan
