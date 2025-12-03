@@ -27,6 +27,9 @@
     <?php elseif ($currentPage === 'menu'): ?>
         <script src="components/js/menu.js"></script>
 
+    <?php elseif ($currentPage === 'users'): ?>
+        <scripts src="components/js/users.js"></scripts>
+
     <?php endif; ?>
 
 <?php endif; ?>
