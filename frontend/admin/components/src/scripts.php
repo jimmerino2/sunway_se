@@ -28,7 +28,8 @@
         <script src="components/js/menu.js"></script>
 
     <?php elseif ($currentPage === 'users'): ?>
-        <scripts src="components/js/users.js"></scripts>
+        <script src="components/js/users.js"></script>
+        <script src="../auth/components/js/password_toggle.js"></script>
 
     <?php endif; ?>
 

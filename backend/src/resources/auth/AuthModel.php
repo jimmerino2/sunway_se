@@ -32,23 +32,22 @@ class AuthModel
 
     public function getUserDetailsByEmail($email)
     {
-        // Get both name and role
-        $sql = "SELECT name, role FROM users  WHERE email = ?";
+        $sql = "SELECT name, role, active FROM users WHERE email = ?";
         $stmt = $this->db->prepare($sql);
         $stmt->execute([$email]);
         $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        return $user; // Returns array ['name' => '...', 'role' => '...'] or false
+        return $user;
     }
 
     public function login($data)
     {
-        $sql = "SELECT id, email, password FROM users WHERE email = ?";
+        $sql = "SELECT id, email, password, active FROM users WHERE email = ? AND active = 1";
         $stmt = $this->db->prepare($sql);
         $stmt->execute([$data['email']]);
         $loginDetails = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        // Validate password
+        // If no active user is found, the controller will proceed to return an error
         if ($loginDetails && password_verify($data['password'], $loginDetails['password'])) {
             $user_id = $loginDetails['id'];
 

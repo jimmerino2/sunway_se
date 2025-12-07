@@ -40,15 +40,7 @@ if ($methodOverride && in_array(strtoupper($methodOverride), ['PUT', 'PATCH', 'D
     // Remove it from data so it doesn't get passed to the controller
     unset($data['_method']);
 }
-// --------------------------------------------------------------------------
 
-// --- GET BOTH TOKEN TYPES ---
-// 1. Get the Master Token from the request (using 'X-Master-Token' header)
-$request_master_token = $headers['X-Master-Token'] ?? null;
-// 2. Get the "source of truth" Master Token from your .env file
-$env_master_token = $_ENV['MASTER_TOKEN'] ?? null;
-
-// 3. Get the regular User Token (for orders, seating)
 $authController = new AuthController();
 $sessionToken = trim(str_replace('Bearer', '', $headers['Authorization'] ?? null));
 $sessionData = $authController->checkAuthGuard($sessionToken);
@@ -59,7 +51,7 @@ $id = $_GET['id'] ?? $data['id'] ?? null;
 
 switch ($type) {
     case 'user':
-        // CHECK: Master Token check REMOVED
+
         $controller = new UserController();
         switch ($method) {
             case 'GET':
@@ -79,7 +71,7 @@ switch ($type) {
         }
         break;
     case 'category':
-        // CHECK: Master Token check REMOVED
+
         $controller = new CategoryController();
         switch ($method) {
             case 'GET':
@@ -99,7 +91,7 @@ switch ($type) {
         }
         break;
     case 'item':
-        // CHECK: Master Token check REMOVED
+
         $controller = new ItemController();
         switch ($method) {
             case 'GET':
@@ -121,11 +113,6 @@ switch ($type) {
 
     // --- REGULAR USER TOKEN ROUTES ---
     case 'orders':
-        // CHECK: Use regular User Token
-        //if (!$sessionData) {
-        //    Response::json(['error' => 'Access denied.'], 401);
-        //    break;
-        //}
         $controller = new OrdersController();
         switch ($method) {
             case 'GET':
@@ -162,11 +149,6 @@ switch ($type) {
         }
         break;
     case 'seating':
-        // CHECK: Use regular User Token
-        //if (!$sessionData) {
-        //    Response::json(['error' => 'Access denied.'], 401);
-        //    break;
-        //}
         $controller = new SeatingController();
         switch ($method) {
             case 'GET':
@@ -186,7 +168,6 @@ switch ($type) {
         }
         break;
 
-    // This route remains the same
     case 'auth':
         switch ($method) {
             case 'POST':

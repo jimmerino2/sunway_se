@@ -1,0 +1,79 @@
+<div class="modal fade" id="deleteUserModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteModalLabel">Confirm Deletion</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Are you sure you want to deactivate this user? This will set their account to inactive.
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" id="confirmDeleteBtn" class="btn btn-danger">Deactivate User</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Edit User Modal -->
+<div class="modal fade" id="editUserModal" tabindex="-1" aria-labelledby="editUserModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editUserModalLabel">Edit User Account</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="editUserForm">
+                    <input type="hidden" id="editUserId">
+                    <div class="mb-3">
+                        <label for="editName" class="form-label">Name</label>
+                        <input type="text" class="form-control" id="editName" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editEmail" class="form-label">Email</label>
+                        <input type="email" class="form-control" id="editEmail" required>
+                    </div>
+
+                    <hr>
+                    <p class="text-muted small">Leave password fields blank if you don't want to change it.</p>
+
+                    <!-- START: Old Password Field with Absolute Positioning -->
+                    <div class="mb-3 password-toggle-container">
+                        <label for="oldPassword" class="form-label">Before Password (Current)</label>
+                        <input type="password" class="form-control" id="oldPassword">
+                        <span class="password-toggle-icon toggle-password" data-target="oldPassword">
+                            <i class="fas fa-eye"></i>
+                        </span>
+                    </div>
+                    <!-- END: Old Password Field -->
+
+                    <!-- START: New Password Field with Absolute Positioning -->
+                    <div class="mb-2 password-toggle-container">
+                        <label for="newPassword" class="form-label">After Password (New)</label>
+                        <input type="password" class="form-control" id="newPassword">
+                        <span class="password-toggle-icon toggle-password" data-target="newPassword">
+                            <i class="fas fa-eye"></i>
+                        </span>
+                    </div>
+                    <!-- END: New Password Field -->
+
+                    <!-- START: Confirm Password Field with Absolute Positioning -->
+                    <div class="mb-3 password-toggle-container">
+                        <label for="confirmNewPassword" class="form-label">Confirm After Password</label>
+                        <input type="password" class="form-control" id="confirmNewPassword">
+                        <span class="password-toggle-icon toggle-password" data-target="confirmNewPassword">
+                            <i class="fas fa-eye"></i>
+                        </span>
+                    </div>
+                    <!-- END: Confirm Password Field -->
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary" id="saveEditBtn">Save Changes</button>
+            </div>
+        </div>
+    </div>
+</div>

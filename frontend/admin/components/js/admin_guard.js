@@ -37,6 +37,7 @@ async function validateTokenPeriodically() {
                 const userDisplay = document.getElementById(displayElementId);
                 if (userDisplay) userDisplay.textContent = json.data.name;
                 updateNavVisibility(json.data.role);
+                console.log('token is:', token);
             }
         } else {
             forceLogout();

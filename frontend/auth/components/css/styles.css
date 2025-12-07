@@ -83,4 +83,43 @@ body {
     transform: scale(1.05);
 }
 
-/* Utility classes were removed from here, so no more media query for .left-side/.right-side padding is needed. */
+/* 1. Wrapper needed to make absolute positioning work */
+.password-toggle-container {
+    position: relative;
+}
+
+/* 2. Position the icon over the input field */
+.password-toggle-icon {
+    position: absolute;
+    top: 50%;
+    /* Center vertically */
+    right: 0.5rem;
+    /* Reduced to 0.5rem for a tighter fit on the right edge */
+    transform: translateY(-50%);
+    /* Fine-tune vertical centering */
+    cursor: pointer;
+    z-index: 100;
+    /* Ensure it's clickable above the input */
+    color: #a7a7a7;
+    /* Lighter color than default text/secondary for less contrast */
+    padding: 0 0.25rem;
+    /* Removed vertical padding to prevent vertical distortion, keeping only horizontal */
+    transition: color 0.15s ease-in-out;
+    /* Smooth transition on hover/active states */
+    user-select: none;
+    -webkit-user-select: none;
+    /* For older browsers */
+    -moz-user-select: none;
+    -ms-user-select: none;
+}
+
+/* Optional: Darken icon on hover */
+.password-toggle-icon:hover {
+    color: #6c757d;
+}
+
+/* 3. Ensure the icon doesn't block text input */
+.form-control {
+    /* Slightly increased padding to ensure there is enough clearance from the icon */
+    padding-right: 2.75rem !important;
+}

@@ -13214,27 +13214,35 @@ body {
 }
 
 /* Ensure the table fills the container */
-#datatablesOrders {
+#datatablesOrders,
+#datatablesUsers {
     width: 100% !important;
 }
 
-/* 🎯 Constrain all columns EXCEPT the first one (Item) */
-#datatablesOrders th:not(:first-child),
-#datatablesOrders td:not(:first-child) {
-    /* CRITICAL: Forces column to be exactly the width of its content */
+#datatablesOrders th:nth-child(n+3),
+#datatablesOrders td:nth-child(n+3),
+#datatablesUsers th:nth-child(n+3),
+#datatablesUsers td:nth-child(n+3) {
     white-space: nowrap !important;
-
-    /* Optional: Tells the browser this column should be as small as possible */
     width: 1px !important;
-
-    /* center data */
     text-align: center !important;
 }
 
-/* Ensure the Item column (first child) allows text wrapping */
-#datatablesOrders th:first-child,
-#datatablesOrders td:first-child {
+/* Ensure the first two columns (Name and Email) allow normal width/wrapping */
+#datatablesOrders th:nth-child(-n+2),
+#datatablesOrders td:nth-child(-n+2),
+#datatablesUsers th:nth-child(-n+2),
+#datatablesUsers td:nth-child(-n+2) {
     white-space: normal !important;
+    width: auto !important;
+    text-align: left !important;
+}
+
+/* The first column must still be explicitly left-aligned, matching the table structure */
+#datatablesUsers th:first-child,
+#datatablesUsers td:first-child {
+    white-space: normal !important;
+    text-align: left !important;
 }
 
 /* Custom CSS for Status and Completed badges (Uniform Size) */
@@ -13315,7 +13323,7 @@ body {
     min-height: 2.5em;
     line-height: 1.25em;
     display: -webkit-box;
-    -webkit-line-clamp: 2;
+    line-clamp: 2;
     -webkit-box-orient: vertical;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -13384,6 +13392,47 @@ body {
     margin-right: 0.2rem;
 }
 
+/* 1. Wrapper needed to make absolute positioning work */
+.password-toggle-container {
+    position: relative;
+}
+
+/* 2. Position the icon over the input field */
+.password-toggle-icon {
+    position: absolute;
+    top: 75%;
+    /* Center vertically */
+    right: 0.5rem;
+    /* Reduced to 0.5rem for a tighter fit on the right edge */
+    transform: translateY(-50%);
+    /* Fine-tune vertical centering */
+    cursor: pointer;
+    z-index: 100;
+    /* Ensure it's clickable above the input */
+    color: #a7a7a7;
+    /* Lighter color than default text/secondary for less contrast */
+    padding: 0 0.25rem;
+    /* Removed vertical padding to prevent vertical distortion, keeping only horizontal */
+    transition: color 0.15s ease-in-out;
+    /* Smooth transition on hover/active states */
+    user-select: none;
+    -webkit-user-select: none;
+    /* For older browsers */
+    -moz-user-select: none;
+    -ms-user-select: none;
+}
+
+/* Optional: Darken icon on hover */
+.password-toggle-icon:hover {
+    color: #6c757d;
+}
+
+/* 3. Ensure the icon doesn't block text input */
+.form-control {
+    /* Slightly increased padding to ensure there is enough clearance from the icon */
+    padding-right: 2.75rem !important;
+}
+
 /*
  * =========================================
  * DATERANGEPICKER: Minimal White & Black Theme
@@ -13396,8 +13445,6 @@ body {
     background-color: var(--bs-white) !important;
     border-radius: 0px !important;
 }
-
-
 
 .daterangepicker .applyBtn,
 .daterangepicker .ranges .active {

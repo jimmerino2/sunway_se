@@ -31,8 +31,12 @@ $currentPage = "login";
                     <div class="mb-3">
                         <input type="email" id="email" class="form-control" placeholder="Email" required>
                     </div>
-                    <div class="mb-3">
+
+                    <div class="mb-3 password-toggle-container">
                         <input type="password" id="password" class="form-control" placeholder="Password" required>
+                        <span class="password-toggle-icon toggle-password" data-target="password">
+                            <i class="fas fa-eye"></i>
+                        </span>
                     </div>
 
                     <div class="d-flex justify-content-end align-items-center small mt-2 mb-4">

@@ -48,17 +48,23 @@ $currentPage = "Register";
 
                     <div class="row mb-3">
                         <div class="col-md-6">
-                            <div class="form-floating mb-3 mb-md-0">
+                            <div class="form-floating mb-3 mb-md-0 password-toggle-container">
                                 <input class="form-control" id="inputPassword" type="password"
                                     placeholder="Create a password" required />
                                 <label for="inputPassword">Password</label>
+                                <span class="password-toggle-icon toggle-password" data-target="inputPassword">
+                                    <i class="fas fa-eye"></i>
+                                </span>
                             </div>
                         </div>
                         <div class="col-md-6">
-                            <div class="form-floating mb-3 mb-md-0">
+                            <div class="form-floating mb-3 mb-md-0 password-toggle-container">
                                 <input class="form-control" id="inputPasswordConfirm"
                                     type="password" placeholder="Confirm password" required />
                                 <label for="inputPasswordConfirm">Confirm Password</label>
+                                <span class="password-toggle-icon toggle-password" data-target="inputPasswordConfirm">
+                                    <i class="fas fa-eye"></i>
+                                </span>
                             </div>
                         </div>
                     </div>

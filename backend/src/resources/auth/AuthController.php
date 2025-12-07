@@ -15,15 +15,21 @@ class AuthController
     public function login($data)
     {
         if (empty($data['email']) || empty($data['password'])) {
-            // Just send the error message. Response::json will handle the structure.
             return Response::json(['message' => 'Invalid login details.'], 400);
+        }
+
+        // CHECK FOR DEACTIVATED ACCOUNT FIRST
+        $userDetails = $this->authModel->getUserDetailsByEmail($data['email']);
+
+        // Note: You may need to update getUserDetailsByEmail in AuthModel 
+        // to select the 'active' column as well for this specific logic
+        if ($userDetails && isset($userDetails['active']) && $userDetails['active'] == 0) {
+            return Response::json(['message' => 'Your account has been deactivated.'], 403);
         }
 
         $token = $this->authModel->login($data);
 
         if ($token) {
-            // Get the user details (this is from AuthModel, which is correct)
-            $userDetails = $this->authModel->getUserDetailsByEmail($data['email']);
             return Response::json([
                 'message' => 'Login success.',
                 'token'   => $token,
@@ -32,7 +38,6 @@ class AuthController
             ], 200);
         }
 
-        // Just send the error message for failure
         return Response::json(['message' => 'Invalid login details.'], 400);
     }
 
