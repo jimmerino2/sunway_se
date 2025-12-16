@@ -51,7 +51,6 @@ $currentPage = "login";
         </div>
     </main>
 
-    <?php include 'components/src/footer.php'; ?>
     <?php include 'components/src/scripts.php'; ?>
 </body>
 

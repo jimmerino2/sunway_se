@@ -87,7 +87,6 @@ $currentPage = "Register";
     </main>
 
     <?php include 'components/src/admin_auth_modal.html'; ?>
-    <?php include 'components/src/footer.php'; ?>
     <?php include 'components/src/scripts.php'; ?>
 
 </body>
