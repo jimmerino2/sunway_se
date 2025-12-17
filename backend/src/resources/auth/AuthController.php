@@ -38,7 +38,7 @@ class AuthController
             ], 200);
         }
 
-        return Response::json(['message' => 'Invalid login details.'], 400);
+        return Response::json(['message' => 'Invalid login details or Account does not exist.'], 400);
     }
 
     public function checkAuthGuard($token)

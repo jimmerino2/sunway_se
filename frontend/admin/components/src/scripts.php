@@ -1,12 +1,12 @@
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+floor_plans<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
 <script src="components/js/sidebartoggle.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js" crossorigin="anonymous"></script>
 <script src="components/js/api.js"></script>
 
 <?php if (isset($currentPage)): ?>
 
-    <?php if ($currentPage === 'floor_plan'): ?>
-        <script src="components/js/floor_plan.js"></script>
+    <?php if ($currentPage === 'floor_plans'): ?>
+        <script src="components/js/floor_plans.js"></script>
 
     <?php elseif ($currentPage === 'dashboard'): ?>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>

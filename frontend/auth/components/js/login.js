@@ -25,27 +25,50 @@ document.getElementById('loginForm').addEventListener('submit', function (event)
         },
         body: JSON.stringify(loginData) // Send the object
     })
-        // Use responseRaw to check for HTTP status before trying to parse JSON
+        // 1. Always attempt to read the JSON, regardless of the HTTP status.
         .then(responseRaw => {
-            // Check if the HTTP status is OK (200-299)
-            if (!responseRaw.ok) {
-                // Throw an error with the HTTP status text
-                throw new Error(`HTTP Error: ${responseRaw.status} ${responseRaw.statusText}`);
-            }
-            return responseRaw.json();
+            // Return a promise that resolves with an object containing status, 
+            // the JSON body, and the 'ok' status.
+            return responseRaw.json()
+                .then(jsonBody => ({
+                    status: responseRaw.status,
+                    body: jsonBody,
+                    ok: responseRaw.ok
+                }))
+                // Catch any error during JSON parsing (e.g., if the server returns non-JSON text on error)
+                .catch(() => ({
+                    status: responseRaw.status,
+                    body: null, // Body is null if parsing failed
+                    ok: responseRaw.ok
+                }));
         })
-        .then(responseData => {
+        .then(responseResult => {
 
-            // --- NEW DEBUGGING LINE ---
-            // Log the *entire* response object from the server to see what we got
-            console.log('Server Response Data:', responseData);
-            // --- END OF DEBUGGING LINE ---
+            // Log the *entire* response object from the server
+            console.log('Server Response Data:', responseResult.body);
+
+            // --- Check for HTTP Errors (4xx or 5xx) first ---
+            if (!responseResult.ok) {
+
+                // If the server provided a detailed JSON body with a message (like "Account deactivated" on 403)
+                if (responseResult.body && responseResult.body.message) {
+                    errorMessage.textContent = responseResult.body.message;
+                    errorMessage.style.display = 'block';
+                    return; // Stop processing since we displayed the specific error
+                }
+
+                // If it was a non-200 status but no specific message in the body, 
+                // throw the generic HTTP error that the catch block handles below.
+                throw new Error(`HTTP Error: ${responseResult.status} ${responseResult.statusText}`);
+            }
+
+            // --- Proceed with 200 OK Response Logic ---
+            const responseData = responseResult.body;
 
             // 1. Check the 'success' flag from the API response body
             if (responseData.success && responseData.data) {
 
                 // 2. Extract token and name from the nested 'data' object
-                // We will use lowercase 'token' and 'name'
                 const token = responseData.data.token;
                 const name = responseData.data.name;
                 const role = responseData.data.role;
@@ -53,7 +76,6 @@ document.getElementById('loginForm').addEventListener('submit', function (event)
                 let destinationPage = '';
 
                 if (token) {
-
                     localStorage.setItem('authToken', token);
                     //debug
                     // localStorage.setItem('username', name);
@@ -83,12 +105,12 @@ document.getElementById('loginForm').addEventListener('submit', function (event)
             } else {
                 // 3. Handle unsuccessful login (e.g., wrong credentials)
                 // Use message from nested data if available, or a default
-                errorMessage.textContent = responseData.data?.message || 'Invalid email or password.';
+                errorMessage.textContent = responseData.message || responseData.data?.message || 'Invalid email or password.';
                 errorMessage.style.display = 'block';
             }
         })
         .catch(error => {
-            // This catches network errors or the custom errors thrown above (e.g., HTTP error)
+            // This catches network errors or the custom errors thrown above (e.g., HTTP error 500 without a body)
             console.error('Login Error:', error);
 
             // Display a user-friendly error message

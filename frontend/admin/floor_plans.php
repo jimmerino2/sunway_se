@@ -1,6 +1,6 @@
 <?php
 $pageTitle = "Floor Plans | Cakeaway Admin";
-$currentPage = "floor_plan";
+$currentPage = "floor_plans";
 ?>
 <!DOCTYPE html>
 <html lang="en">

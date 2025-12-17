@@ -1,20 +1,42 @@
 /**
  * admin_guard.js
- * Protects pages from unauthorized access.
- * Runs immediately in <head>.
+ * Enforces role-based URL access control and token validation.
+ * Must be included at the top of every protected page.
  */
 
 const token = localStorage.getItem('authToken');
-const loginPage = '../auth/login.php'; // Relative path fix
+const loginPage = '../auth/login.php';
 const displayElementId = 'sidenavUserEmail';
 const validationEndpoint = 'http://localhost/software_engineering/backend/auth';
 
-// 1. Immediate Check
+// Define Access Rules
+// This map primarily defines what pages exist and who is allowed.
+// The checkPageAccess function below enforces strict redirection for Cooks/Cashiers.
+const PAGE_ACCESS = {
+    'orders.php': ['A', 'K'],      // Admin, Cook
+    'floor_plans.php': ['A', 'C'],  // Admin, Cashier
+    'menu.php': ['A'],             // Admin only
+    'users.php': ['A'],            // Admin only
+    'dashboard.php': ['A']         // Admin only
+};
+
+function getRoleLandingPage(role) {
+    if (role === 'K') {      // Cook
+        return 'orders.php';
+    } else if (role === 'C') { // Cashier
+        return 'floor_plans.php';
+    } else if (role === 'A') { // Admin
+        return 'dashboard.php';
+    }
+    return loginPage;
+}
+
+// 1. Immediate Check (No Token)
 if (!token) {
     window.location.replace(loginPage);
 }
 
-// 2. Periodic Validation
+// 2. Periodic Validation and Access Control
 async function validateTokenPeriodically() {
     const currentToken = localStorage.getItem('authToken');
     if (!currentToken) {
@@ -34,28 +56,62 @@ async function validateTokenPeriodically() {
         if (response.ok) {
             const json = await response.json();
             if (json.data && json.data.name) {
+                const role = json.data.role;
+
+                // Step A: Enforce Page Access Check (Redirects if unauthorized)
+                checkPageAccess(role);
+
+                // Step B: Update UI
                 const userDisplay = document.getElementById(displayElementId);
                 if (userDisplay) userDisplay.textContent = json.data.name;
-                updateNavVisibility(json.data.role);
-                console.log('token is:', token);
+                updateNavVisibility(role);
             }
         } else {
             forceLogout();
         }
     } catch (error) {
         console.error('Auth Check Failed', error);
-        // Optional: forceLogout() on network error, or be lenient
     }
 }
+
+
+/**
+ * Enforces strict URL access: 
+ * - Cook MUST be on orders.php
+ * - Cashier MUST be on floor_plans.php
+ * - Admin can be anywhere
+ */
+function checkPageAccess(role) {
+    // Admins are authorized for every restricted page
+    if (role === 'A') {
+        return;
+    }
+
+    const currentPath = window.location.pathname;
+    const currentPage = currentPath.substring(currentPath.lastIndexOf('/') + 1);
+
+    // Get the only page the non-Admin user is REQUIRED to be on
+    const requiredPage = getRoleLandingPage(role);
+
+    // If the current page is NOT the page they are required to be on
+    if (currentPage !== requiredPage) {
+
+        const basePath = currentPath.substring(0, currentPath.lastIndexOf('/') + 1);
+        window.location.replace(basePath + requiredPage);
+
+        // Stop any further script execution
+        throw new Error(`Unauthorized access. Redirecting.`);
+    }
+}
+
 
 function updateNavVisibility(role) {
     const dashboardLink = document.getElementById('admin_dashboard');
     const ordersLink = document.getElementById('orders');
-    const floorPlanLink = document.getElementById('floor_plan');
+    const floorPlanLink = document.getElementById('floor_plans');
     const menuLink = document.getElementById('menu');
-    const usersLink = document.getElementById('users'); // Added Users link
+    const usersLink = document.getElementById('users');
 
-    // Corrected check for usersLink
     if (!dashboardLink || !ordersLink || !floorPlanLink || !menuLink || !usersLink) return;
 
     // Reset: Hide all links initially
@@ -80,11 +136,11 @@ function updateNavVisibility(role) {
 
 function forceLogout() {
     localStorage.removeItem('authToken');
-    localStorage.removeItem('username');
-    localStorage.removeItem('role');
     window.location.replace(loginPage);
 }
 
-// Start Loop
+// Start Loop for Periodic Validation
 setInterval(validateTokenPeriodically, 5000);
+
+// Run validation immediately after the DOM content loads
 document.addEventListener('DOMContentLoaded', validateTokenPeriodically);
