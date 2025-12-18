@@ -6,7 +6,7 @@ _How to setup the project_
 
 1. Ensure that the root folder's name is software_engineering, and that it is placed inside the /htdocs
 2. Go to phpMyAdmin, create the database se_project
-3. Go to /backend/scripts, find the latest script and run it in the created database
+3. Go to /backend/scripts, find the latest script ( 20251217_final.sql ) and run it in the created database
 4. In the project root, update the .env file's DB_USER and DB_PASSWORD to your own settings (We know we shouldn't push .env to repo, but there's nothing sensitive there)
 
 _How to access pages_
@@ -52,5 +52,4 @@ _Extra Notes_
 
 1. If any other questions regarding the setup, feel free to contact +60162211236 (Lam Way Hou) or +60146422045 (ujjayraj) for help, thank you!
 2. If anything breaks ,it may be error during setup such so please check configuration of files
-
--->
+ -->
